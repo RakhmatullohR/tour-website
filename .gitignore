@@ -1,1 +1,18 @@
+# OMC runtime state
 .omc
+
+# deps & build
+node_modules/
+dist/
+.astro/
+
+# env & secrets
+.env
+.env.*
+!.env.example
+
+# local reports
+reports/
+
+# os
+.DS_Store

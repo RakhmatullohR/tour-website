@@ -1,0 +1,47 @@
+{
+  "_comment_1": "NUSXA OLING, noldan yozmang. Bu faylni ko'chirib, yangi nom bering: masalan turkiya-kemer.json",
+  "_comment_2": "Fayl nomi va \"slug\" bir xil bo'lsin. Faqat kichik lotin harflari va chiziqcha.",
+  "_comment_3": "Narx FAQAT shu yerda — \"price\" ichida. Tillar ichida narx yozmang.",
+  "_comment_4": "flightIncluded false bo'lsa, HAR BIR tilda priceNote yozilishi SHART, aks holda sayt yig'ilmaydi.",
+
+  "id": "xx-shahar-7n",
+  "slug": "davlat-shahar-7-kun",
+  "status": "draft",
+  "featured": false,
+  "order": 100,
+
+  "country": "TR",
+  "cities": ["Shahar nomi"],
+  "category": "beach",
+  "departureCity": "Toshkent",
+
+  "duration": { "days": 8, "nights": 7 },
+
+  "price": { "amount": 6000000, "currency": "UZS", "per": "person" },
+  "flightIncluded": false,
+
+  "groupSize": { "min": 2, "max": 20 },
+  "departures": ["2026-09-05"],
+  "badges": [],
+
+  "images": { "cover": "tour-turkiya-antalya-cover-1200x800.webp", "gallery": [] },
+
+  "i18n": {
+    "uz": {
+      "title": "Tur nomi — 7 kecha 8 kun",
+      "summary": "Tur haqida qisqacha, 2-3 gap.",
+      "priceNote": "Narxga aviabilet kirmaydi.",
+      "includes": ["Mehmonxona", "Transfer", "Sug'urta"],
+      "excludes": ["Aviabilet", "Viza", "Shaxsiy xarajatlar"],
+      "itinerary": []
+    },
+    "ru": {
+      "title": "Nazvanie tura — 7 nochey 8 dney",
+      "summary": "Kratko o ture, 2-3 predlozheniya.",
+      "priceNote": "Aviabilet ne vklyuchen v stoimost.",
+      "includes": ["Otel", "Transfer", "Strahovka"],
+      "excludes": ["Aviabilet", "Viza", "Lichnye rashody"],
+      "itinerary": []
+    }
+  }
+}

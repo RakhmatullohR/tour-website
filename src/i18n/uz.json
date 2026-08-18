@@ -1,0 +1,22 @@
+{
+  "site.name": "Getcar Travel",
+  "site.tagline": "Sayohat sizga yaqin",
+  "nav.home": "Bosh sahifa",
+  "nav.tours": "Tur paketlari",
+  "nav.destinations": "Davlatlar",
+  "nav.about": "Biz haqimizda",
+  "nav.contacts": "Bog'lanish",
+  "tour.from": "narxi",
+  "tour.perPerson": "1 kishi uchun",
+  "tour.nights": "kecha",
+  "tour.days": "kun",
+  "tour.flightIncluded": "Aviabilet narxga kiritilgan",
+  "tour.flightNotIncluded": "Aviabilet narxga kirmaydi",
+  "tour.datesOnRequest": "Sanalar so'rov bo'yicha",
+  "tour.departures": "Jo'nash sanalari",
+  "cta.request": "Ariza qoldirish",
+  "cta.call": "Qo'ng'iroq qilish",
+  "lang.choose": "Tilni tanlang",
+  "notFound.title": "Sahifa topilmadi",
+  "notFound.body": "Bu manzilda sahifa yo'q. Bosh sahifaga qayting."
+}

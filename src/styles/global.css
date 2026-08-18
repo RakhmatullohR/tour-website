@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/* Self-hosted (PLAN §8) — the Google Fonts CDN is slow on CIS networks.
+   Both faces must render Oʻzbekiston · gʻalaba · sanʼat correctly (§13.2). */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/unbounded/700.css';
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-neutral-800);
+  background: var(--color-neutral-50);
+  line-height: 1.6;
+  font-size: 17px; /* 17-18px preferred for Cyrillic legibility (§13.2) */
+}
+
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; }
+
+/* BC11 — scroll-reveal must NOT require JS to render content.
+   Elements that start at opacity:0 and are revealed by IntersectionObserver never
+   reveal with JS disabled, leaving a blank page below the fold. The `html.js`
+   marker is set in <head>, so with JS off .reveal is never hidden in the first
+   place. This is a Gate-1 concern, not a polish item. */
+html.js .reveal { opacity: 0; transform: translateY(16px); }
+.reveal { transition: opacity 400ms cubic-bezier(.4,0,.2,1), transform 400ms cubic-bezier(.4,0,.2,1); }
+html.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Non-negotiable (§13.5). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  html.js .reveal { opacity: 1 !important; transform: none !important; }
+}

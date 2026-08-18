@@ -1,0 +1,36 @@
+{
+  "id": "tr-antalya-7n",
+  "slug": "turkiya-antalya-7-kun",
+  "status": "published",
+  "featured": true,
+  "order": 10,
+  "country": "TR",
+  "cities": ["Antalya"],
+  "category": "beach",
+  "departureCity": "Toshkent",
+  "duration": { "days": 8, "nights": 7 },
+  "price": { "amount": 6200000, "currency": "UZS", "per": "person", "oldAmount": 7000000 },
+  "flightIncluded": false,
+  "groupSize": { "min": 2, "max": 20 },
+  "departures": ["2026-09-05", "2026-09-19", "2026-10-03"],
+  "badges": ["hot", "discount"],
+  "images": { "cover": "tour-turkiya-antalya-cover-1200x800.webp", "gallery": [] },
+  "i18n": {
+    "uz": {
+      "title": "Antalya — 7 kecha 8 kun, 5* mehmonxona",
+      "summary": "Ultra all-inclusive dam olish. Dengiz bo'yidagi 5* mehmonxona, transfer va sug'urta narxga kiritilgan.",
+      "priceNote": "Narxga aviabilet kirmaydi.",
+      "includes": ["Mehmonxona 5* (7 kecha)", "Ultra all-inclusive ovqatlanish", "Aeroport transferi", "Tibbiy sug'urta", "O'zbek tilida gid"],
+      "excludes": ["Aviabilet", "Viza", "Shaxsiy xarajatlar"],
+      "itinerary": []
+    },
+    "ru": {
+      "title": "Antalya — 7 nochey 8 dney, otel 5*",
+      "summary": "Otdyh po sisteme ultra all-inclusive. Otel 5* na beregu morya, transfer i strahovka vklyucheny.",
+      "priceNote": "Aviabilet ne vklyuchen v stoimost.",
+      "includes": ["Otel 5* (7 nochey)", "Ultra all-inclusive", "Transfer iz aeroporta", "Medicinskaya strahovka", "Gid"],
+      "excludes": ["Aviabilet", "Viza", "Lichnye rashody"],
+      "itinerary": []
+    }
+  }
+}

@@ -1,0 +1,112 @@
+---
+import '../styles/global.css';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { SHIPPED_LOCALES, DEFAULT_LOCALE, LOCALE_TAGS } from '../i18n/locales.mjs';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+
+interface Props {
+  locale: string;
+  title: string;
+  description?: string;
+  /** BC8 — the exact set getStaticPaths() used to decide emission for THIS page.
+   *  Drives both the hreflang cluster and the page-aware switcher, so the two can
+   *  never disagree and the switcher can never link to a page that was not emitted. */
+  availableLocales?: string[];
+  /** Path AFTER the locale prefix, e.g. '/tours/'. Must start and end with '/'. */
+  path?: string;
+}
+
+const {
+  locale,
+  title,
+  description = '',
+  availableLocales = SHIPPED_LOCALES,
+  path = '/',
+} = Astro.props;
+
+const canonical = new URL(getRelativeLocaleUrl(locale, path), Astro.site).href;
+---
+<!doctype html>
+<html lang={LOCALE_TAGS[locale] ?? locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- BC11: set BEFORE any stylesheet can hide content. With JS off, .reveal is
+         never hidden, so every section below the fold renders. -->
+    <script is:inline>document.documentElement.classList.add('js')</script>
+
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+
+    {/* Reciprocal hreflang for locales ACTUALLY PRESENT on this page (§8.1). A
+        locale whose content is missing is not emitted and never appears here. */}
+    {availableLocales.map((l) => (
+      <link rel="alternate" hreflang={LOCALE_TAGS[l] ?? l} href={new URL(getRelativeLocaleUrl(l, path), Astro.site).href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL(getRelativeLocaleUrl(DEFAULT_LOCALE, path), Astro.site).href} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <header class="border-b border-neutral-200 bg-white">
+      <div class="mx-auto flex max-w-[1240px] items-center justify-between px-4 py-4">
+        <a href={getRelativeLocaleUrl(locale, '/')} class="font-[family-name:var(--font-display)] text-xl font-bold text-brand-900">
+          Getcar<span class="text-brand-500">Travel</span>
+        </a>
+        <LanguageSwitcher locale={locale} availableLocales={availableLocales} path={path} />
+      </div>
+    </header>
+
+    <main><slot /></main>
+
+    <script>
+      // PLAN §7.3 LAYER 2 — RUNTIME NARROWING, not the correctness floor.
+      // Layer 1 (build-time filtering) already dropped past departures, so this
+      // only narrows further between builds. Layer 3 (the weekly cron) keeps the
+      // floor from drifting more than seven days. With JS OFF the worst case is a
+      // date at most seven days stale — bounded, not permanently false.
+      const today = new Date().toISOString().slice(0, 10);
+      for (const group of document.querySelectorAll('[data-departure]')) {
+        if ((group.getAttribute('datetime') ?? '') < today) group.remove();
+      }
+      for (const list of document.querySelectorAll('[data-departures-list]')) {
+        if (!list.querySelector('[data-departure]')) {
+          list.textContent = list.getAttribute('data-empty-label') ?? '';
+        }
+      }
+
+      // §13.5 scroll-reveal. BC11: the `html.js` marker is already set in <head>,
+      // so with JS disabled .reveal was never hidden and everything renders.
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const targets = document.querySelectorAll('.reveal');
+      if (reduce || !('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              e.target.classList.add('is-visible'); // once only
+              io.unobserve(e.target);
+            }
+          },
+          { rootMargin: '0px 0px -10% 0px' },
+        );
+        targets.forEach((el) => io.observe(el));
+      }
+    </script>
+
+    <footer class="mt-16 bg-brand-900 py-10 text-neutral-200">
+      <div class="mx-auto max-w-[1240px] px-4">
+        <p class="font-semibold">Getcar Travel</p>
+        {/* Gate 1 (BC12b): trading name + phone are required; the address block
+            renders only when supplied and AUTO-HIDES when absent (question 22). */}
+        <p class="mt-2 text-sm"><a href="tel:+998509074000" class="hover:text-accent-500">+998 50 907 40 00</a></p>
+        <p class="mt-4 text-xs text-neutral-400">
+          Sayt ishlab chiqilmoqda — ma'lumotlar vaqtinchalik.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

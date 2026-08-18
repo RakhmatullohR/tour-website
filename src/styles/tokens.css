@@ -1,0 +1,39 @@
+/* PLAN §13.1 / §13.3 — design tokens.
+   Tailwind 4 is CSS-first: tokens are declared with @theme, there is NO
+   tailwind.config.ts and NOT the deprecated @astrojs/tailwind integration.
+
+   PALETTE IS PROVISIONAL pending the client's real brand colours (question 5).
+   Swapping them is a ~6-line edit right here. */
+@theme {
+  --color-brand-900: #06232b;
+  --color-brand-700: #0c4a5a;
+  --color-brand-500: #1189a6;
+  --color-brand-300: #6fc7d9;
+
+  --color-accent-500: #f2a03d;
+  --color-accent-600: #d9832a;
+
+  --color-neutral-50: #f7f9fa;
+  --color-neutral-100: #eef2f4;
+  --color-neutral-200: #dde4e8;
+  --color-neutral-400: #93a5ad;
+  --color-neutral-600: #55686f;
+  --color-neutral-800: #23323a;
+  --color-neutral-900: #0b0f12;
+
+  --font-display: 'Unbounded', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --spacing-gutter: 1rem;
+  --container-site: 1240px;
+}
+
+/* ⚠️ CONTRAST RULE, NOT A CLAIM (PLAN §13.1).
+   White on --color-brand-500 does NOT reach 4.5:1 and must never carry small text.
+   Primary buttons  : --color-brand-700  + white
+   Amber CTA buttons: --color-accent-500 + --color-brand-900
+   Every final pairing is verified in PLAN §18. Nothing ships on assumption. */

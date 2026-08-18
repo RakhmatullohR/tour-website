@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="300" viewBox="0 0 1000 300">
+  <rect width="1000" height="300" fill="none"/>
+  <circle cx="150" cy="150" r="110" fill="hsl(154, 45%, 35%)"/>
+  <path d="M95 165 L150 95 L205 165 Z" fill="#fff" fill-opacity="0.92"/>
+  <text x="300" y="150" font-family="DejaVu Sans" font-size="78" font-weight="700" fill="hsl(154, 45%, 25%)" dominant-baseline="middle">Getcar</text>
+  <text x="300" y="222" font-family="DejaVu Sans" font-size="44" font-weight="400" fill="hsl(154, 30%, 45%)" dominant-baseline="middle">travel — PLACEHOLDER</text>
+</svg>

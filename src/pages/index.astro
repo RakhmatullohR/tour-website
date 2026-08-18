@@ -1,0 +1,52 @@
+---
+// PLAN §5 — THE ROOT LANGUAGE PICKER.
+//
+// A REAL page, not a meta-refresh: Google discourages meta http-equiv="refresh",
+// and this page is what carries x-default for the whole site. The root 302 that v1
+// also proposed in .htaccess is deliberately NOT shipped — if both existed, this
+// hreflang-bearing page would never be served (that was the v1/v2 contradiction).
+//
+// redirectToDefaultLocale is left unset in astro.config.mjs (defaults false), which
+// is exactly what keeps `/` reachable as this page.
+import '../styles/global.css';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { SHIPPED_LOCALES, DEFAULT_LOCALE, LOCALE_LABELS, LOCALE_TAGS } from '../i18n/locales.mjs';
+---
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Getcar Travel — tilni tanlang / выберите язык</title>
+    <meta name="description" content="Getcar Travel — O'zbekiston va chet el bo'ylab tur paketlari." />
+    <link rel="canonical" href={new URL('/', Astro.site).href} />
+    {SHIPPED_LOCALES.map((l) => (
+      <link rel="alternate" hreflang={LOCALE_TAGS[l] ?? l} href={new URL(getRelativeLocaleUrl(l, '/'), Astro.site).href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL(getRelativeLocaleUrl(DEFAULT_LOCALE, '/'), Astro.site).href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body class="grid min-h-screen place-items-center bg-neutral-50">
+    <main class="px-4 text-center">
+      <p class="font-[family-name:var(--font-display)] text-3xl font-bold text-brand-900">
+        Getcar<span class="text-brand-500">Travel</span>
+      </p>
+      <h1 class="mt-8 text-lg font-medium text-neutral-600">Tilni tanlang / Выберите язык</h1>
+      <ul class="mt-6 flex flex-wrap justify-center gap-3">
+        {SHIPPED_LOCALES.map((l) => (
+          <li>
+            <a
+              href={getRelativeLocaleUrl(l, '/')}
+              class="inline-block rounded-[var(--radius-md)] bg-brand-700 px-6 py-3 font-medium text-white hover:bg-brand-900"
+            >
+              {LOCALE_LABELS[l] ?? l}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-10 text-sm text-neutral-600">
+        <a href="tel:+998509074000" class="hover:text-brand-500">+998 50 907 40 00</a>
+      </p>
+    </main>
+  </body>
+</html>

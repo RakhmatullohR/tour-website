@@ -1,0 +1,22 @@
+{
+  "site.name": "Getcar Travel",
+  "site.tagline": "Puteshestvie ryadom s vami",
+  "nav.home": "Glavnaya",
+  "nav.tours": "Tury",
+  "nav.destinations": "Strany",
+  "nav.about": "O nas",
+  "nav.contacts": "Kontakty",
+  "tour.from": "cena",
+  "tour.perPerson": "za 1 cheloveka",
+  "tour.nights": "nochey",
+  "tour.days": "dney",
+  "tour.flightIncluded": "Aviabilet vklyuchen v stoimost",
+  "tour.flightNotIncluded": "Aviabilet ne vklyuchen v stoimost",
+  "tour.datesOnRequest": "Daty po zaprosu",
+  "tour.departures": "Daty vyleta",
+  "cta.request": "Ostavit zayavku",
+  "cta.call": "Pozvonit",
+  "lang.choose": "Vyberite yazyk",
+  "notFound.title": "Stranica ne naydena",
+  "notFound.body": "Po etomu adresu stranicy net. Vernites na glavnuyu."
+}

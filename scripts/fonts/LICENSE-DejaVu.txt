@@ -1,0 +1,12 @@
+DejaVu Fonts — bundled here deliberately (IMAGE-BRIEF-SPEC §5.4).
+
+WHY BUNDLED: sharp renders SVG text through librsvg + fontconfig, which resolves
+fonts from the HOST machine. On a bare CI container a system font may be absent
+and the placeholders would render UNLABELLED with no error. Referencing this
+bundled file explicitly makes placeholder generation hermetic.
+
+COVERAGE VERIFIED: U+02BB (oʻ/gʻ modifier turned comma), U+02BC (ʼ), and Cyrillic.
+
+License: Bitstream Vera Fonts Copyright (c) 2003 Bitstream, Inc. / Public domain
+additions by the DejaVu project. Free to use, embed and redistribute.
+Full text: https://dejavu-fonts.github.io/License.html

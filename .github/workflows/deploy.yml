@@ -1,0 +1,123 @@
+# PLAN §8.4 — THE PUBLISHING PIPELINE IS A P0 DELIVERABLE, NOT AN ASSUMPTION.
+#
+# Without this, the client commits a tour to GitHub and NOTHING HAPPENS: no
+# rebuild, no deploy, site unchanged — while they believe they published. That
+# collapses the entire "client maintains it themselves" story.
+#
+# REPO MUST BE PRIVATE (BC2). GitHub auto-disables scheduled workflows after 60
+# days of inactivity IN PUBLIC REPOSITORIES ONLY, and the weekly cron below is
+# what keeps build-time departure filtering (§7.3) from drifting.
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  # A URL the client can bookmark to force a rebuild.
+  workflow_dispatch:
+  # §7.3 layer 3 — keeps the build-time departure floor within seven days.
+  schedule:
+    - cron: '17 3 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - run: npm ci
+
+      # Fonts are bundled in scripts/fonts/ precisely so this step is hermetic on
+      # a bare runner. The render assertion inside check-images.mjs fails loudly if
+      # the labels did not render, instead of silently shipping blank placeholders.
+      - name: Verify images
+        run: npm run check:images
+
+      - name: Type check
+        run: npm run check
+
+      - name: Build
+        run: npm run build
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          PUBLIC_FORM_ENDPOINT: ${{ secrets.FORM_ENDPOINT }}
+          PUBLIC_FORM_TOKEN: ${{ secrets.FORM_TOKEN }}
+          PUBLIC_METRICA_ID: ${{ vars.METRICA_ID }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: dist/
+          retention-days: 7
+
+      # PLAN §8.3 — turn a Zod failure into something the CLIENT can act on.
+      # This is what makes "the build fails loudly" a client-facing safety net
+      # rather than a developer convenience.
+      - name: Explain the failure in Uzbek
+        if: failure() && github.event_name == 'push'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = [
+              '## Sayt yangilanmadi',
+              '',
+              'Oxirgi oʻzgarishda xatolik bor, shuning uchun sayt YANGILANMADI.',
+              'Muhimi: eski sayt oʻz oʻrnida ishlab turibdi — hech narsa buzilmadi.',
+              '',
+              'Nima qilish kerak:',
+              '1. Yuqoridagi qizil "Details" tugmasini bosing va xato matnini koʻring.',
+              '2. Odatda sabab — JSON faylda qavs yoki qoʻshtirnoq tushib qolgani.',
+              '3. Tuzatolmasangiz shu havolani dasturchiga yuboring.',
+              '',
+              `Havola: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            ].join('\n');
+            await github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha,
+              body,
+            });
+
+  # ---------------------------------------------------------------------------
+  # DEPLOY — BLOCKED ON CLIENT QUESTION 1 (hosting type). This is the plan's #1
+  # blocking question precisely because it selects which of the three variants
+  # below ships. Until it is answered the pipeline builds, verifies and archives
+  # `dist/`, but does not publish. Uncomment exactly ONE variant.
+  #
+  # ⚠️ BEFORE ANY DNS/NAMESERVER CHANGE (docs/DEPLOY.md, BC17a):
+  #    export and RECREATE every existing DNS record — especially MX, plus
+  #    SPF/TXT, DKIM and any mail CNAME/A record — at the new provider FIRST.
+  #    The client's corporate email rides on the hosting they already pay for.
+  #    A naive nameserver switch DELETES THEIR EMAIL.
+  #
+  # Variant A — shared cPanel over FTP:
+  #   - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+  #     with:
+  #       server: ${{ secrets.FTP_HOST }}
+  #       username: ${{ secrets.FTP_USER }}
+  #       password: ${{ secrets.FTP_PASSWORD }}
+  #       local-dir: ./dist/
+  #       server-dir: ./public_html/
+  #   Also ship the .htaccess (gzip/brotli, far-future cache on /_astro/*,
+  #   ErrorDocument 404 /404.html, force-HTTPS). NO root 302 — it would shadow
+  #   the language-picker page at / that carries x-default.
+  #
+  # Variant B — VPS over SSH: rsync dist/ + an nginx block with the same
+  #   cache/compression policy and `error_page 404 /404.html`.
+  #
+  # Variant C — Netlify / Cloudflare Pages free tier. Technically the better
+  #   outcome: free auto-TLS, deploy-on-push, instant rollback, and a build hook
+  #   the client can trigger. KEEP THE PAID HOSTING FOR EMAIL. Recommend it with
+  #   reasoning; do not silently override the client's purchase.
+  # ---------------------------------------------------------------------------

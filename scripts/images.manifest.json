@@ -1,0 +1,1218 @@
+{
+  "version": 1,
+  "images": [
+    {
+      "filename": "hero-main-1920x1080.webp",
+      "width": 1920,
+      "height": 1080,
+      "aspect": "16:9",
+      "tier": 1,
+      "group": "hero",
+      "usedIn": [
+        "Bosh sahifada eng tepada (kompyuter)"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Sayohatning eng chiroyli kadri — dengiz, tarixiy joy yoki mamnun sayyohlar guruhi. Gorizontal, yorugʻ, oʻrtasi boʻsh boʻlsin (ustiga matn tushadi)."
+    },
+    {
+      "filename": "hero-main-mobile-1080x1350.webp",
+      "width": 1080,
+      "height": 1350,
+      "aspect": "4:5",
+      "tier": 1,
+      "group": "hero",
+      "usedIn": [
+        "Bosh sahifada eng tepada (telefon)"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "vertikal",
+      "uz": "Yuqoridagi kadrning vertikal varianti — telefon ekrani uchun. Asosiy obyekt markazda boʻlsin."
+    },
+    {
+      "filename": "logo-primary.svg",
+      "width": 1000,
+      "height": 300,
+      "aspect": "—",
+      "tier": 1,
+      "group": "logo",
+      "usedIn": [
+        "Sayt sarlavhasi va pastki qismi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Kompaniya logotipi .svg formatda. .svg boʻlmasa — shaffof fonli katta .png (kamida 1000 px kenglikda)."
+    },
+    {
+      "filename": "logo-favicon-32x32.png",
+      "width": 32,
+      "height": 32,
+      "aspect": "1:1",
+      "tier": 1,
+      "group": "logo",
+      "usedIn": [
+        "Brauzer yorligʻidagi kichik belgi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "kvadrat",
+      "uz": "Logotipdan yasaladi — alohida yubormaysiz, faqat aniq logotip fayli kerak."
+    },
+    {
+      "filename": "logo-apple-touch-180x180.png",
+      "width": 180,
+      "height": 180,
+      "aspect": "1:1",
+      "tier": 1,
+      "group": "logo",
+      "usedIn": [
+        "iPhone bosh ekranidagi belgi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "kvadrat",
+      "uz": "Xuddi shu logotipdan yasaladi."
+    },
+    {
+      "filename": "logo-maskable-512x512.png",
+      "width": 512,
+      "height": 512,
+      "aspect": "1:1",
+      "tier": 1,
+      "group": "logo",
+      "usedIn": [
+        "Android bosh ekranidagi belgi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "kvadrat",
+      "uz": "Xuddi shu logotipdan yasaladi."
+    },
+    {
+      "filename": "dest-turkiya-01-800x1000.webp",
+      "width": 800,
+      "height": 1000,
+      "aspect": "4:5",
+      "tier": 1,
+      "group": "dest",
+      "usedIn": [
+        "Bosh sahifadagi davlatlar bloki",
+        "Davlatlar sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "vertikal",
+      "uz": "Turkiya — Antalya sohili yoki Istanbul manzarasi. Vertikal kadr."
+    },
+    {
+      "filename": "dest-dubay-01-800x1000.webp",
+      "width": 800,
+      "height": 1000,
+      "aspect": "4:5",
+      "tier": 1,
+      "group": "dest",
+      "usedIn": [
+        "Bosh sahifadagi davlatlar bloki",
+        "Davlatlar sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "vertikal",
+      "uz": "Dubay — zamonaviy osmonoʻpar binolar yoki Burj Khalifa. Vertikal."
+    },
+    {
+      "filename": "dest-tailand-01-800x1000.webp",
+      "width": 800,
+      "height": 1000,
+      "aspect": "4:5",
+      "tier": 1,
+      "group": "dest",
+      "usedIn": [
+        "Bosh sahifadagi davlatlar bloki",
+        "Davlatlar sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "vertikal",
+      "uz": "Tailand — oq qumli plyaj, palmalar, feruza suv. Vertikal."
+    },
+    {
+      "filename": "dest-misr-01-800x1000.webp",
+      "width": 800,
+      "height": 1000,
+      "aspect": "4:5",
+      "tier": 1,
+      "group": "dest",
+      "usedIn": [
+        "Bosh sahifadagi davlatlar bloki",
+        "Davlatlar sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "vertikal",
+      "uz": "Misr — Sharm-el-Shayx dengizi yoki qadimiy yodgorlik. Vertikal."
+    },
+    {
+      "filename": "dest-malayziya-01-800x1000.webp",
+      "width": 800,
+      "height": 1000,
+      "aspect": "4:5",
+      "tier": 1,
+      "group": "dest",
+      "usedIn": [
+        "Bosh sahifadagi davlatlar bloki",
+        "Davlatlar sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "vertikal",
+      "uz": "Malayziya — Kuala-Lumpur (Petronas minoralari) yoki orol manzarasi. Vertikal."
+    },
+    {
+      "filename": "dest-ozbekiston-01-800x1000.webp",
+      "width": 800,
+      "height": 1000,
+      "aspect": "4:5",
+      "tier": 1,
+      "group": "dest",
+      "usedIn": [
+        "Bosh sahifadagi davlatlar bloki",
+        "Davlatlar sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "vertikal",
+      "uz": "Oʻzbekiston — Samarqand Registoni, Buxoro yoki Xiva. Vertikal."
+    },
+    {
+      "filename": "tour-turkiya-antalya-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 1,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Antalya turining oʻz surati — mehmonxona, plyaj yoki guruh surati. Gorizontal."
+    },
+    {
+      "filename": "tour-turkiya-istanbul-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 1,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Istanbul turi uchun asosiy surat — masjid, Bosfor yoki bozor. Gorizontal."
+    },
+    {
+      "filename": "tour-dubay-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 1,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Dubay turi uchun asosiy surat — mehmonxona yoki shahar manzarasi. Gorizontal."
+    },
+    {
+      "filename": "tour-tailand-phuket-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 1,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Phuket turi uchun asosiy surat — plyaj yoki mehmonxona hovuzi. Gorizontal."
+    },
+    {
+      "filename": "tour-misr-sharm-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 1,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Sharm-el-Shayx turi uchun asosiy surat — dengiz yoki mehmonxona. Gorizontal."
+    },
+    {
+      "filename": "tour-ozbekiston-samarqand-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 1,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Samarqand–Buxoro turi uchun asosiy surat — Registon yoki guruh surati. Gorizontal."
+    },
+    {
+      "filename": "about-team-1600x900.webp",
+      "width": 1600,
+      "height": 900,
+      "aspect": "16:9",
+      "tier": 1,
+      "group": "team",
+      "usedIn": [
+        "Bosh sahifadagi \"Nega biz\" bloki",
+        "Biz haqimizda sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Jamoa surati yoki ofisdagi ish jarayoni. Haqiqiy odamlar — stock surat emas. Gorizontal."
+    },
+    {
+      "filename": "og-default-1200x630.webp",
+      "width": 1200,
+      "height": 630,
+      "aspect": "1.91:1",
+      "tier": 1,
+      "group": "og",
+      "usedIn": [
+        "Telegram/Facebook havola koʻrinishi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Kompaniyani eng yaxshi koʻrsatadigan gorizontal kadr — sayt havolasi ulashilganda shu chiqadi."
+    },
+    {
+      "filename": "promo-banner-01-1600x600.webp",
+      "width": 1600,
+      "height": 600,
+      "aspect": "8:3",
+      "tier": 1,
+      "group": "promo",
+      "usedIn": [
+        "Bosh sahifadagi aksiya bloki"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "gorizontal",
+      "uz": "Fon banneri — brend ranglarida, ustiga chegirma foizi yoziladi. Mijozdan surat kerak emas."
+    },
+    {
+      "filename": "cta-bg-1600x900.webp",
+      "width": 1600,
+      "height": 900,
+      "aspect": "16:9",
+      "tier": 1,
+      "group": "cta",
+      "usedIn": [
+        "Bosh sahifadagi ariza formasi foni"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "gorizontal",
+      "uz": "Forma orqasidagi fon — brend ranglarida, matn oʻqilishi uchun xira. Mijozdan surat kerak emas."
+    },
+    {
+      "filename": "avatar-01-200x200.webp",
+      "width": 200,
+      "height": 200,
+      "aspect": "1:1",
+      "tier": 1,
+      "group": "avatar",
+      "usedIn": [
+        "Bosh sahifadagi sharhlar bloki"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "kvadrat",
+      "uz": "Neytral siluet. Haqiqiy mijoz surati kelsa shu fayl almashtiriladi."
+    },
+    {
+      "filename": "avatar-02-200x200.webp",
+      "width": 200,
+      "height": 200,
+      "aspect": "1:1",
+      "tier": 1,
+      "group": "avatar",
+      "usedIn": [
+        "Bosh sahifadagi sharhlar bloki"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "kvadrat",
+      "uz": "Neytral siluet."
+    },
+    {
+      "filename": "avatar-03-200x200.webp",
+      "width": 200,
+      "height": 200,
+      "aspect": "1:1",
+      "tier": 1,
+      "group": "avatar",
+      "usedIn": [
+        "Bosh sahifadagi sharhlar bloki"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "kvadrat",
+      "uz": "Neytral siluet."
+    },
+    {
+      "filename": "static-map-800x500.webp",
+      "width": 800,
+      "height": 500,
+      "aspect": "8:5",
+      "tier": 1,
+      "group": "map",
+      "usedIn": [
+        "Kontaktlar sahifasidagi xarita bloki"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "gorizontal",
+      "uz": "Ofis manzili xaritadan olingan statik rasm. Manzil aniq boʻlgach yasaladi; boʻlmasa blok yashiriladi."
+    },
+    {
+      "filename": "dest-turkiya-hero-1600x600.webp",
+      "width": 1600,
+      "height": 600,
+      "aspect": "8:3",
+      "tier": 2,
+      "group": "dest",
+      "usedIn": [
+        "Turkiya sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Turkiya uchun keng gorizontal manzara. Ustiga matn tushadi — oʻrtasi tinch boʻlsin."
+    },
+    {
+      "filename": "dest-dubay-hero-1600x600.webp",
+      "width": 1600,
+      "height": 600,
+      "aspect": "8:3",
+      "tier": 2,
+      "group": "dest",
+      "usedIn": [
+        "Dubay sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Dubay uchun keng gorizontal manzara. Ustiga matn tushadi — oʻrtasi tinch boʻlsin."
+    },
+    {
+      "filename": "dest-tailand-hero-1600x600.webp",
+      "width": 1600,
+      "height": 600,
+      "aspect": "8:3",
+      "tier": 2,
+      "group": "dest",
+      "usedIn": [
+        "Tailand sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Tailand uchun keng gorizontal manzara. Ustiga matn tushadi — oʻrtasi tinch boʻlsin."
+    },
+    {
+      "filename": "dest-misr-hero-1600x600.webp",
+      "width": 1600,
+      "height": 600,
+      "aspect": "8:3",
+      "tier": 2,
+      "group": "dest",
+      "usedIn": [
+        "Misr sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Misr uchun keng gorizontal manzara. Ustiga matn tushadi — oʻrtasi tinch boʻlsin."
+    },
+    {
+      "filename": "dest-malayziya-hero-1600x600.webp",
+      "width": 1600,
+      "height": 600,
+      "aspect": "8:3",
+      "tier": 2,
+      "group": "dest",
+      "usedIn": [
+        "Malayziya sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Malayziya uchun keng gorizontal manzara. Ustiga matn tushadi — oʻrtasi tinch boʻlsin."
+    },
+    {
+      "filename": "dest-ozbekiston-hero-1600x600.webp",
+      "width": 1600,
+      "height": 600,
+      "aspect": "8:3",
+      "tier": 2,
+      "group": "dest",
+      "usedIn": [
+        "Oʻzbekiston sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Oʻzbekiston uchun keng gorizontal manzara. Ustiga matn tushadi — oʻrtasi tinch boʻlsin."
+    },
+    {
+      "filename": "tour-turkiya-antalya-01-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: mehmonxona (xona yoki hovuz). Gorizontal."
+    },
+    {
+      "filename": "tour-turkiya-antalya-02-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ovqatlanish (restoran yoki taomlar). Gorizontal."
+    },
+    {
+      "filename": "tour-turkiya-antalya-03-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ekskursiya yoki diqqatga sazovor joy. Gorizontal."
+    },
+    {
+      "filename": "tour-turkiya-antalya-04-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: guruh yoki sayyohlar suratlari. Gorizontal."
+    },
+    {
+      "filename": "tour-turkiya-istanbul-01-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: mehmonxona (xona yoki hovuz). Gorizontal."
+    },
+    {
+      "filename": "tour-turkiya-istanbul-02-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ovqatlanish (restoran yoki taomlar). Gorizontal."
+    },
+    {
+      "filename": "tour-turkiya-istanbul-03-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ekskursiya yoki diqqatga sazovor joy. Gorizontal."
+    },
+    {
+      "filename": "tour-turkiya-istanbul-04-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: guruh yoki sayyohlar suratlari. Gorizontal."
+    },
+    {
+      "filename": "tour-dubay-01-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: mehmonxona (xona yoki hovuz). Gorizontal."
+    },
+    {
+      "filename": "tour-dubay-02-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ovqatlanish (restoran yoki taomlar). Gorizontal."
+    },
+    {
+      "filename": "tour-dubay-03-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ekskursiya yoki diqqatga sazovor joy. Gorizontal."
+    },
+    {
+      "filename": "tour-dubay-04-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: guruh yoki sayyohlar suratlari. Gorizontal."
+    },
+    {
+      "filename": "tour-tailand-phuket-01-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: mehmonxona (xona yoki hovuz). Gorizontal."
+    },
+    {
+      "filename": "tour-tailand-phuket-02-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ovqatlanish (restoran yoki taomlar). Gorizontal."
+    },
+    {
+      "filename": "tour-tailand-phuket-03-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ekskursiya yoki diqqatga sazovor joy. Gorizontal."
+    },
+    {
+      "filename": "tour-tailand-phuket-04-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: guruh yoki sayyohlar suratlari. Gorizontal."
+    },
+    {
+      "filename": "tour-misr-sharm-01-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: mehmonxona (xona yoki hovuz). Gorizontal."
+    },
+    {
+      "filename": "tour-misr-sharm-02-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ovqatlanish (restoran yoki taomlar). Gorizontal."
+    },
+    {
+      "filename": "tour-misr-sharm-03-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ekskursiya yoki diqqatga sazovor joy. Gorizontal."
+    },
+    {
+      "filename": "tour-misr-sharm-04-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: guruh yoki sayyohlar suratlari. Gorizontal."
+    },
+    {
+      "filename": "tour-ozbekiston-samarqand-01-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: mehmonxona (xona yoki hovuz). Gorizontal."
+    },
+    {
+      "filename": "tour-ozbekiston-samarqand-02-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ovqatlanish (restoran yoki taomlar). Gorizontal."
+    },
+    {
+      "filename": "tour-ozbekiston-samarqand-03-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ekskursiya yoki diqqatga sazovor joy. Gorizontal."
+    },
+    {
+      "filename": "tour-ozbekiston-samarqand-04-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: guruh yoki sayyohlar suratlari. Gorizontal."
+    },
+    {
+      "filename": "tour-malayziya-kuala-lumpur-01-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: mehmonxona (xona yoki hovuz). Gorizontal."
+    },
+    {
+      "filename": "tour-malayziya-kuala-lumpur-02-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ovqatlanish (restoran yoki taomlar). Gorizontal."
+    },
+    {
+      "filename": "tour-malayziya-kuala-lumpur-03-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ekskursiya yoki diqqatga sazovor joy. Gorizontal."
+    },
+    {
+      "filename": "tour-malayziya-kuala-lumpur-04-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: guruh yoki sayyohlar suratlari. Gorizontal."
+    },
+    {
+      "filename": "tour-ozbekiston-xiva-01-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: mehmonxona (xona yoki hovuz). Gorizontal."
+    },
+    {
+      "filename": "tour-ozbekiston-xiva-02-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ovqatlanish (restoran yoki taomlar). Gorizontal."
+    },
+    {
+      "filename": "tour-ozbekiston-xiva-03-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: ekskursiya yoki diqqatga sazovor joy. Gorizontal."
+    },
+    {
+      "filename": "tour-ozbekiston-xiva-04-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Shu tur uchun galereya surati: guruh yoki sayyohlar suratlari. Gorizontal."
+    },
+    {
+      "filename": "team-01-600x800.webp",
+      "width": 600,
+      "height": 800,
+      "aspect": "3:4",
+      "tier": 2,
+      "group": "team",
+      "usedIn": [
+        "Biz haqimizda sahifasidagi jamoa bloki"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "vertikal",
+      "uz": "Menejerning vertikal portreti. Uchalasi bir xil fonda va bir xil yorugʻlikda boʻlsin."
+    },
+    {
+      "filename": "team-02-600x800.webp",
+      "width": 600,
+      "height": 800,
+      "aspect": "3:4",
+      "tier": 2,
+      "group": "team",
+      "usedIn": [
+        "Biz haqimizda sahifasidagi jamoa bloki"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "vertikal",
+      "uz": "Menejerning vertikal portreti. Uchalasi bir xil fonda va bir xil yorugʻlikda boʻlsin."
+    },
+    {
+      "filename": "team-03-600x800.webp",
+      "width": 600,
+      "height": 800,
+      "aspect": "3:4",
+      "tier": 2,
+      "group": "team",
+      "usedIn": [
+        "Biz haqimizda sahifasidagi jamoa bloki"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "vertikal",
+      "uz": "Menejerning vertikal portreti. Uchalasi bir xil fonda va bir xil yorugʻlikda boʻlsin."
+    },
+    {
+      "filename": "avatar-04-200x200.webp",
+      "width": 200,
+      "height": 200,
+      "aspect": "1:1",
+      "tier": 2,
+      "group": "avatar",
+      "usedIn": [
+        "Sharhlar bloki"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "kvadrat",
+      "uz": "Haqiqiy mijoz surati — faqat mijozning oʻzi ruxsat bergan boʻlsa."
+    },
+    {
+      "filename": "avatar-05-200x200.webp",
+      "width": 200,
+      "height": 200,
+      "aspect": "1:1",
+      "tier": 2,
+      "group": "avatar",
+      "usedIn": [
+        "Sharhlar bloki"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "kvadrat",
+      "uz": "Haqiqiy mijoz surati — faqat mijozning oʻzi ruxsat bergan boʻlsa."
+    },
+    {
+      "filename": "avatar-06-200x200.webp",
+      "width": 200,
+      "height": 200,
+      "aspect": "1:1",
+      "tier": 2,
+      "group": "avatar",
+      "usedIn": [
+        "Sharhlar bloki"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "kvadrat",
+      "uz": "Haqiqiy mijoz surati — faqat mijozning oʻzi ruxsat bergan boʻlsa."
+    },
+    {
+      "filename": "blog-01-cover-1200x630.webp",
+      "width": 1200,
+      "height": 630,
+      "aspect": "1.91:1",
+      "tier": 2,
+      "group": "blog",
+      "usedIn": [
+        "Blog maqolasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Maqola mavzusiga mos gorizontal surat. Blog moduli buyurtma qilinsa kerak boʻladi."
+    },
+    {
+      "filename": "blog-02-cover-1200x630.webp",
+      "width": 1200,
+      "height": 630,
+      "aspect": "1.91:1",
+      "tier": 2,
+      "group": "blog",
+      "usedIn": [
+        "Blog maqolasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Maqola mavzusiga mos gorizontal surat. Blog moduli buyurtma qilinsa kerak boʻladi."
+    },
+    {
+      "filename": "blog-03-cover-1200x630.webp",
+      "width": 1200,
+      "height": 630,
+      "aspect": "1.91:1",
+      "tier": 2,
+      "group": "blog",
+      "usedIn": [
+        "Blog maqolasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Maqola mavzusiga mos gorizontal surat. Blog moduli buyurtma qilinsa kerak boʻladi."
+    },
+    {
+      "filename": "blog-04-cover-1200x630.webp",
+      "width": 1200,
+      "height": 630,
+      "aspect": "1.91:1",
+      "tier": 2,
+      "group": "blog",
+      "usedIn": [
+        "Blog maqolasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Maqola mavzusiga mos gorizontal surat. Blog moduli buyurtma qilinsa kerak boʻladi."
+    },
+    {
+      "filename": "blog-05-cover-1200x630.webp",
+      "width": 1200,
+      "height": 630,
+      "aspect": "1.91:1",
+      "tier": 2,
+      "group": "blog",
+      "usedIn": [
+        "Blog maqolasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Maqola mavzusiga mos gorizontal surat. Blog moduli buyurtma qilinsa kerak boʻladi."
+    },
+    {
+      "filename": "blog-06-cover-1200x630.webp",
+      "width": 1200,
+      "height": 630,
+      "aspect": "1.91:1",
+      "tier": 2,
+      "group": "blog",
+      "usedIn": [
+        "Blog maqolasining sarlavhasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Maqola mavzusiga mos gorizontal surat. Blog moduli buyurtma qilinsa kerak boʻladi."
+    },
+    {
+      "filename": "promo-banner-02-1600x600.webp",
+      "width": 1600,
+      "height": 600,
+      "aspect": "8:3",
+      "tier": 2,
+      "group": "promo",
+      "usedIn": [
+        "Ikkinchi aksiya bloki"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "Ikkinchi aksiya uchun fon surati — yoʻnalishga mos manzara."
+    },
+    {
+      "filename": "og-ru-1200x630.webp",
+      "width": 1200,
+      "height": 630,
+      "aspect": "1.91:1",
+      "tier": 2,
+      "group": "og",
+      "usedIn": [
+        "Havola koʻrinishi (ru tili)"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "og-default bilan bir xil kadr, matni shu tilda yozilgan varianti."
+    },
+    {
+      "filename": "og-en-1200x630.webp",
+      "width": 1200,
+      "height": 630,
+      "aspect": "1.91:1",
+      "tier": 2,
+      "group": "og",
+      "usedIn": [
+        "Havola koʻrinishi (en tili)"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "og-default bilan bir xil kadr, matni shu tilda yozilgan varianti."
+    },
+    {
+      "filename": "og-ms-1200x630.webp",
+      "width": 1200,
+      "height": 630,
+      "aspect": "1.91:1",
+      "tier": 2,
+      "group": "og",
+      "usedIn": [
+        "Havola koʻrinishi (ms tili)"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "uz": "og-default bilan bir xil kadr, matni shu tilda yozilgan varianti."
+    },
+    {
+      "filename": "tour-malayziya-kuala-lumpur-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "reserve": false,
+      "uz": "Qolgan yoki keyingi turlar uchun asosiy surat. Gorizontal."
+    },
+    {
+      "filename": "tour-ozbekiston-xiva-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "reserve": false,
+      "uz": "Qolgan yoki keyingi turlar uchun asosiy surat. Gorizontal."
+    },
+    {
+      "filename": "tour-reserve-01-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "reserve": true,
+      "uz": "Qolgan yoki keyingi turlar uchun asosiy surat. Gorizontal."
+    },
+    {
+      "filename": "tour-reserve-02-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "reserve": true,
+      "uz": "Qolgan yoki keyingi turlar uchun asosiy surat. Gorizontal."
+    },
+    {
+      "filename": "tour-reserve-03-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 2,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasi"
+      ],
+      "clientPhotoRequired": true,
+      "orientation": "gorizontal",
+      "reserve": true,
+      "uz": "Qolgan yoki keyingi turlar uchun asosiy surat. Gorizontal."
+    }
+  ]
+}

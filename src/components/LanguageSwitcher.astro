@@ -1,0 +1,33 @@
+---
+// BC8 — THE PAGE-AWARE LANGUAGE SWITCHER.
+//
+// Without this, three Gate-1 criteria are mutually unsatisfiable:
+//   (a) the switcher preserves the current path across locales,
+//   (b) a locale with missing content emits NO page,
+//   (c) zero broken internal links.
+// A naive switcher links /uz/tours/antalya/ -> /ru/tours/antalya/ even when the
+// ru block is absent and that page was deliberately never emitted — generating
+// 404s on exactly the pages most likely to be missing a locale, which §18's
+// `linkinator --recurse` would then fail on.
+//
+// `availableLocales` is the SAME set getStaticPaths() used to decide emission and
+// the same set that drives this page's hreflang, so the three can never disagree.
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { LOCALE_LABELS } from '../i18n/locales.mjs';
+
+interface Props { locale: string; availableLocales: string[]; path: string }
+const { locale, availableLocales, path } = Astro.props;
+---
+<nav aria-label="Til" class="flex items-center gap-1 text-sm">
+  {availableLocales.map((l) =>
+    l === locale ? (
+      <span aria-current="true" class="rounded-[var(--radius-sm)] bg-brand-700 px-2.5 py-1 font-medium text-white">
+        {LOCALE_LABELS[l] ?? l}
+      </span>
+    ) : (
+      <a href={getRelativeLocaleUrl(l, path)} class="rounded-[var(--radius-sm)] px-2.5 py-1 text-neutral-600 hover:bg-neutral-100">
+        {LOCALE_LABELS[l] ?? l}
+      </a>
+    ),
+  )}
+</nav>

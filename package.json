@@ -1,0 +1,29 @@
+{
+  "name": "getcar-travel",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": { "node": ">=22.12.0" },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "gen:placeholders": "node scripts/gen-placeholders.mjs",
+    "gen:image-requirements": "node scripts/gen-image-requirements.mjs",
+    "check:images": "node scripts/check-images.mjs"
+  },
+  "dependencies": {
+    "astro": "^7.2.2",
+    "@astrojs/sitemap": "^3.7.3",
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/unbounded": "^5.2.8"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3",
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.3"
+  }
+}
