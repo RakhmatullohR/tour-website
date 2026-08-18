@@ -29,6 +29,13 @@ html.js .reveal { opacity: 0; transform: translateY(16px); }
 .reveal { transition: opacity 400ms cubic-bezier(.4,0,.2,1), transform 400ms cubic-bezier(.4,0,.2,1); }
 html.js .reveal.is-visible { opacity: 1; transform: none; }
 
+/* Same BC11 mechanism, applied to the catalogue filters: a filter UI that cannot
+   filter must not be on the page, but toggling it from script reflows the results
+   grid (measured CLS 0.372 against a 0.1 budget). Hiding it in CSS keyed on the
+   `html.js` marker — which <head> sets before any stylesheet — costs zero shift,
+   and with JS off the full unfiltered list stands, which is the correct fallback. */
+html:not(.js) [data-filters] { display: none; }
+
 /* Non-negotiable (§13.5). */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }

@@ -1,0 +1,15 @@
+---
+// §13.4 Alert. Used for the form error state, which §9.4 requires to be more than
+// a message: a failed form MUST NEVER BE A DEAD END, so the caller slots direct
+// Telegram / WhatsApp / call links in beside the text.
+interface Props { tone?: 'error' | 'info'; title?: string; class?: string }
+const { tone = 'error', title, class: cls = '' } = Astro.props;
+const tones = {
+  error: 'border-red-300 bg-red-50 text-red-900',
+  info: 'border-brand-300 bg-brand-300/15 text-brand-900',
+};
+---
+<div role="alert" class={`rounded-[var(--radius-md)] border p-4 ${tones[tone]} ${cls}`}>
+  {title && <p class="font-semibold">{title}</p>}
+  <div class={title ? 'mt-1 text-sm' : 'text-sm'}><slot /></div>
+</div>

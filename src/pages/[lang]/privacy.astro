@@ -1,0 +1,77 @@
+---
+// §5 — Privacy. REQUIRED IN EVERY SHIPPED LOCALE (Gate 1): the forms collect
+// personal data and every form links here from its consent checkbox.
+//
+// §9.7 WORDING RULE, BINDING: state it in non-specific terms and NEVER cite an
+// article number, a date or a compliance conclusion in a document the client may
+// rely on. The strings in uz.json/ru.json follow the approved wording; the
+// developer-internal reasoning stays in PLAN §9.7 and is not repeated here.
+import Base from '../../layouts/Base.astro';
+import { SHIPPED_LOCALES } from '../../i18n/locales.mjs';
+import { useTranslations } from '../../i18n/t';
+import { breadcrumbSchema } from '../../lib/seo';
+import { PHONE_DISPLAY, telHref, telegramHref } from '../../config/site';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+
+export function getStaticPaths() {
+  return SHIPPED_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang!;
+const t = useTranslations(lang);
+const tg = telegramHref();
+
+const crumbs = [
+  { name: t('breadcrumb.home'), path: `/${lang}/` },
+  { name: t('privacy.title'), path: `/${lang}/privacy/` },
+];
+
+const sections = [
+  { title: 'privacy.collect.title', text: 'privacy.collect.text' },
+  { title: 'privacy.use.title', text: 'privacy.use.text' },
+  { title: 'privacy.share.title', text: 'privacy.share.text' },
+  { title: 'privacy.storage.title', text: 'privacy.storage.text' },
+  { title: 'privacy.cookies.title', text: 'privacy.cookies.text' },
+  { title: 'privacy.rights.title', text: 'privacy.rights.text' },
+] as const;
+
+// Sourced from the build, so it can never claim a review that did not happen.
+const updated = new Date().toISOString().slice(0, 10);
+---
+<Base
+  locale={lang}
+  title={`${t('privacy.title')} — ${t('site.name')}`}
+  description={t('privacy.collect.text').slice(0, 155)}
+  availableLocales={SHIPPED_LOCALES}
+  path="/privacy/"
+  schemas={[breadcrumbSchema(Astro.site, crumbs)]}
+>
+  <div class="mx-auto max-w-[var(--container-site)] px-4 py-10 sm:px-6 sm:py-14">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1 class="mt-4 text-3xl font-bold text-brand-900 sm:text-4xl">{t('privacy.title')}</h1>
+    <p class="mt-2 text-sm text-neutral-600">
+      <time datetime={updated}>{t('privacy.updated', { date: updated })}</time>
+    </p>
+
+    <div class="mt-8 max-w-[68ch] space-y-8">
+      {sections.map((s) => (
+        <section>
+          <h2 class="text-xl font-bold text-brand-900">{t(s.title)}</h2>
+          <p class="mt-2 text-neutral-800">{t(s.text)}</p>
+        </section>
+      ))}
+
+      <p class="rounded-[var(--radius-md)] border border-neutral-200 bg-neutral-50 p-4 text-neutral-800">
+        {t('privacy.legal.text')}
+      </p>
+
+      <section>
+        <h2 class="text-xl font-bold text-brand-900">{t('privacy.contact.title')}</h2>
+        <p class="mt-2 flex flex-wrap gap-x-5 gap-y-2">
+          <a href={telHref()} data-metrica="phone_click" class="font-medium text-brand-700 underline">{PHONE_DISPLAY}</a>
+          {tg && <a href={tg} target="_blank" rel="noopener noreferrer" data-metrica="telegram_click" class="font-medium text-brand-700 underline">Telegram</a>}
+        </p>
+      </section>
+    </div>
+  </div>
+</Base>

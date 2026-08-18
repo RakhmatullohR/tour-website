@@ -1,0 +1,19 @@
+{
+  "_comment": "NAMUNA. Q14 javobi kelmaguncha real:false — sayt bunday sharhni CHIQARMAYDI.",
+  "real": false,
+  "order": 20,
+  "author": "Sardor T.",
+  "avatar": "avatar-02-200x200.webp",
+  "rating": 5,
+  "tourSlug": "dubay-6-kun",
+  "i18n": {
+    "uz": {
+      "text": "Dubayga birinchi marta chiqdim, hamma narsa oldindan tushuntirildi. Sahro safari eng yoqqan qismi boʻldi.",
+      "role": "Dubay, 2026"
+    },
+    "ru": {
+      "text": "В Дубай летел впервые, всё объяснили заранее. Больше всего понравилось сафари в пустыне.",
+      "role": "Дубай, 2026"
+    }
+  }
+}

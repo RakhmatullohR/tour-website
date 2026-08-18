@@ -1,0 +1,59 @@
+---
+// §5 — Promotions: A FILTERED VIEW OF TOURS CARRYING A REAL DISCOUNT, not a
+// separate content type. Promotions-as-its-own-type is a priced add-on (§16.1).
+//
+// "Real" is enforced upstream: the schema hard-fails on oldAmount <= amount, so
+// this page can never advertise a fake discount (§7.1).
+import Base from '../../layouts/Base.astro';
+import { SHIPPED_LOCALES } from '../../i18n/locales.mjs';
+import { useTranslations } from '../../i18n/t';
+import { getToursFor, discountedTours, getPromotionsFor } from '../../lib/tours';
+import { breadcrumbSchema } from '../../lib/seo';
+import TourCard from '../../components/cards/TourCard.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import PromoBanner from '../../components/sections/PromoBanner.astro';
+
+export function getStaticPaths() {
+  return SHIPPED_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang!;
+const t = useTranslations(lang);
+const [all, promotions] = await Promise.all([getToursFor(lang), getPromotionsFor(lang)]);
+const tours = discountedTours(all);
+
+const crumbs = [
+  { name: t('breadcrumb.home'), path: `/${lang}/` },
+  { name: t('promotions.title'), path: `/${lang}/promotions/` },
+];
+---
+<Base
+  locale={lang}
+  title={`${t('promotions.title')} — ${t('site.name')}`}
+  description={t('promotions.subtitle')}
+  availableLocales={SHIPPED_LOCALES}
+  path="/promotions/"
+  schemas={[breadcrumbSchema(Astro.site, crumbs)]}
+>
+  <div class="mx-auto max-w-[var(--container-site)] px-4 py-10 sm:px-6 sm:py-14">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1 class="mt-4 text-3xl font-bold text-brand-900 sm:text-4xl">{t('promotions.title')}</h1>
+    <p class="mt-3 max-w-[68ch] text-neutral-600">{t('promotions.subtitle')}</p>
+  </div>
+
+  <PromoBanner promotions={promotions} locale={lang} t={t} />
+
+  <div class="mx-auto max-w-[var(--container-site)] px-4 py-12 sm:px-6">
+    {tours.length > 0 ? (
+      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {tours.map((tour) => <li class="relative"><TourCard tour={tour} locale={lang} t={t} /></li>)}
+      </ul>
+    ) : (
+      /* Gate 1: the promotions section auto-hides when empty. Here the route must
+         still exist, so it states the truth instead of showing an empty grid. */
+      <p class="rounded-[var(--radius-lg)] border border-neutral-200 bg-neutral-50 p-6 text-neutral-600">
+        {t('promotions.empty')}
+      </p>
+    )}
+  </div>
+</Base>

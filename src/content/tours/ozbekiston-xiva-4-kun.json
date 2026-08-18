@@ -1,0 +1,113 @@
+{
+  "id": "uz-xiva-3n",
+  "slug": "ozbekiston-xiva-4-kun",
+  "status": "published",
+  "featured": false,
+  "order": 80,
+  "country": "UZ",
+  "cities": [
+    "Xiva",
+    "Urganch"
+  ],
+  "category": "excursion",
+  "departureCity": "Toshkent",
+  "duration": {
+    "days": 4,
+    "nights": 3
+  },
+  "price": {
+    "amount": 2650000,
+    "currency": "UZS",
+    "per": "person"
+  },
+  "flightIncluded": true,
+  "groupSize": {
+    "min": 4,
+    "max": 25
+  },
+  "departures": [
+    "2026-09-19",
+    "2026-10-17"
+  ],
+  "badges": [],
+  "images": {
+    "cover": "tour-ozbekiston-xiva-cover-1200x800.webp",
+    "gallery": []
+  },
+  "i18n": {
+    "uz": {
+      "title": "Xiva — 3 kecha 4 kun, Ichan qalʼa",
+      "summary": "Ichan qalʼa devorlari ichidagi butun bir shahar. Gid hamrohligida toʻliq dastur.",
+      "includes": [
+        "Mehmonxona 3* (3 kecha)",
+        "Nonushta",
+        "Poyezd chiptasi",
+        "Gid xizmati",
+        "Ichan qalʼa chiptasi"
+      ],
+      "excludes": [
+        "Tushlik va kechki ovqat",
+        "Shaxsiy xarajatlar"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Toshkentdan Urganchga poyezdda; Xivaga oʻtish va joylashish."
+        },
+        {
+          "day": 2,
+          "text": "Ichan qalʼa: Kalta minor, Juma masjidi, Toshhovli saroyi."
+        },
+        {
+          "day": 3,
+          "text": "Nurullaboy saroyi va hunarmandchilik ustaxonalari."
+        },
+        {
+          "day": 4,
+          "text": "Urganch orqali Toshkentga qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Xiva — 3 kecha 4 kun, Ichan qalʼa",
+        "description": "Ichan qalʼa devorlari ichidagi butun bir shahar. Gid hamrohligida toʻliq dastur."
+      }
+    },
+    "ru": {
+      "title": "Хива — 3 ночи 4 дня, Ичан-Кала",
+      "summary": "Целый город внутри крепостных стен Ичан-Кала. Полная программа с гидом.",
+      "includes": [
+        "Отель 3* (3 ночи)",
+        "Завтрак",
+        "Железнодорожные билеты",
+        "Услуги гида",
+        "Билет в Ичан-Калу"
+      ],
+      "excludes": [
+        "Обед и ужин",
+        "Личные расходы"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Поездом из Ташкента в Ургенч; переезд в Хиву и заселение."
+        },
+        {
+          "day": 2,
+          "text": "Ичан-Кала: Кальта-Минор, Джума-мечеть, дворец Таш-Хаули."
+        },
+        {
+          "day": 3,
+          "text": "Дворец Нуруллабай и ремесленные мастерские."
+        },
+        {
+          "day": 4,
+          "text": "Возвращение в Ташкент через Ургенч."
+        }
+      ],
+      "seo": {
+        "title": "Хива — 3 ночи 4 дня, Ичан-Кала",
+        "description": "Целый город внутри крепостных стен Ичан-Кала. Полная программа с гидом."
+      }
+    }
+  }
+}

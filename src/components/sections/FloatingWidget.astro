@@ -1,0 +1,80 @@
+---
+// Home §6 row 13 — floating contact widget.
+//
+// §10: FAB -> Telegram / WhatsApp / call, keyboard-accessible, Esc closes, honours
+// prefers-reduced-motion. Built on <details> for the same reason the header drawer
+// is: with JS off the contact links must still be reachable.
+//
+// ⬜ The one thing this cannot verify on a Linux box (§18 manual check 14): that
+//    the widget does not cover a form's submit button on a real device. It is
+//    bottom-right and forms are left-aligned in a max-w container, and pages carry
+//    bottom padding for it — but that is an argument, not a measurement.
+import type { TFunction } from '../../i18n/t';
+import { telHref, telegramHref, whatsappHref } from '../../config/site';
+import Icon from '../ui/Icon.astro';
+import LeadForm from '../forms/LeadForm.astro';
+
+interface Props { t: TFunction; locale: string }
+// Astro did not infer this component's Props (`astro check` reported `Astro.props`
+// as Record<string, any> here), which silently disabled prop type-checking.
+// The explicit annotation restores it — verified by a probe that TS then caught.
+const { t, locale } = Astro.props as Props;
+
+const tg = telegramHref();
+const wa = whatsappHref();
+const actions = [
+  tg && { href: tg, label: t('widget.telegram'), icon: 'telegram' as const, event: 'telegram_click', external: true },
+  wa && { href: wa, label: t('widget.whatsapp'), icon: 'whatsapp' as const, event: 'whatsapp_click', external: true },
+  { href: telHref(), label: t('widget.call'), icon: 'phone' as const, event: 'phone_click', external: false },
+].filter(Boolean) as { href: string; label: string; icon: 'telegram' | 'whatsapp' | 'phone'; event: string; external: boolean }[];
+---
+<details data-widget class="group fixed right-4 bottom-4 z-50 print:hidden">
+  <summary
+    aria-label={t('widget.open')}
+    class="grid h-14 w-14 cursor-pointer place-items-center rounded-full bg-accent-500 text-brand-900 shadow-lg marker:content-none transition-transform duration-250 hover:bg-accent-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 motion-reduce:transition-none"
+  >
+    <Icon name="phone" size={24} class="block group-open:hidden" />
+    <Icon name="close" size={24} class="hidden group-open:block" />
+  </summary>
+
+  <div class="hidden group-open:block absolute right-0 bottom-16 w-[min(20rem,calc(100vw-2rem))]">
+    <ul class="flex flex-col items-end gap-2">
+      {actions.map((a) => (
+        <li>
+          <a
+            href={a.href}
+            data-metrica={a.event}
+            target={a.external ? '_blank' : undefined}
+            rel={a.external ? 'noopener noreferrer' : undefined}
+            class="flex min-h-12 items-center gap-2.5 rounded-full border border-neutral-200 bg-white px-5 font-medium text-brand-900 shadow-md hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+          >
+            <Icon name={a.icon} size={20} />{a.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    {/* §9.1 FORM 4 OF 4 — the callback form. ONE FIELD, phone only, for maximum
+        conversion. §9.5 exempts it from the time trap: on a single-field form
+        autofill routinely completes it in under two seconds, and rejecting that
+        would silently discard real leads. */}
+    <div class="mt-2 rounded-[var(--radius-lg)] border border-neutral-200 bg-white p-4 shadow-lg">
+      <p class="text-sm font-semibold text-brand-900">{t('widget.callback')}</p>
+      <LeadForm variant="callback" locale={locale} t={t} inline class="mt-3" />
+    </div>
+  </div>
+</details>
+
+<script>
+  const widget = document.querySelector<HTMLDetailsElement>('[data-widget]');
+  if (widget) {
+    addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !widget.open) return;
+      widget.open = false;
+      widget.querySelector('summary')?.focus(); // focus returns to the trigger (§15)
+    });
+    document.addEventListener('click', (e) => {
+      if (widget.open && !widget.contains(e.target as Node)) widget.open = false;
+    });
+  }
+</script>

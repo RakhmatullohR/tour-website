@@ -1,0 +1,27 @@
+{
+  "country": "TR",
+  "slug": "turkiya",
+  "order": 10,
+  "featured": true,
+  "image": "dest-turkiya-01-800x1000.webp",
+  "i18n": {
+    "uz": {
+      "name": "Turkiya",
+      "summary": "Antalya va Istanbul — dengiz, tarix va shopping bir yoʻnalishda. Oʻzbekistondan eng koʻp soʻraladigan davlat.",
+      "body": "Turkiya oʻzbek sayyohlari uchun eng qulay yoʻnalishlardan biri: viza talab qilinmaydi, parvoz vaqti qisqa va mehmonxonalar all-inclusive tizimida ishlaydi. Antalya sohilida dam olish, Istanbulda esa tarixiy ekskursiya va shopping dasturlarini taklif qilamiz.",
+      "seo": {
+        "title": "Turkiya turlari — Getcar Travel",
+        "description": "Antalya va Istanbul — dengiz, tarix va shopping bir yoʻnalishda. Oʻzbekistondan eng koʻp soʻraladigan davlat."
+      }
+    },
+    "ru": {
+      "name": "Турция",
+      "summary": "Анталья и Стамбул — море, история и шоппинг в одном направлении. Самая востребованная страна у туристов из Узбекистана.",
+      "body": "Турция — одно из самых удобных направлений для узбекистанцев: виза не нужна, перелёт короткий, отели работают по системе all-inclusive. Предлагаем пляжный отдых в Анталье и экскурсионно-шоппинговые программы в Стамбуле.",
+      "seo": {
+        "title": "Туры в Турция — Getcar Travel",
+        "description": "Анталья и Стамбул — море, история и шоппинг в одном направлении. Самая востребованная страна у туристов из Узбекистана."
+      }
+    }
+  }
+}

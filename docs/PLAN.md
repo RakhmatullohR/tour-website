@@ -1,12 +1,16 @@
-> **Status: P0 + P1 EXECUTED.** Consensus-approved by the Planner → Architect → Critic loop (2 iterations), with 19 binding pre-execution corrections folded into this document. The user approved execution of **P0 (foundation, pipeline) and P1 (design system, placeholders, client documents)** only. Phases P2–P8 remain **PENDING APPROVAL** and have not been started.
-> Verification at time of writing: `npm run build` green (4 pages) · `npx astro check` 0 errors 0 warnings · `npm run check:images` 26/26 assertions passed · nothing secret or generated is tracked by git.
-
-## Execution log — P0 and P1
+> **Status: P0–P6 EXECUTED.** Consensus-approved by the Planner → Architect → Critic loop (2 iterations), with 19 binding pre-execution corrections folded into this document. **P7 (real content swap) and P8 (deploy & handover) are NOT started — both are blocked on client input and hosting access** (Q1, Q2, Q5, Q6, Q9, Q13, Q14).
+> Verification at time of writing: `npm run build` green (**46 pages**, all 12 route types × 2 locales) · `npx astro check` 0 errors 0 warnings · `check:images` 26/26 · `check:i18n` 220 keys, full parity · `check:contrast` 20/20 pairings · `linkinator --recurse` **0 broken links** · Lighthouse mobile **Perf ≥ 97 · A11y 100 · BP 100 · SEO 100** on five pages · **zero horizontal scroll from 320 px to 1920 px** in both locales · nothing secret or generated is tracked by git.
+## Execution log — P0 to P6
 
 | Phase | Delivered | Gate result |
 |---|---|---|
 | **P0** | `.gitignore` repaired in BC1 order · locked stack installed (astro 7.2.2, sharp 0.35.3, tailwind 4.3.3, sitemap 3.7.3, @astrojs/check 0.9.10, zod 4) · `astro.config.mjs` with the BC4/BC5 i18n block · `src/content.config.ts` with a `glob()` loader and Zod 4 schema · `src/lib/images.ts` (BC16 `resolveImage`) · root language picker · `[lang]/` route tree · bilingual root 404 (BC10) · `.github/workflows/deploy.yml` with the weekly cron · `.env.example` · `docs/DEPLOY.md` with the mandatory MX checklist (BC17a) | **GREEN.** Smoke test passed: scaffold + collection + optimised image + `npm run build` exit 0, `astro check` clean. Both folded checks passed — `import.meta.glob` resolves inside `src/content.config.ts`, and `@astrojs/sitemap` accepts a two-locale list. |
 | **P1** | `@theme` tokens · Inter + Unbounded self-hosted · `scripts/images.manifest.json` (85 rows) · bundled DejaVu fonts · `gen-placeholders.mjs` · **26 Tier-1 `.webp`** · `check-images.mjs` with the render assertion · `gen-image-requirements.mjs` · `analize/image-requirements.md` · `analize/client-open-questions.md` | **GREEN.** All 26 Tier-1 placeholders within budget (largest 27.7 KB against a 180 KB cap). Client document lists exactly **20** first-stage photographs, Latin-only assertion passed, byte-identical on regeneration. |
+| **P2** | All 13 §6 Home sections · 14-component library (`ui/`, `cards/`, `sections/`, `islands/`, `forms/`) · inline SVG icon set (no icon font) · sticky header with a **no-JS `<details>` drawer** · footer with BC12b auto-hiding blocks · floating widget · **every string through `t()`** — `grep` finds no hardcoded copy | **GREEN.** Lighthouse mobile Home **Perf 99 · A11y 100 · BP 100 · SEO 100**, LCP 1.7 s, CLS 0.035, TBT 0 ms. With JS disabled all eight below-the-fold sections render. |
+| **P3** | Supporting collections (`destinations`, `reviews`, `promotions`) with the same uz-required / non-emission discipline · **8 sample tours** · 6 destinations · catalogue with 4 filters · tour detail · destinations index + detail · about · promotions · contacts · privacy · thanks · bilingual root 404 | **GREEN.** All **12** §5 route types build in both locales (46 pages). Every §7.1 rule proved to fire — see the negative-test table below. |
+| **P4** | `apps-script/Code.gs` with **Script Properties only (BC3)**, per-leg `try/catch` (BC18), the daily digest trigger (BC19) and the notification cap · `submitLead()` · all **4** forms · honeypot · time trap · consent · error state with contact fallbacks · no-JS hidden-iframe target | **PARTIAL — code complete, transport unverified.** Everything up to the network call is verified. **No submission has been made end to end: that needs Q8's Google account.** The §9.4 CORS spike is likewise still outstanding. Tracked as B1/B2 in `docs/OPEN-QUESTIONS.md`. |
+| **P5** | `ru` wired through `SHIPPED_LOCALES` · **page-aware switcher (BC8)** · hreflang · `Intl` dates and numbers · **`ru.json` and every Russian content block rewritten from transliterated Latin into real Cyrillic** | **GREEN.** BC8 drill passed on all six sub-checks with `linkinator` clean. No Uzbek text leaks into any `ru` page; dates render `20 сентября 2026 г.` vs `20-sentabr, 2026`. |
+| **P6** | Canonical · hreflang · OG (per-tour cover) · sitemap · generated `robots.txt` · **3 JSON-LD types** · Metrica with consent gating and all six events · favicons + webmanifest · a11y pass · provisional perf pass | **GREEN.** `TravelAgency` 22 ×, `TouristTrip` 16 ×, `BreadcrumbList` 40 ×. Home first load **201 KB / 19 requests**; fonts **100 KB**; **zero external JS files** (Astro inlined it). Metrica is dormant until `METRICA_ID` is set — no counter, no script, no banner. |
 
 **Non-vacuous verification.** Every rule that could have been a no-op was proved to fire by negative test — the discipline this plan's own review process was built on:
 
@@ -18,11 +22,38 @@
 | Missing cover / price-in-prose must WARN, never block | Pointed `cover` at a non-existent file and put "50 USD" in `excludes` | **WARNED twice, build still succeeded** — client autonomy preserved |
 | BC4 `prefixDefaultLocale` | Inspected emitted HTML | `getRelativeLocaleUrl` emits `/uz/` and `/ru/`, not a bare `/` |
 | BC11 no-JS guard | Inspected compiled CSS | `.reveal` is hidden only under `html.js`; zero external JS files ship |
+| **§7.1 malformed tour JSON** | Deleted `price.amount` | **Build FAILED**, naming the collection, the entry, the field, and the file path |
+| **§7.1 non-emission (BC8)** | Deleted a tour's whole `ru` block | `/uz/.../` rendered · `/ru/.../` **not emitted** · switcher offered **only** `Oʻzbekcha` · hreflang carried no `ru` · the `ru` catalogue did not list it · the sitemap did not advertise it · **`linkinator` still clean** |
+| **§7.3 layer 1 — build floor** | Added a 2020 departure date | **Absent from the emitted HTML** |
+| **§7.3 layer 2 — runtime narrowing** | Injected a past `<time data-departure>` **into the built page** (layer 1 makes this unreachable from source) | Browser **removed it**; future dates survived. With every date stale the block swapped to *"Sanalar soʻrov boʻyicha"* |
+| **§6.10 testimonials** | Flipped the three samples to `real: true`, then back | 3 review cards rendered on Home **and** About; reverting restored the social-proof fallback. Ships as `real: false` — **no invented client quotes** |
+| **§13.1 contrast** | `check-contrast.mjs` asserts the pairings that **must stay below** threshold | White-on-`brand-500` still 4.08:1 — the rule cannot silently become a no-op |
+| **§13.2 Uzbek orthography** | Wrote `Bog'lanish` with an ASCII apostrophe | **`check-i18n` FAILED**, naming the key and the string |
+| **Catalogue filters** | Loaded `/uz/tours/?country=TR` in headless Chrome | 8 → **2 cards**, count text updated, non-matching cards hidden |
+| **Responsive** | Measured `scrollWidth − clientWidth` over CDP at 320–1920 px, both locales, 4 page types | **0 px horizontal overflow at every width from 320 up**; 300 px overflows by ~12 px (below any shipping device) |
 
-### Two corrections discovered during execution
+### Corrections discovered during execution
+
+**During P0–P1**
 
 1. **`import { z } from 'astro:content'` is `@deprecated` in Astro 7** — the runtime says so itself: *"Use `import { z } from 'astro/zod'` instead."* §8's stack table said Zod 4 (correct) but did not name the import path. Now uses `astro/zod`, which is a first-party subpath export, so there is no transitive-dependency risk of the kind that made the `sharp` claim wrong in v1.
 2. **`@astrojs/sitemap` emitted a duplicate `hreflang="uz"`** — it has no locale segment to read at the bare root, so it fell back to `defaultLocale` and advertised *both* `/` and `/uz/` as the `uz` page. Real duplicate-hreflang defect, invisible until the sitemap was actually inspected. Fixed with a `filter` excluding `/` from the sitemap; every page's own `<head>` already declares `x-default → /uz/`, so nothing is lost.
+
+**During P2–P6 — nine defects, none of which announced itself.** Full detail in `docs/OPEN-QUESTIONS.md` §C.
+
+3. **`ru.json` and every Russian content block were transliterated Latin, not Cyrillic** — `"Puteshestvie ryadom s vami"`. It would have shipped a Russian locale no Russian speaker would read, while passing every check P0/P1 had. Rewritten wholesale, and `_TEMPLATE.json` with it — the client **duplicates** that file, so the defect was self-propagating.
+4. **The catalogue filters were dead.** The island's script queried `[data-tour-grid]`, which the page renders *after* it, got `null`, and returned early — leaving the panel `hidden`. Found because Lighthouse flagged `heading-order` (h1 → h3): the skipped `<h2>` was the filter panel's own. **Gate 1's "catalogue filters by country, duration, price, category" would have been signed off against a control that did nothing.**
+5. **`--neutral-400` is 2.55:1 on white** and carried the struck old price and the "(optional)" label. §13.1 demanded the pairings be verified rather than asserted; nothing verified them. Now `scripts/check-contrast.mjs` does — including a **negative half** that fails if a pairing the rule forbids ever starts passing.
+6. **The first fix for (4) introduced CLS 0.372** against a 0.1 budget, by unhiding the panel from script. Replaced with CSS keyed on the BC11 `html.js` marker → **CLS 0.006**. Measuring the fix, not just the bug, is what caught it.
+7. **`Astro.props` was silently `Record<string, any>` in four components**, disabling prop type-checking entirely; two latent type errors were hiding behind it. Confirmed with a deliberate probe (`const x: number = someString`) that TS did not flag until the props were annotated.
+8. **The language switcher rendered `O'zbekcha` with an ASCII apostrophe** — the one Uzbek string on *every* page — because §13.2's gate only inspected `uz.json`. The gate now covers `locales.mjs` and all content prose, and immediately caught a second instance (`Ko'k masjid`).
+9. **§9.1's callback form (4 of 4) was missing** from the floating widget. Found by `check-i18n.mjs`'s orphan check: `widget.callback` was declared and never used.
+10. **A closed `<details>` becomes the containing block for its own panel.** Chrome keeps the panel in layout (`content-visibility: hidden`, so it can animate open), which implies `contain` — so the mobile drawer's `fixed inset-x-0` resolved against the **44 px hamburger** instead of the viewport, and its buttons stuck out to x=456 on a 360 px screen. Invisible, and it made every page scroll sideways.
+11. **`Button`'s base class hardcodes `inline-flex`, so a caller's `hidden` cannot win.** Which of `.hidden` / `.inline-flex` applies is decided by **order in the stylesheet**, not by the class attribute — so the header CTA never hid on mobile and pushed the header 66 px past a 360 px viewport. Gate 1 lists 360 px explicitly; this would have failed it. Fixed with a `hidden sm:contents` wrapper, which leaves the ≥ sm layout untouched.
+
+> **What (10) and (11) have in common:** both were *invisible*. Nothing overlapped, nothing looked wrong in a screenshot, and both Lighthouse runs scored 100 on accessibility. They were only found by measuring `scrollWidth − clientWidth` over CDP — and **only below 500 px**, which is where Chrome's `--window-size` floor silently stops honouring the flag. A viewport check that trusts `--window-size` at 360 px is testing 500 px and reporting a pass.
+
+---
 
 # Getcar_travel — static multilingual tour agency website
 ## PLAN v3 — FINAL (consensus-approved)

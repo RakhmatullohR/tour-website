@@ -1,0 +1,45 @@
+---
+// §13.4 — Button: primary / secondary / ghost / icon.
+//
+// ⚠️ §13.1 CONTRAST RULE, enforced here rather than left to a caller's judgment:
+//   primary   = --color-brand-700  + white          (passes AA)
+//   accent    = --color-accent-500 + --color-brand-900
+//   White on --color-brand-500 does NOT reach 4.5:1, so brand-500 is never a
+//   button background. There is deliberately no variant that would produce it.
+interface Props {
+  variant?: 'primary' | 'accent' | 'secondary' | 'ghost' | 'icon';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+  [key: string]: unknown;
+}
+const { variant = 'primary', size = 'md', href, type = 'button', class: cls = '', ...rest } = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-[var(--radius-md)] font-medium ' +
+  'transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 ' +
+  'focus-visible:outline-brand-700 disabled:opacity-60 disabled:pointer-events-none';
+
+const variants = {
+  primary: 'bg-brand-700 text-white hover:bg-brand-900',
+  accent: 'bg-accent-500 text-brand-900 hover:bg-accent-600',
+  secondary: 'border border-brand-700 text-brand-700 hover:bg-brand-700 hover:text-white',
+  ghost: 'text-brand-700 hover:bg-neutral-100',
+  icon: 'text-brand-700 hover:bg-neutral-100 rounded-full',
+};
+
+// ≥44x44 px touch target at every size (§15 accessibility).
+const sizes = {
+  sm: variant === 'icon' ? 'h-11 w-11' : 'min-h-11 px-4 text-sm',
+  md: variant === 'icon' ? 'h-11 w-11' : 'min-h-12 px-5',
+  lg: variant === 'icon' ? 'h-12 w-12' : 'min-h-14 px-7 text-lg',
+};
+
+const cn = `${base} ${variants[variant]} ${sizes[size]} ${cls}`;
+---
+{href ? (
+  <a href={href} class={cn} {...rest}><slot /></a>
+) : (
+  <button type={type} class={cn} {...rest}><slot /></button>
+)}

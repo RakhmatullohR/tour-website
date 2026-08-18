@@ -1,0 +1,14 @@
+{
+  "_comment_1": "NUSXA OLING. real: true QILISHDAN OLDIN mijozdan haqiqiy sharh olinishi SHART.",
+  "_comment_2": "real: false bo'lgan sharh saytda UMUMAN chiqmaydi — bu ataylab shunday.",
+  "real": false,
+  "order": 100,
+  "author": "Ism Familiya",
+  "avatar": "avatar-01-200x200.webp",
+  "rating": 5,
+  "tourSlug": "turkiya-antalya-7-kun",
+  "i18n": {
+    "uz": { "text": "Sharh matni — kamida 10 belgi.", "role": "Antalya, 2026" },
+    "ru": { "text": "Текст отзыва — минимум 10 символов.", "role": "Анталья, 2026" }
+  }
+}

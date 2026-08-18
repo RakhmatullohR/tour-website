@@ -1,0 +1,39 @@
+---
+// §13.4 PriceTag — struck old price + auto discount %.
+//
+// The percentage is DERIVED, never authored: the schema hard-fails on
+// oldAmount <= amount (§7.1), so a badge can only ever describe a real discount.
+import { formatPrice, discountPercent } from '../../lib/format';
+import type { TFunction } from '../../i18n/t';
+import Badge from './Badge.astro';
+
+interface Props {
+  amount: number;
+  currency: string;
+  oldAmount?: number;
+  per?: 'person' | 'group';
+  locale: string;
+  t: TFunction;
+  size?: 'sm' | 'lg';
+  class?: string;
+}
+// Astro did not infer this component's Props (`astro check` reported `Astro.props`
+// as Record<string, any> here), which silently disabled prop type-checking.
+// The explicit annotation restores it — verified by a probe that TS then caught.
+const { amount, currency, oldAmount, per = 'person', locale, t, size = 'sm', class: cls = '' } = Astro.props as Props;
+const off = discountPercent(amount, oldAmount);
+---
+<div class={`flex flex-wrap items-baseline gap-x-2 gap-y-1 ${cls}`}>
+  <span class={`font-semibold text-brand-900 ${size === 'lg' ? 'text-3xl' : 'text-xl'}`}>
+    {formatPrice(amount, currency, locale)}
+  </span>
+  {oldAmount && (
+    <s class="text-sm text-neutral-600" aria-label={t('tour.oldPrice')}>
+      {formatPrice(oldAmount, currency, locale)}
+    </s>
+  )}
+  {off !== null && <Badge tone="accent">{t('promo.discount', { n: off })}</Badge>}
+  <span class="w-full text-xs text-neutral-600">
+    {per === 'group' ? t('tour.perGroup') : t('tour.perPerson')}
+  </span>
+</div>

@@ -1,0 +1,99 @@
+---
+// §13.4 TourCard — used by Home §6.6, the catalogue, destination pages and the
+// promotions view. One component, so the flight line and the departure floor
+// cannot say different things in different places.
+import { Image } from 'astro:assets';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { tryResolveImage } from '../../lib/images';
+import { upcomingDepartures, durationBucket, priceBucket, type Tour } from '../../lib/tours';
+import { formatDateShort } from '../../lib/format';
+import type { TFunction } from '../../i18n/t';
+import PriceTag from '../ui/PriceTag.astro';
+import Badge from '../ui/Badge.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props { tour: Tour; locale: string; t: TFunction; eager?: boolean }
+const { tour, locale, t, eager = false } = Astro.props;
+
+const d = tour.data;
+const b = d.i18n[locale]!;
+const cover = tryResolveImage(d.images.cover);
+const href = getRelativeLocaleUrl(locale, `/tours/${d.slug}/`);
+const upcoming = upcomingDepartures(tour);
+
+const badgeTone = (badge: string) => (badge === 'discount' ? 'accent' : badge === 'last-minute' ? 'hot' : 'brand');
+---
+<article
+  class="reveal group flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-neutral-200 bg-white"
+  data-tour
+  data-country={d.country}
+  data-category={d.category}
+  data-duration={durationBucket(d.duration.days)}
+  data-price={priceBucket(d.price.amount, d.price.currency)}
+>
+  <a href={href} class="relative block overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" tabindex="-1" aria-hidden="true">
+    {cover ? (
+      <Image
+        src={cover}
+        alt=""
+        widths={[400, 800]}
+        sizes="(max-width: 640px) 100vw, 400px"
+        format="webp"
+        loading={eager ? 'eager' : 'lazy'}
+        class="aspect-[3/2] w-full object-cover transition-transform duration-400 group-hover:scale-[1.03] motion-reduce:transform-none"
+      />
+    ) : (
+      /* §7.1 — a missing cover WARNS at build and substitutes this block. It must
+         never block a client publish, and it must never render as a broken image. */
+      <div class="grid aspect-[3/2] w-full place-items-center bg-neutral-100 text-neutral-600">
+        <Icon name="map" size={40} />
+      </div>
+    )}
+    {d.badges.length > 0 && (
+      <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+        {d.badges.map((badge) => <Badge tone={badgeTone(badge)}>{t(`tour.badge.${badge}`)}</Badge>)}
+      </div>
+    )}
+  </a>
+
+  <div class="flex flex-1 flex-col gap-3 p-5">
+    <p class="flex flex-wrap items-center gap-x-2 text-xs text-neutral-600">
+      <span>{t(`country.${d.country}`)}</span>
+      <span aria-hidden="true">·</span>
+      <span>{t('tour.durationValue', { nights: d.duration.nights, days: d.duration.days })}</span>
+      <span aria-hidden="true">·</span>
+      <span>{t(`category.${d.category}`)}</span>
+    </p>
+
+    <h3 class="text-lg leading-snug font-semibold text-brand-900">
+      <a href={href} class="after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        {b.title}
+      </a>
+    </h3>
+
+    <p class="line-clamp-3 text-sm text-neutral-600">{b.summary}</p>
+
+    <p class="mt-auto flex items-center gap-1.5 text-xs text-neutral-600">
+      <Icon name="plane" size={16} />
+      {/* BC6 — rendered FROM THE BOOLEAN through t(), never from priceNote or any
+          other free prose. priceNote is supporting detail; the boolean is the fact. */}
+      {d.flightIncluded ? t('tour.flightIncluded') : t('tour.flightNotIncluded')}
+    </p>
+
+    <p class="flex items-center gap-1.5 text-xs text-neutral-600">
+      <Icon name="calendar" size={16} />
+      {upcoming.length === 0 ? (
+        t('tour.datesOnRequest')
+      ) : (
+        <span data-departures-list data-empty-label={t('tour.datesOnRequest')}>
+          {upcoming.slice(0, 3).map((iso) => (
+            <time datetime={iso} data-departure class="mr-2 inline-block">{formatDateShort(iso, locale)}</time>
+          ))}
+        </span>
+      )}
+    </p>
+
+    <PriceTag amount={d.price.amount} currency={d.price.currency} oldAmount={d.price.oldAmount}
+      per={d.price.per} locale={locale} t={t} class="relative" />
+  </div>
+</article>

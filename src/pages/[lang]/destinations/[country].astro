@@ -1,0 +1,87 @@
+---
+// §5 — destination detail: A THIN TEMPLATE OVER THE TOUR FILTER, not a bespoke
+// page (bespoke pages are a priced add-on, §16.1). Its job is to be the SEO
+// landing for "Turkiyaga tur" and hand the visitor straight to that country's
+// tours.
+//
+// §7.1 non-emission applies here too: a destination with no block for a locale
+// produces no page in that locale, and `availableLocales` carries the same set
+// into hreflang and the switcher (BC8).
+import { Image } from 'astro:assets';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { SHIPPED_LOCALES } from '../../../i18n/locales.mjs';
+import { useTranslations } from '../../../i18n/t';
+import { getToursFor } from '../../../lib/tours';
+import { tryResolveImage } from '../../../lib/images';
+import { breadcrumbSchema } from '../../../lib/seo';
+import TourCard from '../../../components/cards/TourCard.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import Button from '../../../components/ui/Button.astro';
+
+export async function getStaticPaths() {
+  const destinations = await getCollection('destinations');
+  return destinations.flatMap((dest) => {
+    const available = SHIPPED_LOCALES.filter((l) => dest.data.i18n[l] !== undefined);
+    return available.map((lang) => ({
+      params: { lang, country: dest.data.slug },
+      props: { dest, availableLocales: available },
+    }));
+  });
+}
+
+const { dest, availableLocales } = Astro.props;
+const lang = Astro.params.lang!;
+const t = useTranslations(lang);
+
+const d = dest.data;
+const b = d.i18n[lang]!;
+const img = tryResolveImage(d.image);
+const tours = (await getToursFor(lang)).filter((x) => x.data.country === d.country);
+
+const path = `/destinations/${d.slug}/`;
+const crumbs = [
+  { name: t('breadcrumb.home'), path: `/${lang}/` },
+  { name: t('destinations.all'), path: `/${lang}/destinations/` },
+  { name: b.name, path: `/${lang}${path}` },
+];
+---
+<Base
+  locale={lang}
+  title={b.seo?.title ?? `${b.name} — ${t('site.name')}`}
+  description={b.seo?.description ?? b.summary}
+  availableLocales={availableLocales}
+  path={path}
+  schemas={[breadcrumbSchema(Astro.site, crumbs)]}
+>
+  <section class="relative isolate overflow-hidden bg-brand-900">
+    {img && (
+      <Image src={img} alt="" widths={[800, 1600]} sizes="100vw" format="webp" loading="eager"
+        class="absolute inset-0 -z-10 h-full w-full object-cover opacity-35" />
+    )}
+    <div class="mx-auto max-w-[var(--container-site)] px-4 py-14 sm:px-6 sm:py-20">
+      <Breadcrumbs crumbs={crumbs} class="[&_a]:text-neutral-200 [&_span]:text-neutral-300" />
+      <h1 class="mt-4 text-3xl font-bold text-white sm:text-5xl">{b.name}</h1>
+      <p class="mt-4 max-w-[68ch] text-lg text-neutral-100">{b.summary}</p>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-[var(--container-site)] px-4 py-12 sm:px-6">
+    {b.body && <p class="max-w-[68ch] text-neutral-800">{b.body}</p>}
+
+    <h2 class="mt-10 text-2xl font-bold text-brand-900">{t('catalog.title')}</h2>
+    {tours.length > 0 ? (
+      <ul class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {tours.map((tour) => <li class="relative"><TourCard tour={tour} locale={lang} t={t} /></li>)}
+      </ul>
+    ) : (
+      /* A country hub with no tours is a real state — the client adds countries
+         before packages. It gets a route to a lead form, not an empty grid. */
+      <div class="mt-6 rounded-[var(--radius-lg)] border border-neutral-200 bg-neutral-50 p-6">
+        <p class="text-neutral-600">{t('destinations.empty')}</p>
+        <Button href={getRelativeLocaleUrl(lang, '/contacts/')} variant="accent" class="mt-4">{t('cta.request')}</Button>
+      </div>
+    )}
+  </div>
+</Base>

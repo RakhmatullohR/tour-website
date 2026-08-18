@@ -1,0 +1,127 @@
+{
+  "id": "tr-istanbul-4n",
+  "slug": "turkiya-istanbul-5-kun",
+  "status": "published",
+  "featured": true,
+  "order": 20,
+  "country": "TR",
+  "cities": [
+    "Istanbul"
+  ],
+  "category": "excursion",
+  "departureCity": "Toshkent",
+  "duration": {
+    "days": 5,
+    "nights": 4
+  },
+  "price": {
+    "amount": 4300000,
+    "currency": "UZS",
+    "per": "person"
+  },
+  "flightIncluded": false,
+  "groupSize": {
+    "min": 2,
+    "max": 16
+  },
+  "departures": [
+    "2026-09-12",
+    "2026-10-10",
+    "2026-11-07"
+  ],
+  "badges": [
+    "hot"
+  ],
+  "images": {
+    "cover": "tour-turkiya-istanbul-cover-1200x800.webp",
+    "gallery": []
+  },
+  "i18n": {
+    "uz": {
+      "title": "Istanbul — 4 kecha 5 kun, ekskursiya va shopping",
+      "summary": "Ayasofya, Sultonahmet va Bosfor sayohati. Shopping uchun ham kun ajratilgan.",
+      "priceNote": "Narxga aviabilet kirmaydi.",
+      "includes": [
+        "Mehmonxona 4* (4 kecha)",
+        "Nonushta",
+        "Shahar ekskursiyasi",
+        "Bosfor boʻylab kema sayohati",
+        "Aeroport transferi"
+      ],
+      "excludes": [
+        "Aviabilet",
+        "Tushlik va kechki ovqat",
+        "Muzey chiptalari"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Kelish, mehmonxonaga joylashish, Sultonahmet maydoni boʻylab kechki sayr."
+        },
+        {
+          "day": 2,
+          "text": "Ayasofya, Koʻk masjid va Topqopi saroyi ekskursiyasi."
+        },
+        {
+          "day": 3,
+          "text": "Bosfor boʻylab kema sayohati va Misr bozori."
+        },
+        {
+          "day": 4,
+          "text": "Erkin kun — shopping (Istinye Park yoki Grand Bazaar)."
+        },
+        {
+          "day": 5,
+          "text": "Aeroportga transfer va qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Istanbul — 4 kecha 5 kun, ekskursiya va shopping",
+        "description": "Ayasofya, Sultonahmet va Bosfor sayohati. Shopping uchun ham kun ajratilgan."
+      }
+    },
+    "ru": {
+      "title": "Стамбул — 4 ночи 5 дней, экскурсии и шоппинг",
+      "summary": "Айя-София, Султанахмет и прогулка по Босфору. Отдельный день отведён на шоппинг.",
+      "priceNote": "Авиабилет не включён в стоимость.",
+      "includes": [
+        "Отель 4* (4 ночи)",
+        "Завтрак",
+        "Обзорная экскурсия",
+        "Прогулка по Босфору",
+        "Трансфер из аэропорта"
+      ],
+      "excludes": [
+        "Авиабилет",
+        "Обед и ужин",
+        "Билеты в музеи"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Прибытие, заселение, вечерняя прогулка по площади Султанахмет."
+        },
+        {
+          "day": 2,
+          "text": "Экскурсия: Айя-София, Голубая мечеть и дворец Топкапы."
+        },
+        {
+          "day": 3,
+          "text": "Прогулка по Босфору и Египетский базар."
+        },
+        {
+          "day": 4,
+          "text": "Свободный день — шоппинг (Istinye Park или Гранд-базар)."
+        },
+        {
+          "day": 5,
+          "text": "Трансфер в аэропорт и возвращение."
+        }
+      ],
+      "seo": {
+        "title": "Стамбул — 4 ночи 5 дней, экскурсии и шоппинг",
+        "description": "Айя-София, Султанахмет и прогулка по Босфору. Отдельный день отведён на шоппинг."
+      }
+    }
+  }
+}

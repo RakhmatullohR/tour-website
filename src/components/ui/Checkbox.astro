@@ -1,0 +1,28 @@
+---
+// §13.4 Checkbox. Radio folded in here as a `type` — §13.4 cut Radio as a separate
+// component precisely because the styles are identical.
+interface Props {
+  name: string;
+  value?: string;
+  type?: 'checkbox' | 'radio';
+  required?: boolean;
+  checked?: boolean;
+  class?: string;
+}
+const { name, value, type = 'checkbox', required = false, checked = false, class: cls = '' } = Astro.props;
+const id = `c-${name}-${(value ?? '').replace(/\W/g, '')}-${Math.random().toString(36).slice(2, 6)}`;
+---
+<div class={`flex items-start gap-2.5 ${cls}`}>
+  <input
+    id={id}
+    name={name}
+    value={value}
+    type={type}
+    required={required}
+    checked={checked}
+    aria-describedby={`${id}-err`}
+    class="mt-1 h-5 w-5 shrink-0 accent-[var(--color-brand-700)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+  />
+  <label for={id} class="text-sm text-neutral-600"><slot /></label>
+</div>
+<p id={`${id}-err`} data-error-for={name} aria-live="polite" class="hidden pl-7 text-sm text-red-600"></p>

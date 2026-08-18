@@ -1,0 +1,92 @@
+---
+// §5 — About. REVIEWS ARE FOLDED IN HERE; the standalone Reviews page was cut for
+// having zero provenance and zero supplied content (§2.1).
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { SHIPPED_LOCALES } from '../../i18n/locales.mjs';
+import { useTranslations } from '../../i18n/t';
+import { resolveImage } from '../../lib/images';
+import { getReviewsFor } from '../../lib/tours';
+import { travelAgencySchema, breadcrumbSchema } from '../../lib/seo';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import ReviewCard from '../../components/cards/ReviewCard.astro';
+import Icon from '../../components/ui/Icon.astro';
+import Button from '../../components/ui/Button.astro';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+export function getStaticPaths() {
+  return SHIPPED_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang!;
+const t = useTranslations(lang);
+const reviews = await getReviewsFor(lang);
+const img = resolveImage('about-team-1600x900.webp');
+
+const crumbs = [
+  { name: t('breadcrumb.home'), path: `/${lang}/` },
+  { name: t('about.title'), path: `/${lang}/about/` },
+];
+
+const values = [
+  { icon: 'transfer' as const, title: 'why.fleet.title', text: 'why.fleet.text' },
+  { icon: 'guide' as const, title: 'why.guide.title', text: 'why.guide.text' },
+  { icon: 'shield' as const, title: 'why.insurance.title', text: 'why.insurance.text' },
+  { icon: 'users' as const, title: 'why.manager.title', text: 'why.manager.text' },
+] as const;
+---
+<Base
+  locale={lang}
+  title={`${t('about.title')} — ${t('site.name')}`}
+  description={t('about.lead')}
+  availableLocales={SHIPPED_LOCALES}
+  path="/about/"
+  schemas={[travelAgencySchema(Astro.site, lang, t('about.lead')), breadcrumbSchema(Astro.site, crumbs)]}
+>
+  <div class="mx-auto max-w-[var(--container-site)] px-4 py-10 sm:px-6 sm:py-14">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1 class="mt-4 text-3xl font-bold text-brand-900 sm:text-4xl">{t('about.title')}</h1>
+    <p class="mt-4 max-w-[68ch] text-lg text-neutral-800">{t('about.lead')}</p>
+
+    <Image src={img} alt={t('why.imageAlt')} widths={[800, 1400]} sizes="(max-width: 1240px) 100vw, 1176px"
+      format="webp" loading="eager" class="mt-8 aspect-[16/9] w-full rounded-[var(--radius-lg)] object-cover" />
+
+    <section aria-labelledby="mission-h" class="mt-12 max-w-[68ch]">
+      <h2 id="mission-h" class="text-2xl font-bold text-brand-900">{t('about.mission.title')}</h2>
+      <p class="mt-3 text-neutral-800">{t('about.mission.text')}</p>
+    </section>
+
+    <section aria-labelledby="values-h" class="mt-12">
+      <h2 id="values-h" class="text-2xl font-bold text-brand-900">{t('about.values.title')}</h2>
+      <ul class="mt-6 grid gap-6 sm:grid-cols-2">
+        {values.map((v) => (
+          <li class="reveal rounded-[var(--radius-lg)] border border-neutral-200 p-6">
+            <span class="grid h-11 w-11 place-items-center rounded-[var(--radius-md)] bg-brand-700 text-white">
+              <Icon name={v.icon} size={22} />
+            </span>
+            <h3 class="mt-3 font-semibold text-brand-900">{t(v.title)}</h3>
+            <p class="mt-1.5 text-sm text-neutral-600">{t(v.text)}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {/* Auto-hides when the client has supplied no real reviews (Q14). */}
+    {reviews.length > 0 && (
+      <section aria-labelledby="rev-h" class="mt-14">
+        <h2 id="rev-h" class="text-2xl font-bold text-brand-900">{t('about.reviews.title')}</h2>
+        <ul class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {reviews.map((r) => <li><ReviewCard review={r} locale={lang} /></li>)}
+        </ul>
+      </section>
+    )}
+
+    <section aria-labelledby="ac-h" class="mt-14 rounded-[var(--radius-lg)] bg-brand-900 p-8 text-white">
+      <h2 id="ac-h" class="text-2xl font-bold">{t('about.contact.title')}</h2>
+      <p class="mt-2 text-neutral-200">{t('cta.subtitle')}</p>
+      <Button href={getRelativeLocaleUrl(lang, '/contacts/')} variant="accent" size="lg" class="mt-5">
+        {t('cta.request')}
+      </Button>
+    </section>
+  </div>
+</Base>

@@ -1,0 +1,117 @@
+{
+  "id": "my-kl-6n",
+  "slug": "malayziya-kuala-lumpur-7-kun",
+  "status": "published",
+  "featured": false,
+  "order": 70,
+  "country": "MY",
+  "cities": [
+    "Kuala-Lumpur",
+    "Langkavi"
+  ],
+  "category": "family",
+  "departureCity": "Toshkent",
+  "duration": {
+    "days": 7,
+    "nights": 6
+  },
+  "price": {
+    "amount": 12400000,
+    "currency": "UZS",
+    "per": "person"
+  },
+  "flightIncluded": false,
+  "groupSize": {
+    "min": 2,
+    "max": 12
+  },
+  "departures": [
+    "2026-11-07",
+    "2026-12-26"
+  ],
+  "badges": [],
+  "images": {
+    "cover": "tour-malayziya-kuala-lumpur-cover-1200x800.webp",
+    "gallery": []
+  },
+  "i18n": {
+    "uz": {
+      "title": "Kuala-Lumpur va Langkavi — 6 kecha 7 kun",
+      "summary": "Zamonaviy shahar va tropik orollar bir dasturda. Halol ovqatlanish hamma joyda mavjud.",
+      "priceNote": "Narxga aviabilet kirmaydi.",
+      "includes": [
+        "Mehmonxona 4* (6 kecha)",
+        "Nonushta",
+        "Shahar ekskursiyasi",
+        "Ichki parvoz Langkavigacha",
+        "Aeroport transferi"
+      ],
+      "excludes": [
+        "Xalqaro aviabilet",
+        "Tushlik va kechki ovqat",
+        "Qoʻshimcha ekskursiyalar"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Kelish, Kuala-Lumpurga joylashish."
+        },
+        {
+          "day": 2,
+          "text": "Petronas minoralari, Batu gʻorlari va shahar markazi ekskursiyasi."
+        },
+        {
+          "day": 4,
+          "text": "Langkavi oroliga ichki parvoz, sohilda dam olish."
+        },
+        {
+          "day": 7,
+          "text": "Aeroportga transfer va qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Kuala-Lumpur va Langkavi — 6 kecha 7 kun",
+        "description": "Zamonaviy shahar va tropik orollar bir dasturda. Halol ovqatlanish hamma joyda mavjud."
+      }
+    },
+    "ru": {
+      "title": "Куала-Лумпур и Лангкави — 6 ночей 7 дней",
+      "summary": "Современный город и тропические острова в одной программе. Халяльное питание доступно везде.",
+      "priceNote": "Авиабилет не включён в стоимость.",
+      "includes": [
+        "Отель 4* (6 ночей)",
+        "Завтрак",
+        "Обзорная экскурсия",
+        "Внутренний перелёт на Лангкави",
+        "Трансфер из аэропорта"
+      ],
+      "excludes": [
+        "Международный авиабилет",
+        "Обед и ужин",
+        "Дополнительные экскурсии"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Прибытие и заселение в Куала-Лумпуре."
+        },
+        {
+          "day": 2,
+          "text": "Экскурсия: башни Петронас, пещеры Бату и центр города."
+        },
+        {
+          "day": 4,
+          "text": "Внутренний перелёт на Лангкави, отдых на побережье."
+        },
+        {
+          "day": 7,
+          "text": "Трансфер в аэропорт и возвращение."
+        }
+      ],
+      "seo": {
+        "title": "Куала-Лумпур и Лангкави — 6 ночей 7 дней",
+        "description": "Современный город и тропические острова в одной программе. Халяльное питание доступно везде."
+      }
+    }
+  }
+}

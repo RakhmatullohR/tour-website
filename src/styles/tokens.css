@@ -8,6 +8,9 @@
   --color-brand-900: #06232b;
   --color-brand-700: #0c4a5a;
   --color-brand-500: #1189a6;
+  /* 4.96:1 on white — safe for SMALL text, unlike --brand-500's 4.08:1.
+     Used wherever a brand-coloured word sits inline with body-sized text. */
+  --color-brand-600: #0e7a94;
   --color-brand-300: #6fc7d9;
 
   --color-accent-500: #f2a03d;
@@ -34,6 +37,7 @@
 
 /* ⚠️ CONTRAST RULE, NOT A CLAIM (PLAN §13.1).
    White on --color-brand-500 does NOT reach 4.5:1 and must never carry small text.
+   Small brand text : --color-brand-600  (NOT --color-brand-500)
    Primary buttons  : --color-brand-700  + white
    Amber CTA buttons: --color-accent-500 + --color-brand-900
    Every final pairing is verified in PLAN §18. Nothing ships on assumption. */

@@ -1,8 +1,8 @@
 {
-  "_comment_1": "NUSXA OLING, noldan yozmang. Bu faylni ko'chirib, yangi nom bering: masalan turkiya-kemer.json",
-  "_comment_2": "Fayl nomi va \"slug\" bir xil bo'lsin. Faqat kichik lotin harflari va chiziqcha.",
+  "_comment_1": "NUSXA OLING, noldan yozmang. Bu faylni koʻchirib, yangi nom bering: masalan turkiya-kemer.json",
+  "_comment_2": "Fayl nomi va \"slug\" bir xil boʻlsin. Faqat kichik lotin harflari va chiziqcha.",
   "_comment_3": "Narx FAQAT shu yerda — \"price\" ichida. Tillar ichida narx yozmang.",
-  "_comment_4": "flightIncluded false bo'lsa, HAR BIR tilda priceNote yozilishi SHART, aks holda sayt yig'ilmaydi.",
+  "_comment_4": "flightIncluded false boʻlsa, HAR BIR tilda priceNote yozilishi SHART, aks holda sayt yigʻilmaydi.",
 
   "id": "xx-shahar-7n",
   "slug": "davlat-shahar-7-kun",
@@ -31,16 +31,16 @@
       "title": "Tur nomi — 7 kecha 8 kun",
       "summary": "Tur haqida qisqacha, 2-3 gap.",
       "priceNote": "Narxga aviabilet kirmaydi.",
-      "includes": ["Mehmonxona", "Transfer", "Sug'urta"],
+      "includes": ["Mehmonxona", "Transfer", "Sugʻurta"],
       "excludes": ["Aviabilet", "Viza", "Shaxsiy xarajatlar"],
       "itinerary": []
     },
     "ru": {
-      "title": "Nazvanie tura — 7 nochey 8 dney",
-      "summary": "Kratko o ture, 2-3 predlozheniya.",
-      "priceNote": "Aviabilet ne vklyuchen v stoimost.",
-      "includes": ["Otel", "Transfer", "Strahovka"],
-      "excludes": ["Aviabilet", "Viza", "Lichnye rashody"],
+      "title": "Название тура — 7 ночей 8 дней",
+      "summary": "Кратко о туре, 2-3 предложения.",
+      "priceNote": "Авиабилет не включён в стоимость.",
+      "includes": ["Отель", "Трансфер", "Страховка"],
+      "excludes": ["Авиабилет", "Виза", "Личные расходы"],
       "itinerary": []
     }
   }

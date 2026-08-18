@@ -1,0 +1,19 @@
+---
+// Home §6 row 3 — the quick enquiry bar. THE HIGHEST-INTENT CAPTURE POINT on the
+// page, which is why it sits directly under the hero and asks for four fields,
+// only one of them required.
+import type { TFunction } from '../../i18n/t';
+import LeadForm from '../forms/LeadForm.astro';
+
+interface Props { locale: string; t: TFunction }
+const { locale, t } = Astro.props;
+---
+<section aria-labelledby="quick-h" class="relative z-10 bg-white">
+  <div class="mx-auto max-w-[var(--container-site)] px-4 sm:px-6">
+    <div class="-mt-10 rounded-[var(--radius-lg)] border border-neutral-200 bg-white p-5 shadow-sm sm:p-6">
+      <h2 id="quick-h" class="text-xl font-bold text-brand-900">{t('quick.title')}</h2>
+      <p class="mt-1 text-sm text-neutral-600">{t('quick.subtitle')}</p>
+      <LeadForm variant="quick" locale={locale} t={t} inline class="mt-5" />
+    </div>
+  </div>
+</section>

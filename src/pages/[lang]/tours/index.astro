@@ -1,0 +1,53 @@
+---
+// §5 — the tour catalogue, filterable by country / duration / price / category.
+//
+// THE FILTERS DEGRADE TO THE FULL LIST WITH JS DISABLED (Gate 1). Every card is in
+// the emitted HTML and carries its facets as data attributes; the JS only hides
+// cards. With JS off nothing is hidden, so a no-JS visitor sees every tour rather
+// than an empty grid — which is strictly better than a filter that does not work.
+import Base from '../../../layouts/Base.astro';
+import { SHIPPED_LOCALES } from '../../../i18n/locales.mjs';
+import { useTranslations } from '../../../i18n/t';
+import { getToursFor } from '../../../lib/tours';
+import { breadcrumbSchema } from '../../../lib/seo';
+import TourCard from '../../../components/cards/TourCard.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import TourFilters from '../../../components/islands/TourFilters.astro';
+
+export function getStaticPaths() {
+  return SHIPPED_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang!;
+const t = useTranslations(lang);
+const tours = await getToursFor(lang);
+
+const crumbs = [
+  { name: t('breadcrumb.home'), path: `/${lang}/` },
+  { name: t('catalog.title'), path: `/${lang}/tours/` },
+];
+---
+<Base
+  locale={lang}
+  title={`${t('catalog.title')} — ${t('site.name')}`}
+  description={t('catalog.subtitle')}
+  availableLocales={SHIPPED_LOCALES}
+  path="/tours/"
+  schemas={[breadcrumbSchema(Astro.site, crumbs)]}
+>
+  <div class="mx-auto max-w-[var(--container-site)] px-4 py-10 sm:px-6 sm:py-14">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1 class="mt-4 text-3xl font-bold text-brand-900 sm:text-4xl">{t('catalog.title')}</h1>
+    <p class="mt-3 max-w-[68ch] text-neutral-600">{t('catalog.subtitle')}</p>
+
+    <TourFilters tours={tours} locale={lang} t={t} class="mt-8" />
+
+    <ul data-tour-grid class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {tours.map((tour) => <li class="relative"><TourCard tour={tour} locale={lang} t={t} /></li>)}
+    </ul>
+
+    <p data-tour-empty hidden class="mt-10 rounded-[var(--radius-lg)] border border-neutral-200 bg-neutral-50 p-6 text-neutral-600">
+      {t('catalog.empty')}
+    </p>
+  </div>
+</Base>

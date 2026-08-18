@@ -1,0 +1,162 @@
+---
+// The client half of §9. ONE delegated handler for every lead form on the page,
+// so adding a form costs zero additional JS.
+//
+// Everything here is an UPGRADE on a form that already works without it: with JS
+// off the native `required` attributes validate and the hidden iframe carries the
+// POST (§9.2, §9.4).
+import type { TFunction } from '../../i18n/t';
+interface Props { t: TFunction }
+const { t } = Astro.props;
+
+// The messages are resolved at BUILD time in the page's own locale and handed to
+// the script as data — the script never imports a dictionary, so no i18n payload
+// ships to the browser.
+const messages = {
+  required: t('form.required'),
+  invalidPhone: t('form.invalidPhone'),
+  invalidEmail: t('form.invalidEmail'),
+  consentRequired: t('form.consentRequired'),
+};
+---
+<script is:inline set:html={`window.__gtFormMsg=${JSON.stringify(messages)}`} />
+<script>
+  import { submitLead, isValidPhone, normalisePhone, loadDraft, type LeadPayload } from '../../lib/submitLead';
+
+  type Msg = { required: string; invalidPhone: string; invalidEmail: string; consentRequired: string };
+  const msg: Msg = (window as unknown as { __gtFormMsg: Msg }).__gtFormMsg;
+
+  const setError = (form: HTMLFormElement, name: string, text: string | null) => {
+    const node = form.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
+    const input = form.querySelector<HTMLInputElement>(`[name="${name}"]`);
+    if (node) {
+      node.textContent = text ?? '';
+      node.hidden = !text;
+      node.classList.toggle('hidden', !text);
+    }
+    if (input) {
+      if (text) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+    }
+  };
+
+  /** Inline, aria-describedby-linked, in the page's locale (§9.2). Returns the
+   *  first invalid control so focus can move there — a validation message the
+   *  user cannot find is not a validation message. */
+  function validate(form: HTMLFormElement): HTMLElement | null {
+    let firstBad: HTMLElement | null = null;
+    const bad = (el: HTMLElement | null, name: string, text: string) => {
+      setError(form, name, text);
+      if (!firstBad) firstBad = el;
+    };
+
+    const phone = form.querySelector<HTMLInputElement>('[name="phone"]');
+    if (phone) {
+      if (!phone.value.trim()) bad(phone, 'phone', msg.required);
+      else if (!isValidPhone(phone.value)) bad(phone, 'phone', msg.invalidPhone);
+      else setError(form, 'phone', null);
+    }
+
+    const name = form.querySelector<HTMLInputElement>('[name="name"]');
+    if (name?.required) {
+      if (!name.value.trim()) bad(name, 'name', msg.required);
+      else setError(form, 'name', null);
+    }
+
+    const email = form.querySelector<HTMLInputElement>('[name="email"]');
+    if (email?.value.trim()) {
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value.trim())) bad(email, 'email', msg.invalidEmail);
+      else setError(form, 'email', null);
+    }
+
+    const consent = form.querySelector<HTMLInputElement>('[name="consent"]');
+    if (consent?.required) {
+      if (!consent.checked) bad(consent, 'consent', msg.consentRequired);
+      else setError(form, 'consent', null);
+    }
+
+    return firstBad;
+  }
+
+  const busy = (form: HTMLFormElement, on: boolean) => {
+    const btn = form.querySelector<HTMLButtonElement>('[data-submit]');
+    if (!btn) return;
+    btn.disabled = on; // double-submit guard (§9.2)
+    form.querySelector<HTMLElement>('[data-label-idle]')!.hidden = on;
+    form.querySelector<HTMLElement>('[data-label-busy]')!.hidden = !on;
+  };
+
+  for (const form of document.querySelectorAll<HTMLFormElement>('[data-lead-form]')) {
+    // §9.5 time trap — stamped now, checked in submitLead(). A submission that
+    // arrives under 2 s on a multi-field form is a bot.
+    const stamp = form.querySelector<HTMLInputElement>('[name="renderedAt"]');
+    if (stamp) stamp.value = String(Date.now());
+
+    // §9.4 — the draft survives a failed submit so the user never retypes.
+    const draft = loadDraft();
+    if (draft) {
+      for (const [k, v] of Object.entries(draft)) {
+        const el = form.querySelector<HTMLInputElement>(`[name="${k}"]`);
+        if (el && !el.value && typeof v === 'string' && k !== 'website') el.value = v;
+      }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const firstBad = validate(form);
+      if (firstBad) {
+        firstBad.focus();
+        return;
+      }
+
+      const fd = new FormData(form);
+      const get = (k: string) => {
+        const v = fd.get(k);
+        return typeof v === 'string' && v.trim() ? v.trim() : undefined;
+      };
+      const renderedAt = Number(fd.get('renderedAt') ?? 0);
+
+      const payload: LeadPayload = {
+        form: (get('form') ?? 'lead') as LeadPayload['form'],
+        phone: normalisePhone(String(fd.get('phone') ?? '')),
+        name: get('name'),
+        email: get('email'),
+        message: get('message'),
+        comment: get('comment'),
+        dates: get('dates'),
+        pax: get('pax'),
+        destination: get('destination'),
+        tourId: get('tourId'),
+        tourTitle: get('tourTitle'),
+        contactPref: get('contactPref') as LeadPayload['contactPref'],
+        locale: get('locale') ?? 'uz',
+        page: location.pathname,
+        website: get('website'),
+        elapsedMs: renderedAt ? Date.now() - renderedAt : undefined,
+      } as LeadPayload;
+
+      busy(form, true);
+      const errBox = form.querySelector<HTMLElement>('[data-error-box]');
+      if (errBox) errBox.hidden = true;
+
+      const result = await submitLead(payload, {
+        endpoint: form.dataset.endpoint ?? '',
+        token: form.dataset.token ?? '',
+      });
+
+      if (result === 'error') {
+        busy(form, false);
+        if (errBox) {
+          errBox.hidden = false;
+          errBox.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+        return;
+      }
+
+      // 'ok' AND 'discarded' both land here. Telling a bot it was detected is how
+      // it learns to evade the check (§9.5), so the two are indistinguishable.
+      window.__gtMetrica?.('form_submit');
+      location.href = form.dataset.thanks ?? '/';
+    });
+  }
+</script>

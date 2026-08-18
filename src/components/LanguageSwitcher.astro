@@ -13,20 +13,34 @@
 // `availableLocales` is the SAME set getStaticPaths() used to decide emission and
 // the same set that drives this page's hreflang, so the three can never disagree.
 import { getRelativeLocaleUrl } from 'astro:i18n';
-import { LOCALE_LABELS } from '../i18n/locales.mjs';
+import { LOCALE_LABELS, LOCALE_SHORT } from '../i18n/locales.mjs';
 
-interface Props { locale: string; availableLocales: string[]; path: string }
-const { locale, availableLocales, path } = Astro.props;
+interface Props {
+  locale: string;
+  availableLocales: string[];
+  path: string;
+  /** Header mode: two-letter codes instead of full names, with the full name kept
+   *  as sr-only text. Full labels overflow the header row (measured: 19 px past a
+   *  500 px viewport, 187 px past 1024 px). */
+  compact?: boolean;
+}
+const { locale, availableLocales, path, compact = false } = Astro.props as Props;
 ---
 <nav aria-label="Til" class="flex items-center gap-1 text-sm">
   {availableLocales.map((l) =>
     l === locale ? (
       <span aria-current="true" class="rounded-[var(--radius-sm)] bg-brand-700 px-2.5 py-1 font-medium text-white">
-        {LOCALE_LABELS[l] ?? l}
+        {compact ? (LOCALE_SHORT[l] ?? l) : (LOCALE_LABELS[l] ?? l)}
+        {compact && <span class="sr-only"> — {LOCALE_LABELS[l] ?? l}</span>}
       </span>
     ) : (
-      <a href={getRelativeLocaleUrl(l, path)} class="rounded-[var(--radius-sm)] px-2.5 py-1 text-neutral-600 hover:bg-neutral-100">
-        {LOCALE_LABELS[l] ?? l}
+      <a
+        href={getRelativeLocaleUrl(l, path)}
+        data-metrica="lang_switch"
+        class="rounded-[var(--radius-sm)] px-2.5 py-1 text-neutral-600 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+      >
+        {compact ? (LOCALE_SHORT[l] ?? l) : (LOCALE_LABELS[l] ?? l)}
+        {compact && <span class="sr-only"> — {LOCALE_LABELS[l] ?? l}</span>}
       </a>
     ),
   )}

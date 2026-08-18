@@ -1,0 +1,24 @@
+---
+// §13.4 cut Breadcrumbs as a component and specified it inline — but it feeds
+// BreadcrumbList JSON-LD on four route types, and duplicating the markup four
+// times is how the visible trail and the structured data drift apart. One
+// component, one source, both outputs.
+interface Props { crumbs: { name: string; path: string }[]; class?: string }
+const { crumbs, class: cls = '' } = Astro.props;
+---
+<nav aria-label="Breadcrumb" class={cls}>
+  <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-neutral-600">
+    {crumbs.map((c, i) => (
+      <li class="flex items-center gap-2">
+        {i > 0 && <span aria-hidden="true" class="text-neutral-600">/</span>}
+        {i === crumbs.length - 1 ? (
+          <span aria-current="page" class="text-neutral-800">{c.name}</span>
+        ) : (
+          <a href={c.path} class="hover:text-brand-700 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            {c.name}
+          </a>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>

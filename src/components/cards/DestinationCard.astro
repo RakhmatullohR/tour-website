@@ -1,0 +1,52 @@
+---
+// §13.4 DestinationCard — Home §6.5 and the destinations index.
+import { Image } from 'astro:assets';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { tryResolveImage } from '../../lib/images';
+import { formatPrice } from '../../lib/format';
+import type { TFunction } from '../../i18n/t';
+import type { Destination } from '../../lib/tours';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  destination: Destination;
+  locale: string;
+  t: TFunction;
+  from: { amount: number; currency: string; count: number } | null;
+}
+const { destination, locale, t, from } = Astro.props;
+const d = destination.data;
+const b = d.i18n[locale]!;
+const img = tryResolveImage(d.image);
+const href = getRelativeLocaleUrl(locale, `/destinations/${d.slug}/`);
+---
+<article class="reveal group relative overflow-hidden rounded-[var(--radius-lg)] bg-neutral-900">
+  {img ? (
+    <Image src={img} alt="" widths={[400, 800]} sizes="(max-width: 640px) 50vw, 300px" format="webp"
+      loading="lazy"
+      class="aspect-[4/5] w-full object-cover opacity-80 transition-transform duration-400 group-hover:scale-[1.03] motion-reduce:transform-none" />
+  ) : (
+    <div class="grid aspect-[4/5] w-full place-items-center bg-neutral-800 text-neutral-400"><Icon name="map" size={40} /></div>
+  )}
+
+  {/* The scrim is what makes white text on a photograph pass contrast (§13.1).
+      It is not decoration — without it the label is unreadable on a light photo. */}
+  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"></div>
+
+  <div class="absolute inset-x-0 bottom-0 p-4">
+    <h3 class="text-lg font-semibold text-white">
+      <a href={href} class="after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+        {b.name}
+      </a>
+    </h3>
+    {from ? (
+      <p class="mt-1 text-sm text-neutral-200">
+        {t('destinations.tourCount', { n: from.count })}
+        <span aria-hidden="true"> · </span>
+        {t('destinations.from')} {formatPrice(from.amount, from.currency, locale)}
+      </p>
+    ) : (
+      <p class="mt-1 text-sm text-neutral-200">{t('destinations.viewTours')}</p>
+    )}
+  </div>
+</article>

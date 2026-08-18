@@ -5,32 +5,117 @@
   "featured": true,
   "order": 10,
   "country": "TR",
-  "cities": ["Antalya"],
+  "cities": [
+    "Antalya"
+  ],
   "category": "beach",
   "departureCity": "Toshkent",
-  "duration": { "days": 8, "nights": 7 },
-  "price": { "amount": 6200000, "currency": "UZS", "per": "person", "oldAmount": 7000000 },
+  "duration": {
+    "days": 8,
+    "nights": 7
+  },
+  "price": {
+    "amount": 6200000,
+    "currency": "UZS",
+    "per": "person",
+    "oldAmount": 7000000
+  },
   "flightIncluded": false,
-  "groupSize": { "min": 2, "max": 20 },
-  "departures": ["2026-09-05", "2026-09-19", "2026-10-03"],
-  "badges": ["hot", "discount"],
-  "images": { "cover": "tour-turkiya-antalya-cover-1200x800.webp", "gallery": [] },
+  "groupSize": {
+    "min": 2,
+    "max": 20
+  },
+  "departures": [
+    "2026-09-05",
+    "2026-09-19",
+    "2026-10-03"
+  ],
+  "badges": [
+    "hot",
+    "discount"
+  ],
+  "images": {
+    "cover": "tour-turkiya-antalya-cover-1200x800.webp",
+    "gallery": []
+  },
   "i18n": {
     "uz": {
       "title": "Antalya — 7 kecha 8 kun, 5* mehmonxona",
-      "summary": "Ultra all-inclusive dam olish. Dengiz bo'yidagi 5* mehmonxona, transfer va sug'urta narxga kiritilgan.",
+      "summary": "Ultra all-inclusive dam olish. Dengiz boʻyidagi 5* mehmonxona, transfer va sugʻurta narxga kiritilgan.",
       "priceNote": "Narxga aviabilet kirmaydi.",
-      "includes": ["Mehmonxona 5* (7 kecha)", "Ultra all-inclusive ovqatlanish", "Aeroport transferi", "Tibbiy sug'urta", "O'zbek tilida gid"],
-      "excludes": ["Aviabilet", "Viza", "Shaxsiy xarajatlar"],
-      "itinerary": []
+      "includes": [
+        "Mehmonxona 5* (7 kecha)",
+        "Ultra all-inclusive ovqatlanish",
+        "Aeroport transferi",
+        "Tibbiy sugʻurta",
+        "Oʻzbek tilida gid"
+      ],
+      "excludes": [
+        "Aviabilet",
+        "Viza",
+        "Shaxsiy xarajatlar"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Toshkentdan uchish, Antalyada kutib olish va mehmonxonaga joylashish."
+        },
+        {
+          "day": 2,
+          "text": "Dengiz boʻyida dam olish, mehmonxona hududi bilan tanishuv."
+        },
+        {
+          "day": 4,
+          "text": "Ixtiyoriy ekskursiya: Kemer yoki Side (alohida toʻlanadi)."
+        },
+        {
+          "day": 8,
+          "text": "Mehmonxonadan chiqish, aeroportga transfer va qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Antalya — 7 kecha 8 kun, 5* mehmonxona",
+        "description": "Ultra all-inclusive dam olish. Dengiz boʻyidagi 5* mehmonxona, transfer va sugʻurta narxga kiritilgan."
+      }
     },
     "ru": {
-      "title": "Antalya — 7 nochey 8 dney, otel 5*",
-      "summary": "Otdyh po sisteme ultra all-inclusive. Otel 5* na beregu morya, transfer i strahovka vklyucheny.",
-      "priceNote": "Aviabilet ne vklyuchen v stoimost.",
-      "includes": ["Otel 5* (7 nochey)", "Ultra all-inclusive", "Transfer iz aeroporta", "Medicinskaya strahovka", "Gid"],
-      "excludes": ["Aviabilet", "Viza", "Lichnye rashody"],
-      "itinerary": []
+      "title": "Анталья — 7 ночей 8 дней, отель 5*",
+      "summary": "Отдых по системе ultra all-inclusive. Отель 5* на берегу моря, трансфер и страховка включены.",
+      "priceNote": "Авиабилет не включён в стоимость.",
+      "includes": [
+        "Отель 5* (7 ночей)",
+        "Питание ultra all-inclusive",
+        "Трансфер из аэропорта",
+        "Медицинская страховка",
+        "Гид"
+      ],
+      "excludes": [
+        "Авиабилет",
+        "Виза",
+        "Личные расходы"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Вылет из Ташкента, встреча в Анталье и заселение в отель."
+        },
+        {
+          "day": 2,
+          "text": "Отдых на море, знакомство с территорией отеля."
+        },
+        {
+          "day": 4,
+          "text": "Экскурсия по желанию: Кемер или Сиде (оплачивается отдельно)."
+        },
+        {
+          "day": 8,
+          "text": "Выселение, трансфер в аэропорт и возвращение."
+        }
+      ],
+      "seo": {
+        "title": "Анталья — 7 ночей 8 дней, отель 5*",
+        "description": "Отдых по системе ultra all-inclusive. Отель 5* на берегу моря, трансфер и страховка включены."
+      }
     }
   }
 }

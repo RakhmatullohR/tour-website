@@ -1,0 +1,56 @@
+---
+// Home §6 row 10 — testimonials.
+//
+// REAL REVIEWS ONLY (Q14). getReviewsFor() drops everything marked real:false, so
+// an invented quote cannot reach this page even by accident. FEWER THAN THREE ->
+// the section swaps to social proof rather than padding with samples, which is
+// what §6 row 10 specifies and what Gate 1's "auto-hide when empty" tests.
+import type { CollectionEntry } from 'astro:content';
+import type { TFunction } from '../../i18n/t';
+import { SOCIAL, telegramHref } from '../../config/site';
+import ReviewCard from '../cards/ReviewCard.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props { reviews: CollectionEntry<'reviews'>[]; locale: string; t: TFunction }
+// Astro did not infer this component's Props (`astro check` reported `Astro.props`
+// as Record<string, any> here), which silently disabled prop type-checking.
+// The explicit annotation restores it — verified by a probe that TS then caught.
+const { reviews, locale, t } = Astro.props as Props;
+
+const enough = reviews.length >= 3;
+const tg = telegramHref();
+const socials = [
+  tg && { href: tg, label: 'Telegram', icon: 'telegram' as const, event: 'telegram_click' },
+  SOCIAL.instagram && { href: `https://instagram.com/${SOCIAL.instagram}`, label: 'Instagram', icon: 'instagram' as const, event: null },
+  SOCIAL.youtube && { href: `https://youtube.com/${SOCIAL.youtube}`, label: 'YouTube', icon: 'youtube' as const, event: null },
+].filter(Boolean) as { href: string; label: string; icon: 'telegram' | 'instagram' | 'youtube'; event: string | null }[];
+---
+{enough ? (
+  <section aria-labelledby="reviews-h" class="bg-neutral-50 py-16 sm:py-20">
+    <div class="mx-auto max-w-[var(--container-site)] px-4 sm:px-6">
+      <h2 id="reviews-h" class="text-3xl font-bold text-brand-900 sm:text-4xl">{t('reviews.title')}</h2>
+      <p class="mt-3 max-w-[68ch] text-neutral-600">{t('reviews.subtitle')}</p>
+      <ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {reviews.slice(0, 6).map((r: CollectionEntry<'reviews'>) => <li><ReviewCard review={r} locale={locale} /></li>)}
+      </ul>
+    </div>
+  </section>
+) : socials.length > 0 ? (
+  <section aria-labelledby="reviews-h" class="bg-neutral-50 py-16 sm:py-20">
+    <div class="mx-auto max-w-[var(--container-site)] px-4 text-center sm:px-6">
+      <h2 id="reviews-h" class="text-3xl font-bold text-brand-900 sm:text-4xl">{t('reviews.socialTitle')}</h2>
+      <p class="mx-auto mt-3 max-w-[60ch] text-neutral-600">{t('reviews.socialText')}</p>
+      <ul class="mt-8 flex flex-wrap justify-center gap-3">
+        {socials.map((s) => (
+          <li>
+            <a href={s.href} target="_blank" rel="noopener noreferrer" data-metrica={s.event}
+              class="inline-flex min-h-12 items-center gap-2 rounded-[var(--radius-md)] border border-neutral-200 bg-white px-5 font-medium text-brand-700 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              <Icon name={s.icon} size={20} />{s.label}
+              <span class="sr-only"> ({t('common.newTab')})</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+) : null}

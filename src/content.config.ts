@@ -106,4 +106,85 @@ const tours = defineCollection({
     }),
 });
 
-export const collections = { tours };
+/* ------------------------------------------------------------------ *
+ * §7.4 SUPPORTING COLLECTIONS
+ *
+ * Same discipline as `tours`: `uz` is the source of truth and is required; a
+ * missing non-uz block means that item is simply not rendered in that locale,
+ * never rendered in Uzbek under a Russian URL (§7.1).
+ * ------------------------------------------------------------------ */
+
+const requireUz = (v: { i18n: Record<string, unknown> }) => v.i18n.uz !== undefined;
+const UZ_REQUIRED = { error: 'The `uz` locale block is required — it is the source of truth.', path: ['i18n', 'uz'] };
+
+const destinations = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.json', base: './src/content/destinations' }),
+  schema: z
+    .object({
+      country: z.enum(['UZ', 'MY', 'TR', 'AE', 'TH', 'EG']),
+      /** ASCII Uzbek-Latin slug — §12.1. It is the URL segment AND the filename stem. */
+      slug: z.string().regex(/^[a-z0-9-]+$/),
+      order: z.number().int().default(100),
+      featured: z.boolean().default(true),
+      image: z.string(),
+      i18n: z.record(
+        z.string(),
+        z.object({
+          name: z.string().min(2),
+          summary: z.string().min(10),
+          body: z.string().default(''),
+          seo: z.object({ title: z.string(), description: z.string() }).optional(),
+        }),
+      ),
+    })
+    .refine(requireUz, UZ_REQUIRED)
+    .superRefine((d, ctx) => {
+      if (!imageKeys.has(d.image))
+        warn(`destination ${d.slug}: image "${d.image}" is not in src/assets/images — a placeholder will be used.`);
+      void ctx;
+    }),
+});
+
+const reviews = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.json', base: './src/content/reviews' }),
+  schema: z
+    .object({
+      /** §6 row 10 / Q14 — REAL reviews only. `false` keeps the item out of the
+       *  build entirely, so a sample can never be mistaken for a client quote. */
+      real: z.boolean().default(false),
+      order: z.number().int().default(100),
+      author: z.string().min(2),
+      avatar: z.string().optional(),
+      rating: z.number().int().min(1).max(5).default(5),
+      /** Optional link to the tour the review is about. */
+      tourSlug: z.string().optional(),
+      i18n: z.record(z.string(), z.object({ text: z.string().min(10), role: z.string().default('') })),
+    })
+    .refine(requireUz, UZ_REQUIRED),
+});
+
+const promotions = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.json', base: './src/content/promotions' }),
+  schema: z
+    .object({
+      slug: z.string().regex(/^[a-z0-9-]+$/),
+      active: z.boolean().default(true),
+      order: z.number().int().default(100),
+      /** ISO date. Filtered at BUILD and re-checked at RUNTIME — same three-layer
+       *  discipline as tour departures (§7.3). */
+      validUntil: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      discountPercent: z.number().int().min(1).max(90).optional(),
+      image: z.string(),
+      /** Where the banner CTA points, after the locale prefix. */
+      ctaPath: z.string().startsWith('/').default('/tours/'),
+      i18n: z.record(z.string(), z.object({ title: z.string().min(3), text: z.string().min(10) })),
+    })
+    .refine(requireUz, UZ_REQUIRED)
+    .superRefine((p, ctx) => {
+      if (!imageKeys.has(p.image))
+        warn(`promotion ${p.slug}: image "${p.image}" is not in src/assets/images — a placeholder will be used.`);
+      void ctx;
+    }),
+});
+
+export const collections = { tours, destinations, reviews, promotions };

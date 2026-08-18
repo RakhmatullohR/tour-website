@@ -1,0 +1,16 @@
+---
+// §13.4 Badge. Amber is reserved EXCLUSIVELY for CTAs (§13.6), so a badge never
+// uses --color-accent-500 as a background with small text; the discount badge
+// pairs accent-500 with brand-900 text, which is the one approved amber pairing.
+interface Props { tone?: 'neutral' | 'brand' | 'accent' | 'hot'; class?: string }
+const { tone = 'neutral', class: cls = '' } = Astro.props;
+const tones = {
+  neutral: 'bg-neutral-100 text-neutral-800',
+  brand: 'bg-brand-700 text-white',
+  accent: 'bg-accent-500 text-brand-900',
+  hot: 'bg-red-600 text-white',
+};
+---
+<span class={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${tones[tone]} ${cls}`}>
+  <slot />
+</span>

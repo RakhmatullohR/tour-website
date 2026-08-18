@@ -1,0 +1,43 @@
+---
+// §5 — destinations index: the country hub grid.
+import Base from '../../../layouts/Base.astro';
+import { SHIPPED_LOCALES } from '../../../i18n/locales.mjs';
+import { useTranslations } from '../../../i18n/t';
+import { getDestinationsFor, getToursFor, fromPrice } from '../../../lib/tours';
+import { breadcrumbSchema } from '../../../lib/seo';
+import DestinationCard from '../../../components/cards/DestinationCard.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+
+export function getStaticPaths() {
+  return SHIPPED_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang!;
+const t = useTranslations(lang);
+const [destinations, tours] = await Promise.all([getDestinationsFor(lang), getToursFor(lang)]);
+
+const crumbs = [
+  { name: t('breadcrumb.home'), path: `/${lang}/` },
+  { name: t('destinations.all'), path: `/${lang}/destinations/` },
+];
+---
+<Base
+  locale={lang}
+  title={`${t('destinations.all')} — ${t('site.name')}`}
+  description={t('destinations.subtitle')}
+  availableLocales={SHIPPED_LOCALES}
+  path="/destinations/"
+  schemas={[breadcrumbSchema(Astro.site, crumbs)]}
+>
+  <div class="mx-auto max-w-[var(--container-site)] px-4 py-10 sm:px-6 sm:py-14">
+    <Breadcrumbs crumbs={crumbs} />
+    <h1 class="mt-4 text-3xl font-bold text-brand-900 sm:text-4xl">{t('destinations.title')}</h1>
+    <p class="mt-3 max-w-[68ch] text-neutral-600">{t('destinations.subtitle')}</p>
+
+    <ul class="mt-10 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3">
+      {destinations.map((d) => (
+        <li><DestinationCard destination={d} locale={lang} t={t} from={fromPrice(tours, d.data.country)} /></li>
+      ))}
+    </ul>
+  </div>
+</Base>

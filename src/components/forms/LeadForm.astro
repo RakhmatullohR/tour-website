@@ -1,0 +1,177 @@
+---
+// PLAN §9 — ALL FOUR FORMS, one component.
+//
+//   quick    — Home hero strip: destination · dates · pax · phone*
+//   booking  — Tour detail, prefilled with tour id/title
+//   lead     — Contacts page and the footer CTA
+//   callback — Floating widget: phone* only, one field, maximum conversion
+//
+// PHONE IS THE ONLY UNIVERSALLY REQUIRED FIELD (§9.1) — this market converts on
+// phone, not email.
+//
+// PROGRESSIVE ENHANCEMENT FIRST (§9.2): native `required`/`pattern` and a real
+// POST target, so the form still works with JS off via the hidden iframe. The JS
+// path then upgrades it to inline validation + a redirect to /thanks/.
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { TFunction } from '../../i18n/t';
+import { LEAD_ENDPOINT, LEAD_TOKEN, telHref, telegramHref, whatsappHref, PHONE_DISPLAY } from '../../config/site';
+import Field from '../ui/Field.astro';
+import Checkbox from '../ui/Checkbox.astro';
+import Button from '../ui/Button.astro';
+import Alert from '../ui/Alert.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  variant: 'quick' | 'booking' | 'lead' | 'callback';
+  locale: string;
+  t: TFunction;
+  tourId?: string;
+  tourTitle?: string;
+  class?: string;
+  /** Compact layout for the hero strip and the widget. */
+  inline?: boolean;
+}
+const { variant, locale, t, tourId, tourTitle, class: cls = '', inline = false } = Astro.props;
+
+const thanksUrl = getRelativeLocaleUrl(locale, '/thanks/');
+const privacyUrl = getRelativeLocaleUrl(locale, '/privacy/');
+const tg = telegramHref(tourTitle ? `${t('tour.bookTitle')}: ${tourTitle}` : undefined);
+const wa = whatsappHref(tourTitle ? `${t('tour.bookTitle')}: ${tourTitle}` : undefined);
+
+// A phone pattern permissive enough for foreign numbers (§9.2) but strict enough
+// to catch a half-typed one. Normalisation to E.164 happens in submitLead().
+const PHONE_PATTERN = '[+0-9()\\s-]{9,20}';
+
+const needsConsent = variant !== 'quick' && variant !== 'callback';
+const showName = variant === 'booking' || variant === 'lead';
+const paxOptions = ['1', '2', '3', '4', '5', '6+'].map((v) => ({ value: v, label: v }));
+
+// Warn ONCE for the whole build, not once per page — a warning repeated 20 times
+// is a warning nobody reads.
+if (!LEAD_ENDPOINT && !(globalThis as { __gtEndpointWarned?: boolean }).__gtEndpointWarned) {
+  (globalThis as { __gtEndpointWarned?: boolean }).__gtEndpointWarned = true;
+  console.warn(
+    '  [forms] WARN  LEAD_ENDPOINT is empty — the tracked tree carries placeholders only (BC3). ' +
+      'Forms render and validate, but no-JS submission has no target until the Apps Script /exec URL is supplied.',
+  );
+}
+---
+<form
+  class={`lead-form ${cls}`}
+  data-lead-form
+  data-variant={variant}
+  data-locale={locale}
+  data-thanks={thanksUrl}
+  data-endpoint={LEAD_ENDPOINT}
+  data-token={LEAD_TOKEN}
+  method="POST"
+  action={LEAD_ENDPOINT || undefined}
+  target="gt-lead-sink"
+  novalidate
+>
+  {/* §9.5 HONEYPOT — CSS-hidden, never display:none (some bots skip those), and
+      aria-hidden + tabindex=-1 so no human or screen reader ever reaches it. */}
+  <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+    <label for={`hp-${variant}`}>{t('form.website')}</label>
+    <input id={`hp-${variant}`} type="text" name="website" tabindex="-1" autocomplete="off" />
+  </div>
+  {/* §9.5 TIME TRAP — stamped by JS on load. Multi-field forms only; the callback
+      widget is exempt, where autofill would false-reject a real person. */}
+  <input type="hidden" name="renderedAt" value="" />
+  <input type="hidden" name="form" value={variant} />
+  <input type="hidden" name="locale" value={locale} />
+  {tourId && <input type="hidden" name="tourId" value={tourId} />}
+  {tourTitle && <input type="hidden" name="tourTitle" value={tourTitle} />}
+
+  <div class={inline ? 'grid gap-3 sm:grid-cols-2 lg:grid-cols-4' : 'grid gap-4 sm:grid-cols-2'}>
+    {variant === 'quick' && (
+      <>
+        <Field name="destination" label={t('quick.destination')} placeholder={t('quick.destinationPlaceholder')} autocomplete="off" />
+        <Field name="dates" label={t('quick.dates')} type="date" />
+        <Field name="pax" label={t('quick.pax')} as="select" options={paxOptions} />
+      </>
+    )}
+
+    {showName && (
+      <Field name="name" label={t('form.name')} required autocomplete="name" />
+    )}
+
+    <Field
+      name="phone"
+      label={t('form.phone')}
+      type="tel"
+      required
+      autocomplete="tel"
+      inputmode="tel"
+      pattern={PHONE_PATTERN}
+      placeholder="+998 __ ___ __ __"
+    />
+
+    {variant === 'booking' && (
+      <>
+        <Field name="dates" label={t('form.dates')} type="date" optionalLabel={t('form.optional')} />
+        <Field name="pax" label={t('form.pax')} as="select" options={paxOptions} />
+      </>
+    )}
+
+    {variant === 'lead' && (
+      <Field name="email" label={t('form.email')} type="email" optionalLabel={t('form.optional')} autocomplete="email" class="sm:col-span-1" />
+    )}
+
+    {variant === 'booking' && (
+      <Field name="comment" label={t('form.comment')} as="textarea" rows={3} optionalLabel={t('form.optional')} class="sm:col-span-2" />
+    )}
+    {variant === 'lead' && (
+      <Field name="message" label={t('form.message')} as="textarea" rows={4} optionalLabel={t('form.optional')} class="sm:col-span-2" />
+    )}
+  </div>
+
+  {showName && (
+    <fieldset class="mt-4">
+      <legend class="text-sm font-medium text-neutral-800">{t('form.contactPref')}</legend>
+      <div class="mt-2 flex flex-wrap gap-x-6 gap-y-2">
+        <Checkbox name="contactPref" type="radio" value="call" checked>{t('form.pref.call')}</Checkbox>
+        <Checkbox name="contactPref" type="radio" value="telegram">{t('form.pref.telegram')}</Checkbox>
+        <Checkbox name="contactPref" type="radio" value="whatsapp">{t('form.pref.whatsapp')}</Checkbox>
+      </div>
+    </fieldset>
+  )}
+
+  {needsConsent && (
+    <Checkbox name="consent" required class="mt-4">
+      {t('form.consent')} — <a href={privacyUrl} class="underline hover:text-brand-700">{t('form.consentLink')}</a>
+    </Checkbox>
+  )}
+
+  <div class="mt-5 flex flex-wrap items-center gap-4">
+    <Button type="submit" variant="accent" size={inline ? 'md' : 'lg'} data-submit>
+      <span data-label-idle>{variant === 'callback' ? t('widget.callbackSubmit') : t('form.submit')}</span>
+      <span data-label-busy hidden>{t('form.sending')}</span>
+    </Button>
+    {!inline && <p class="text-sm text-neutral-600">{t('form.sla')}</p>}
+  </div>
+
+  {/* §9.4 — A FAILED FORM MUST NEVER BE A DEAD END. The error state keeps the
+      entered data and surfaces direct contact links. Rendered up front and
+      hidden, so showing it costs no network and works under CSP. */}
+  <div data-error-box hidden class="mt-4">
+    <Alert tone="error" title={t('form.error')}>
+      <p>{t('form.errorHelp')}</p>
+      <p class="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+        <a href={telHref()} data-metrica="phone_click" class="inline-flex items-center gap-1.5 font-medium underline">
+          <Icon name="phone" size={16} />{PHONE_DISPLAY}
+        </a>
+        {tg && (
+          <a href={tg} target="_blank" rel="noopener noreferrer" data-metrica="telegram_click" class="inline-flex items-center gap-1.5 font-medium underline">
+            <Icon name="telegram" size={16} />Telegram
+          </a>
+        )}
+        {wa && (
+          <a href={wa} target="_blank" rel="noopener noreferrer" data-metrica="whatsapp_click" class="inline-flex items-center gap-1.5 font-medium underline">
+            <Icon name="whatsapp" size={16} />WhatsApp
+          </a>
+        )}
+      </p>
+    </Alert>
+  </div>
+</form>

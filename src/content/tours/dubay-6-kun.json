@@ -1,0 +1,132 @@
+{
+  "id": "ae-dubai-5n",
+  "slug": "dubay-6-kun",
+  "status": "published",
+  "featured": true,
+  "order": 30,
+  "country": "AE",
+  "cities": [
+    "Dubay"
+  ],
+  "category": "shopping",
+  "departureCity": "Toshkent",
+  "duration": {
+    "days": 6,
+    "nights": 5
+  },
+  "price": {
+    "amount": 9800000,
+    "currency": "UZS",
+    "per": "person",
+    "oldAmount": 11000000
+  },
+  "flightIncluded": false,
+  "groupSize": {
+    "min": 2,
+    "max": 14
+  },
+  "departures": [
+    "2026-09-20",
+    "2026-10-18",
+    "2026-12-05"
+  ],
+  "badges": [
+    "discount"
+  ],
+  "images": {
+    "cover": "tour-dubay-cover-1200x800.webp",
+    "gallery": []
+  },
+  "i18n": {
+    "uz": {
+      "title": "Dubay — 5 kecha 6 kun, shahar va sahro",
+      "summary": "Burj Khalifa, sahro safari va yirik savdo markazlari. Oilaviy sayohat uchun ham mos.",
+      "priceNote": "Narxga aviabilet kirmaydi.",
+      "includes": [
+        "Mehmonxona 4* (5 kecha)",
+        "Nonushta",
+        "Sahro safari va kechki ovqat",
+        "Shahar ekskursiyasi",
+        "Aeroport transferi",
+        "Tibbiy sugʻurta"
+      ],
+      "excludes": [
+        "Aviabilet",
+        "Viza yigʻimi",
+        "Burj Khalifa chiptasi",
+        "Shaxsiy xarajatlar"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Kelish, mehmonxonaga joylashish, Dubai Marina boʻylab kechki sayr."
+        },
+        {
+          "day": 2,
+          "text": "Shahar ekskursiyasi: Burj Khalifa, Dubai Mall, Fontan shousi."
+        },
+        {
+          "day": 3,
+          "text": "Sahro safari: qumtepalar, tuya sayr, milliy dastur va kechki ovqat."
+        },
+        {
+          "day": 4,
+          "text": "Erkin kun — shopping yoki Atlantis akvaparki."
+        },
+        {
+          "day": 6,
+          "text": "Aeroportga transfer va qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Dubay — 5 kecha 6 kun, shahar va sahro",
+        "description": "Burj Khalifa, sahro safari va yirik savdo markazlari. Oilaviy sayohat uchun ham mos."
+      }
+    },
+    "ru": {
+      "title": "Дубай — 5 ночей 6 дней, город и пустыня",
+      "summary": "Бурдж-Халифа, сафари в пустыне и крупные торговые центры. Подходит и для семейной поездки.",
+      "priceNote": "Авиабилет не включён в стоимость.",
+      "includes": [
+        "Отель 4* (5 ночей)",
+        "Завтрак",
+        "Сафари в пустыне с ужином",
+        "Обзорная экскурсия",
+        "Трансфер из аэропорта",
+        "Медицинская страховка"
+      ],
+      "excludes": [
+        "Авиабилет",
+        "Визовый сбор",
+        "Билет на Бурдж-Халифа",
+        "Личные расходы"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Прибытие, заселение, вечерняя прогулка по Дубай Марина."
+        },
+        {
+          "day": 2,
+          "text": "Обзорная экскурсия: Бурдж-Халифа, Dubai Mall, шоу фонтанов."
+        },
+        {
+          "day": 3,
+          "text": "Сафари в пустыне: барханы, катание на верблюдах, шоу и ужин."
+        },
+        {
+          "day": 4,
+          "text": "Свободный день — шоппинг или аквапарк Atlantis."
+        },
+        {
+          "day": 6,
+          "text": "Трансфер в аэропорт и возвращение."
+        }
+      ],
+      "seo": {
+        "title": "Дубай — 5 ночей 6 дней, город и пустыня",
+        "description": "Бурдж-Халифа, сафари в пустыне и крупные торговые центры. Подходит и для семейной поездки."
+      }
+    }
+  }
+}

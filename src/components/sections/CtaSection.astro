@@ -1,0 +1,27 @@
+---
+// Home §6 row 11 — CTA + lead form over a background image.
+import { Image } from 'astro:assets';
+import { resolveImage } from '../../lib/images';
+import type { TFunction } from '../../i18n/t';
+import LeadForm from '../forms/LeadForm.astro';
+
+interface Props { locale: string; t: TFunction }
+const { locale, t } = Astro.props;
+const bg = resolveImage('cta-bg-1600x900.webp');
+---
+<section aria-labelledby="cta-h" class="relative isolate overflow-hidden bg-brand-900 py-16 sm:py-20">
+  <Image src={bg} alt="" widths={[800, 1600]} sizes="100vw" format="webp" loading="lazy"
+    class="absolute inset-0 -z-10 h-full w-full object-cover opacity-25" />
+
+  <div class="mx-auto grid max-w-[var(--container-site)] gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
+    <div>
+      <h2 id="cta-h" class="text-3xl font-bold text-white sm:text-4xl">{t('cta.title')}</h2>
+      <p class="mt-4 max-w-[60ch] text-neutral-100">{t('cta.subtitle')}</p>
+      <p class="mt-4 text-sm text-accent-500">{t('form.sla')}</p>
+    </div>
+
+    <div class="rounded-[var(--radius-lg)] bg-white p-6 sm:p-8">
+      <LeadForm variant="lead" locale={locale} t={t} />
+    </div>
+  </div>
+</section>

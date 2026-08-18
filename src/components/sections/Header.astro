@@ -1,0 +1,154 @@
+---
+// Home §6 row 1 — sticky header, condenses on scroll, full-screen drawer on mobile.
+//
+// THE DRAWER IS BUILT ON <details>, NOT ON JS (BC11 discipline). A JS-only drawer
+// leaves a phone visitor with JavaScript off unable to reach any page but this one.
+// JS then upgrades it: Esc closes, and it closes on navigation.
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { TFunction } from '../../i18n/t';
+import { PHONE_DISPLAY, telHref, BRAND_NAME } from '../../config/site';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props { locale: string; t: TFunction; availableLocales: string[]; path: string }
+const { locale, t, availableLocales, path } = Astro.props;
+
+const nav = [
+  { key: 'nav.tours', href: '/tours/' },
+  { key: 'nav.destinations', href: '/destinations/' },
+  { key: 'nav.promotions', href: '/promotions/' },
+  { key: 'nav.about', href: '/about/' },
+  { key: 'nav.contacts', href: '/contacts/' },
+] as const;
+
+const isCurrent = (href: string) => path === href;
+---
+<header
+  data-header
+  class="sticky top-0 z-40 border-b border-neutral-200 bg-white/95 backdrop-blur-sm transition-shadow duration-250 data-[scrolled]:shadow-sm"
+>
+  <div class="mx-auto flex max-w-[var(--container-site)] min-w-0 items-center gap-3 px-4 py-3 sm:gap-4 transition-[padding] duration-250 data-[scrolled]:py-2 sm:px-6">
+    <a
+      href={getRelativeLocaleUrl(locale, '/')}
+      class="font-[family-name:var(--font-display)] text-lg font-bold whitespace-nowrap text-brand-900 sm:text-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-700"
+    >
+      Getcar<span class="text-brand-600">Travel</span>
+      <span class="sr-only"> — {BRAND_NAME}</span>
+    </a>
+
+    <nav aria-label={t('nav.menu')} class="ml-auto hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={getRelativeLocaleUrl(locale, item.href)}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+              class="inline-flex min-h-11 items-center rounded-[var(--radius-sm)] px-3 text-neutral-800 hover:bg-neutral-100 aria-[current=page]:font-semibold aria-[current=page]:text-brand-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+            >
+              {t(item.key)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="ml-auto flex items-center gap-2 lg:ml-0">
+      <a
+        href={telHref()}
+        data-metrica="phone_click"
+        class="hidden min-h-11 items-center gap-1.5 rounded-[var(--radius-sm)] px-2 font-medium whitespace-nowrap text-brand-700 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 md:inline-flex lg:hidden xl:inline-flex"
+      >
+        <Icon name="phone" size={18} />{PHONE_DISPLAY}
+      </a>
+
+      <LanguageSwitcher locale={locale} availableLocales={availableLocales} path={path} compact />
+
+      {/* The wrapper — not a `hidden` class on the Button — is what hides this.
+          Button's base class sets `inline-flex`, and which of `.hidden` /
+          `.inline-flex` wins is decided by ORDER IN THE STYLESHEET, not by the
+          order of the class attribute. `.inline-flex` won, so the CTA stayed
+          visible at 360 px and pushed the header 66 px past the viewport.
+          `sm:contents` makes the wrapper generate no box at >= sm, so the layout
+          above that breakpoint is byte-for-byte what it was. */}
+      <span class="hidden sm:contents">
+        <Button href={getRelativeLocaleUrl(locale, '/contacts/')} variant="accent" size="sm">
+          {t('cta.request')}
+        </Button>
+      </span>
+
+      {/* Mobile drawer. <details> so it opens with JS disabled. */}
+      <details data-drawer class="lg:hidden">
+        <summary
+          aria-label={t('nav.menu')}
+          class="grid h-11 w-11 cursor-pointer place-items-center rounded-[var(--radius-sm)] text-brand-900 marker:content-none hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+        >
+          <Icon name="menu" class="block [details[open]_&]:hidden" />
+          <Icon name="close" class="hidden [details[open]_&]:block" />
+        </summary>
+
+        <div class="hidden [details[open]_&]:block fixed inset-x-0 top-[var(--header-h,64px)] bottom-0 z-50 overflow-y-auto bg-white px-4 pt-2 pb-8">
+          <nav aria-label={t('nav.menu')}>
+            <ul class="flex flex-col">
+              {nav.map((item) => (
+                <li class="border-b border-neutral-100">
+                  <a
+                    href={getRelativeLocaleUrl(locale, item.href)}
+                    aria-current={isCurrent(item.href) ? 'page' : undefined}
+                    class="flex min-h-14 items-center text-lg text-neutral-800 aria-[current=page]:font-semibold aria-[current=page]:text-brand-700"
+                  >
+                    {t(item.key)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div class="mt-6 flex flex-col gap-3">
+            <Button href={getRelativeLocaleUrl(locale, '/contacts/')} variant="accent" size="lg">{t('cta.request')}</Button>
+            <Button href={telHref()} variant="secondary" size="lg" data-metrica="phone_click">
+              <Icon name="phone" size={18} />{PHONE_DISPLAY}
+            </Button>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const drawer = document.querySelector<HTMLDetailsElement>('[data-drawer]');
+
+  // Publish the real header height so the drawer panel starts exactly below it,
+  // at every breakpoint and in both the condensed and expanded states.
+  const syncHeight = () => {
+    if (header) document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+  };
+  syncHeight();
+  addEventListener('resize', syncHeight, { passive: true });
+
+  // Condense on scroll (§6 row 1). Threshold, not a per-pixel transform, so this
+  // never fights `prefers-reduced-motion`.
+  if (header) {
+    const onScroll = () => {
+      if (scrollY > 8) header.setAttribute('data-scrolled', '');
+      else header.removeAttribute('data-scrolled');
+      syncHeight();
+    };
+    onScroll();
+    addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  if (drawer) {
+    // §15 keyboard: Esc closes and focus returns to the trigger.
+    addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !drawer.open) return;
+      drawer.open = false;
+      drawer.querySelector('summary')?.focus();
+    });
+    // Body scroll lock while the full-screen panel is open.
+    drawer.addEventListener('toggle', () => {
+      document.body.style.overflow = drawer.open ? 'hidden' : '';
+    });
+  }
+</script>

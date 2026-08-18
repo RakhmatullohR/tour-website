@@ -60,9 +60,17 @@ if (!['1', '2', 'all'].includes(tierArg)) {
   console.error(`--tier must be 1, 2 or all (got "${tierArg}")`);
   process.exit(1);
 }
+/* --only <substring>  — generate a NAMED SUBSET regardless of tier.
+ * The launch sample catalogue (PLAN §16.2 P3, "8 sample tours") needs two covers
+ * that the manifest classes as Tier 2, because Tier 1 only budgets the FEATURED
+ * six. Pulling in all 59 Tier-2 rows to get two files would silently deliver a
+ * priced add-on; this flag takes exactly the two. */
+const onlyArg = (() => { const i = argv.indexOf('--only'); return i === -1 ? null : (argv[i + 1] ?? null); })();
 
 const manifest = JSON.parse(readFileSync(path.join(ROOT, 'scripts', 'images.manifest.json'), 'utf8'));
-const rows = manifest.images.filter((r) => tierArg === 'all' || r.tier === Number(tierArg));
+const rows = manifest.images.filter(
+  (r) => (onlyArg ? r.filename.includes(onlyArg) : tierArg === 'all' || r.tier === Number(tierArg)),
+);
 mkdirSync(OUT_DIR, { recursive: true });
 
 /* --------------------- deterministic hue per GROUP ---------------------
@@ -193,5 +201,5 @@ for (const row of rows) {
   written++;
 }
 
-console.log(`gen-placeholders: tier=${tierArg}  written=${written}  skipped(existing)=${skipped}  total=${rows.length}`);
+console.log(`gen-placeholders: ${onlyArg ? `only=${onlyArg}` : `tier=${tierArg}`}  written=${written}  skipped(existing)=${skipped}  total=${rows.length}`);
 if (skipped && !force) console.log('  (existing files preserved — re-run with --force to overwrite)');

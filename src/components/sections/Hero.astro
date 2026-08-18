@@ -1,0 +1,71 @@
+---
+// Home §6 row 2 — hero.
+//
+// ART-DIRECTED, NOT RESIZED (§12.2, §13.6). The 4:5 mobile crop is a SECOND ASSET,
+// not a squashed desktop file, because "large confident photography" and a ≤120 KB
+// mobile hero are in direct conflict and the resolution is a tighter crop.
+//
+// The trust chips render ONLY when the client has supplied real numbers (§6 row 2:
+// "numbers come from the client, never invented"). TRUST is null → no chip row.
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { resolveImage } from '../../lib/images';
+import type { TFunction } from '../../i18n/t';
+import { TRUST } from '../../config/site';
+import Button from '../ui/Button.astro';
+
+interface Props { locale: string; t: TFunction }
+const { locale, t } = Astro.props;
+
+const desktop = resolveImage('hero-main-1920x1080.webp');
+const mobile = resolveImage('hero-main-mobile-1080x1350.webp');
+
+const chips = TRUST
+  ? [
+      { n: TRUST.years, label: t('hero.trust.years') },
+      { n: TRUST.tourists, label: t('hero.trust.tourists') },
+      { n: TRUST.destinations, label: t('hero.trust.destinations') },
+    ]
+  : [];
+---
+<section class="relative isolate overflow-hidden bg-brand-900">
+  <picture>
+    {/* The mobile crop is a genuinely different image, so <source media> — not a
+        srcset width descriptor, which would only ever pick a scaled desktop file. */}
+    <source media="(max-width: 640px)" srcset={mobile.src} width={mobile.width} height={mobile.height} />
+    <img
+      src={desktop.src}
+      width={desktop.width}
+      height={desktop.height}
+      alt={t('hero.imageAlt')}
+      fetchpriority="high"
+      decoding="async"
+      class="absolute inset-0 -z-10 h-full w-full object-cover opacity-45"
+    />
+  </picture>
+
+  <div class="mx-auto max-w-[var(--container-site)] px-4 py-20 sm:px-6 sm:py-28 lg:py-36">
+    <div class="max-w-2xl">
+      <h1 class="text-4xl leading-[1.15] font-bold text-white sm:text-5xl lg:text-6xl">{t('hero.title')}</h1>
+      <p class="mt-5 max-w-[68ch] text-lg text-neutral-100">{t('hero.subtitle')}</p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <Button href={getRelativeLocaleUrl(locale, '/tours/')} variant="accent" size="lg">{t('hero.ctaPrimary')}</Button>
+        <Button href={getRelativeLocaleUrl(locale, '/contacts/')} size="lg"
+          class="border border-white/40 bg-white/10 text-white hover:bg-white/20">
+          {t('hero.ctaSecondary')}
+        </Button>
+      </div>
+
+      {chips.length > 0 && (
+        <ul class="mt-10 flex flex-wrap gap-x-8 gap-y-4">
+          {chips.map((c) => (
+            <li>
+              <span class="block font-[family-name:var(--font-display)] text-2xl font-bold text-accent-500">{c.n}</span>
+              <span class="text-sm text-neutral-200">{c.label}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+</section>

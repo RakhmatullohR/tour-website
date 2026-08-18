@@ -3,32 +3,106 @@
   "slug": "ozbekiston-samarqand-3-kun",
   "status": "published",
   "featured": true,
-  "order": 20,
+  "order": 60,
   "country": "UZ",
-  "cities": ["Samarqand", "Buxoro"],
+  "cities": [
+    "Samarqand",
+    "Buxoro"
+  ],
   "category": "domestic",
   "departureCity": "Toshkent",
-  "duration": { "days": 3, "nights": 2 },
-  "price": { "amount": 1850000, "currency": "UZS", "per": "person" },
+  "duration": {
+    "days": 3,
+    "nights": 2
+  },
+  "price": {
+    "amount": 1850000,
+    "currency": "UZS",
+    "per": "person"
+  },
   "flightIncluded": true,
-  "groupSize": { "min": 4, "max": 30 },
-  "departures": ["2026-09-12", "2026-09-26"],
-  "badges": ["new"],
-  "images": { "cover": "tour-ozbekiston-samarqand-cover-1200x800.webp", "gallery": [] },
+  "groupSize": {
+    "min": 4,
+    "max": 30
+  },
+  "departures": [
+    "2026-09-12",
+    "2026-09-26",
+    "2026-10-10"
+  ],
+  "badges": [
+    "new"
+  ],
+  "images": {
+    "cover": "tour-ozbekiston-samarqand-cover-1200x800.webp",
+    "gallery": []
+  },
   "i18n": {
     "uz": {
       "title": "Samarqand va Buxoro — 2 kecha 3 kun",
-      "summary": "Registon, Shohizinda va Buxoro eski shahri bo'ylab gid hamrohligida sayohat.",
-      "includes": ["Mehmonxona 3* (2 kecha)", "Nonushta", "Poyezd chiptasi", "Gid xizmati", "Muzeylar chiptasi"],
-      "excludes": ["Tushlik va kechki ovqat", "Shaxsiy xarajatlar"],
-      "itinerary": []
+      "summary": "Registon, Shohizinda va Buxoro eski shahri boʻylab gid hamrohligida sayohat.",
+      "includes": [
+        "Mehmonxona 3* (2 kecha)",
+        "Nonushta",
+        "Poyezd chiptasi",
+        "Gid xizmati",
+        "Muzeylar chiptasi"
+      ],
+      "excludes": [
+        "Tushlik va kechki ovqat",
+        "Shaxsiy xarajatlar"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Toshkentdan tezyurar poyezdda Samarqandga; Registon va Goʻri Amir."
+        },
+        {
+          "day": 2,
+          "text": "Shohizinda, Bibixonim masjidi, keyin Buxoroga oʻtish."
+        },
+        {
+          "day": 3,
+          "text": "Buxoro eski shahri: Labi Hovuz, Poi Kalon; kechqurun Toshkentga qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Samarqand va Buxoro — 2 kecha 3 kun",
+        "description": "Registon, Shohizinda va Buxoro eski shahri boʻylab gid hamrohligida sayohat."
+      }
     },
     "ru": {
-      "title": "Samarkand i Buhara — 2 nochi 3 dnya",
-      "summary": "Poezdka s gidom po Registanu, Shahi-Zinda i staromu gorodu Buhary.",
-      "includes": ["Otel 3* (2 nochi)", "Zavtrak", "Zheleznodorozhnye bilety", "Uslugi gida", "Bilety v muzei"],
-      "excludes": ["Obed i uzhin", "Lichnye rashody"],
-      "itinerary": []
+      "title": "Самарканд и Бухара — 2 ночи 3 дня",
+      "summary": "Поездка с гидом по Регистану, Шахи-Зинда и старому городу Бухары.",
+      "includes": [
+        "Отель 3* (2 ночи)",
+        "Завтрак",
+        "Железнодорожные билеты",
+        "Услуги гида",
+        "Билеты в музеи"
+      ],
+      "excludes": [
+        "Обед и ужин",
+        "Личные расходы"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Скоростным поездом из Ташкента в Самарканд; Регистан и Гур-Эмир."
+        },
+        {
+          "day": 2,
+          "text": "Шахи-Зинда, мечеть Биби-Ханым, затем переезд в Бухару."
+        },
+        {
+          "day": 3,
+          "text": "Старая Бухара: Ляби-Хауз, Пои-Калян; вечером возвращение в Ташкент."
+        }
+      ],
+      "seo": {
+        "title": "Самарканд и Бухара — 2 ночи 3 дня",
+        "description": "Поездка с гидом по Регистану, Шахи-Зинда и старому городу Бухары."
+      }
     }
   }
 }

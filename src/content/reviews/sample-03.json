@@ -1,0 +1,19 @@
+{
+  "_comment": "NAMUNA. Q14 javobi kelmaguncha real:false — sayt bunday sharhni CHIQARMAYDI.",
+  "real": false,
+  "order": 30,
+  "author": "Nigora A.",
+  "avatar": "avatar-03-200x200.webp",
+  "rating": 5,
+  "tourSlug": "ozbekiston-samarqand-3-kun",
+  "i18n": {
+    "uz": {
+      "text": "Samarqand va Buxoroga uch kunlik sayohat. Gid juda yaxshi tushuntirdi, poyezd chiptalari ham tayyor edi.",
+      "role": "Samarqand, 2026"
+    },
+    "ru": {
+      "text": "Трёхдневная поездка в Самарканд и Бухару. Гид рассказывал очень хорошо, билеты на поезд были уже готовы.",
+      "role": "Самарканд, 2026"
+    }
+  }
+}

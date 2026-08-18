@@ -1,0 +1,44 @@
+---
+// Home §6 row 9 — full-bleed promotion banner.
+//
+// HIDDEN ENTIRELY WHEN THERE IS NO ACTIVE PROMOTION (data-driven, Gate 1). Not
+// dimmed, not showing an "no offers right now" box — absent. getPromotionsFor()
+// already applied the build-time date floor; the runtime check below narrows
+// further, exactly as departures do (§7.3).
+import { Image } from 'astro:assets';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { CollectionEntry } from 'astro:content';
+import { tryResolveImage } from '../../lib/images';
+import { formatDate } from '../../lib/format';
+import type { TFunction } from '../../i18n/t';
+import Button from '../ui/Button.astro';
+
+interface Props { promotions: CollectionEntry<'promotions'>[]; locale: string; t: TFunction }
+const { promotions, locale, t } = Astro.props;
+const promo = promotions[0];
+const b = promo?.data.i18n[locale];
+const img = promo ? tryResolveImage(promo.data.image) : null;
+---
+{promo && b && (
+  <section
+    aria-labelledby="promo-h"
+    data-promo
+    data-valid-until={promo.data.validUntil}
+    class="relative isolate overflow-hidden bg-brand-900"
+  >
+    {img && (
+      <Image src={img} alt="" widths={[800, 1600]} sizes="100vw" format="webp" loading="lazy"
+        class="absolute inset-0 -z-10 h-full w-full object-cover opacity-30" />
+    )}
+    <div class="mx-auto flex max-w-[var(--container-site)] flex-wrap items-center justify-between gap-6 px-4 py-14 sm:px-6">
+      <div class="max-w-2xl">
+        <h2 id="promo-h" class="text-3xl font-bold text-white sm:text-4xl">{b.title}</h2>
+        <p class="mt-3 text-neutral-100">{b.text}</p>
+        <p class="mt-3 text-sm text-accent-500">
+          <time datetime={promo.data.validUntil}>{t('promo.validUntil', { date: formatDate(promo.data.validUntil, locale) })}</time>
+        </p>
+      </div>
+      <Button href={getRelativeLocaleUrl(locale, promo.data.ctaPath)} variant="accent" size="lg">{t('promo.cta')}</Button>
+    </div>
+  </section>
+)}

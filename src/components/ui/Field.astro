@@ -1,0 +1,61 @@
+---
+// §13.4 Input / Select / Textarea, one component because the only differences are
+// the tag and two attributes — three near-identical files would drift.
+//
+// §15 a11y: a REAL <label>, never placeholder-only; errors linked with
+// aria-describedby; the error node is aria-live so a screen reader announces it.
+interface Props {
+  name: string;
+  label: string;
+  type?: 'text' | 'tel' | 'email' | 'date' | 'number';
+  as?: 'input' | 'textarea' | 'select';
+  required?: boolean;
+  optionalLabel?: string;
+  placeholder?: string;
+  autocomplete?: string;
+  inputmode?: 'text' | 'tel' | 'numeric' | 'email';
+  pattern?: string;
+  value?: string;
+  rows?: number;
+  options?: { value: string; label: string }[];
+  class?: string;
+}
+// Astro did not infer this component's Props (`astro check` reported `Astro.props`
+// as Record<string, any> here), which silently disabled prop type-checking.
+// The explicit annotation restores it — verified by a probe that TS then caught.
+const {
+  name, label, type = 'text', as = 'input', required = false, optionalLabel,
+  placeholder, autocomplete, inputmode, pattern, value, rows = 4, options = [], class: cls = '',
+} = Astro.props as Props;
+
+const id = `f-${name}-${Math.random().toString(36).slice(2, 8)}`;
+const errId = `${id}-err`;
+const control =
+  'w-full min-h-12 rounded-[var(--radius-md)] border border-neutral-200 bg-white px-4 py-3 ' +
+  'text-neutral-900 placeholder:text-neutral-600 focus:border-brand-500 focus:outline-2 ' +
+  'focus:outline-offset-0 focus:outline-brand-500 aria-[invalid=true]:border-red-600';
+---
+<div class={`flex flex-col gap-1.5 ${cls}`}>
+  <label for={id} class="text-sm font-medium text-neutral-800">
+    {label}
+    {required && <span aria-hidden="true" class="text-red-600"> *</span>}
+    {!required && optionalLabel && <span class="font-normal text-neutral-600"> ({optionalLabel})</span>}
+  </label>
+
+  {as === 'textarea' && (
+    <textarea id={id} name={name} rows={rows} required={required} placeholder={placeholder}
+      aria-describedby={errId} class={control}>{value}</textarea>
+  )}
+  {as === 'select' && (
+    <select id={id} name={name} required={required} aria-describedby={errId} class={control}>
+      {options.map((o: { value: string; label: string }) => <option value={o.value} selected={o.value === value}>{o.label}</option>)}
+    </select>
+  )}
+  {as === 'input' && (
+    <input id={id} name={name} type={type} required={required} placeholder={placeholder}
+      autocomplete={autocomplete} inputmode={inputmode} pattern={pattern} value={value}
+      aria-describedby={errId} class={control} />
+  )}
+
+  <p id={errId} data-error-for={name} aria-live="polite" class="hidden text-sm text-red-600"></p>
+</div>

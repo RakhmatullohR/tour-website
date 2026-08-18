@@ -3,7 +3,9 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "engines": { "node": ">=22.12.0" },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -11,7 +13,10 @@
     "check": "astro check",
     "gen:placeholders": "node scripts/gen-placeholders.mjs",
     "gen:image-requirements": "node scripts/gen-image-requirements.mjs",
-    "check:images": "node scripts/check-images.mjs"
+    "check:images": "node scripts/check-images.mjs",
+    "check:i18n": "node scripts/check-i18n.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "check:all": "npm run check && npm run check:images && npm run check:i18n && npm run check:contrast"
   },
   "dependencies": {
     "astro": "^7.2.2",

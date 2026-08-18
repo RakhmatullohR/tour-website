@@ -12,11 +12,18 @@ export const DEFAULT_LOCALE = 'uz';
 /** Human labels for the language switcher and the root picker.
  *  @type {Record<string, string>} */
 export const LOCALE_LABELS = {
-  uz: "O'zbekcha",
+  uz: 'Oʻzbekcha',
   ru: 'Русский',
   en: 'English',
   ms: 'Bahasa Melayu',
 };
+
+/** Compact codes for the header switcher. The full label in LOCALE_LABELS is
+ *  ~90 px per locale; on a single-line header that is what pushed the row past
+ *  the viewport at both 500 px and 1024 px. The full name still ships as sr-only
+ *  text, so nothing is lost for a screen reader.
+ *  @type {Record<string, string>} */
+export const LOCALE_SHORT = { uz: 'UZ', ru: 'RU', en: 'EN', ms: 'MS' };
 
 /** BCP-47 tags for <html lang> and hreflang.
  *  @type {Record<string, string>} */

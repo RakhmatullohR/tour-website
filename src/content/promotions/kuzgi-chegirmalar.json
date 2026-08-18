@@ -1,0 +1,18 @@
+{
+  "slug": "kuzgi-chegirmalar",
+  "active": true,
+  "order": 10,
+  "validUntil": "2026-11-30",
+  "image": "promo-banner-01-1600x600.webp",
+  "ctaPath": "/promotions/",
+  "i18n": {
+    "uz": {
+      "title": "Kuzgi chegirmalar",
+      "text": "Bir nechta yoʻnalishda eski narxdan chegirma amal qilmoqda. Aniq shartlarni menejer bilan tasdiqlang."
+    },
+    "ru": {
+      "title": "Осенние скидки",
+      "text": "По нескольким направлениям действует скидка от старой цены. Точные условия подтвердите у менеджера."
+    }
+  }
+}

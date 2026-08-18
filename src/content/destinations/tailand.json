@@ -1,0 +1,27 @@
+{
+  "country": "TH",
+  "slug": "tailand",
+  "order": 30,
+  "featured": true,
+  "image": "dest-tailand-01-800x1000.webp",
+  "i18n": {
+    "uz": {
+      "name": "Tailand",
+      "summary": "Phuket va Pattaya — okean, orollar va tropik iqlim. Uzoq dam olish uchun.",
+      "body": "Tailand — okean boʻyida uzoqroq dam olishni rejalashtirganlar uchun. Phuket orollari boʻylab qayiq sayohatlari, milliy taomlar va tropik tabiat dasturga kiritiladi.",
+      "seo": {
+        "title": "Tailand turlari — Getcar Travel",
+        "description": "Phuket va Pattaya — okean, orollar va tropik iqlim. Uzoq dam olish uchun."
+      }
+    },
+    "ru": {
+      "name": "Таиланд",
+      "summary": "Пхукет и Паттайя — океан, острова и тропический климат. Для длительного отдыха.",
+      "body": "Таиланд — для тех, кто планирует более длительный отдых у океана. В программу входят морские прогулки по островам Пхукета, национальная кухня и тропическая природа.",
+      "seo": {
+        "title": "Туры в Таиланд — Getcar Travel",
+        "description": "Пхукет и Паттайя — океан, острова и тропический климат. Для длительного отдыха."
+      }
+    }
+  }
+}

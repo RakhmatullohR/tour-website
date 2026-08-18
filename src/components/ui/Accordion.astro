@@ -1,0 +1,21 @@
+---
+// §13.4 Accordion, built on <details>/<summary>.
+//
+// This is the no-JS choice on purpose (BC11): a JS accordion collapses to
+// permanently hidden content with JavaScript off, and the tour itinerary is
+// exactly the content a customer needs to self-qualify.
+interface Props { summary: string; open?: boolean; class?: string }
+const { summary, open = false, class: cls = '' } = Astro.props;
+---
+<details open={open} class={`group border-b border-neutral-200 ${cls}`}>
+  <summary
+    class="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-medium text-brand-900 marker:content-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+  >
+    <span>{summary}</span>
+    <svg class="h-5 w-5 shrink-0 transition-transform duration-150 group-open:rotate-180" viewBox="0 0 24 24"
+      fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  </summary>
+  <div class="pb-4 text-neutral-600"><slot /></div>
+</details>

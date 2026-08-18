@@ -1,0 +1,121 @@
+{
+  "id": "eg-sharm-7n",
+  "slug": "misr-sharm-8-kun",
+  "status": "published",
+  "featured": true,
+  "order": 50,
+  "country": "EG",
+  "cities": [
+    "Sharm ash-Shayx"
+  ],
+  "category": "beach",
+  "departureCity": "Toshkent",
+  "duration": {
+    "days": 8,
+    "nights": 7
+  },
+  "price": {
+    "amount": 8900000,
+    "currency": "UZS",
+    "per": "person"
+  },
+  "flightIncluded": false,
+  "groupSize": {
+    "min": 2,
+    "max": 20
+  },
+  "departures": [
+    "2026-10-24",
+    "2026-11-21",
+    "2026-12-19"
+  ],
+  "badges": [
+    "last-minute"
+  ],
+  "images": {
+    "cover": "tour-misr-sharm-cover-1200x800.webp",
+    "gallery": []
+  },
+  "i18n": {
+    "uz": {
+      "title": "Sharm ash-Shayx — 7 kecha 8 kun, Qizil dengiz",
+      "summary": "All-inclusive mehmonxona, rif boʻylab snorkling va tinch sohil. Suv ostidagi olam yil davomida ochiq.",
+      "priceNote": "Narxga aviabilet kirmaydi.",
+      "includes": [
+        "Mehmonxona 5* (7 kecha)",
+        "All-inclusive ovqatlanish",
+        "Aeroport transferi",
+        "Snorkling jihozlari",
+        "Tibbiy sugʻurta"
+      ],
+      "excludes": [
+        "Aviabilet",
+        "Viza yigʻimi",
+        "Diving kursi",
+        "Shaxsiy xarajatlar"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Kelish, mehmonxonaga joylashish."
+        },
+        {
+          "day": 3,
+          "text": "Ras Muhammad qoʻriqxonasiga qayiqda snorkling sayohati."
+        },
+        {
+          "day": 5,
+          "text": "Ixtiyoriy ekskursiya: Qohira va piramidalar (alohida toʻlanadi)."
+        },
+        {
+          "day": 8,
+          "text": "Aeroportga transfer va qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Sharm ash-Shayx — 7 kecha 8 kun, Qizil dengiz",
+        "description": "All-inclusive mehmonxona, rif boʻylab snorkling va tinch sohil. Suv ostidagi olam yil davomida ochiq."
+      }
+    },
+    "ru": {
+      "title": "Шарм-эль-Шейх — 7 ночей 8 дней, Красное море",
+      "summary": "Отель all-inclusive, снорклинг на рифах и спокойный пляж. Подводный мир доступен круглый год.",
+      "priceNote": "Авиабилет не включён в стоимость.",
+      "includes": [
+        "Отель 5* (7 ночей)",
+        "Питание all-inclusive",
+        "Трансфер из аэропорта",
+        "Снаряжение для снорклинга",
+        "Медицинская страховка"
+      ],
+      "excludes": [
+        "Авиабилет",
+        "Визовый сбор",
+        "Курс дайвинга",
+        "Личные расходы"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Прибытие и заселение в отель."
+        },
+        {
+          "day": 3,
+          "text": "Морская прогулка со снорклингом в заповедник Рас-Мохаммед."
+        },
+        {
+          "day": 5,
+          "text": "Экскурсия по желанию: Каир и пирамиды (оплачивается отдельно)."
+        },
+        {
+          "day": 8,
+          "text": "Трансфер в аэропорт и возвращение."
+        }
+      ],
+      "seo": {
+        "title": "Шарм-эль-Шейх — 7 ночей 8 дней, Красное море",
+        "description": "Отель all-inclusive, снорклинг на рифах и спокойный пляж. Подводный мир доступен круглый год."
+      }
+    }
+  }
+}

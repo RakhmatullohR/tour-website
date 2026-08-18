@@ -1,0 +1,27 @@
+{
+  "country": "UZ",
+  "slug": "ozbekiston",
+  "order": 60,
+  "featured": true,
+  "image": "dest-ozbekiston-01-800x1000.webp",
+  "i18n": {
+    "uz": {
+      "name": "Oʻzbekiston",
+      "summary": "Samarqand, Buxoro va Xiva — uzoqqa uchmasdan koʻriladigan tarix.",
+      "body": "Ichki turizm — qisqa dam olish kunlari uchun eng oson variant. Samarqand, Buxoro va Xiva boʻylab gid hamrohligidagi dasturlar, poyezd chiptalari va mehmonxona bilan birga tashkil qilinadi.",
+      "seo": {
+        "title": "Oʻzbekiston turlari — Getcar Travel",
+        "description": "Samarqand, Buxoro va Xiva — uzoqqa uchmasdan koʻriladigan tarix."
+      }
+    },
+    "ru": {
+      "name": "Узбекистан",
+      "summary": "Самарканд, Бухара и Хива — история, ради которой не нужно далеко лететь.",
+      "body": "Внутренний туризм — самый простой вариант для коротких выходных. Программы с гидом по Самарканду, Бухаре и Хиве организуются вместе с железнодорожными билетами и отелем.",
+      "seo": {
+        "title": "Туры в Узбекистан — Getcar Travel",
+        "description": "Самарканд, Бухара и Хива — история, ради которой не нужно далеко лететь."
+      }
+    }
+  }
+}

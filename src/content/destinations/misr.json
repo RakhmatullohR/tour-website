@@ -1,0 +1,27 @@
+{
+  "country": "EG",
+  "slug": "misr",
+  "order": 40,
+  "featured": true,
+  "image": "dest-misr-01-800x1000.webp",
+  "i18n": {
+    "uz": {
+      "name": "Misr",
+      "summary": "Sharm ash-Shayx va Hurgada — Qizil dengiz, rif va piramidalar.",
+      "body": "Misr — Qizil dengizdagi dam olishni tarixiy ekskursiyalar bilan birlashtirish imkonini beradi. Sharm ash-Shayxda snorkling va diving, Qohirada esa piramidalarga ekskursiya tashkil qilinadi.",
+      "seo": {
+        "title": "Misr turlari — Getcar Travel",
+        "description": "Sharm ash-Shayx va Hurgada — Qizil dengiz, rif va piramidalar."
+      }
+    },
+    "ru": {
+      "name": "Египет",
+      "summary": "Шарм-эль-Шейх и Хургада — Красное море, рифы и пирамиды.",
+      "body": "Египет позволяет совместить отдых на Красном море с экскурсиями. В Шарм-эль-Шейхе — снорклинг и дайвинг, в Каире — экскурсия к пирамидам.",
+      "seo": {
+        "title": "Туры в Египет — Getcar Travel",
+        "description": "Шарм-эль-Шейх и Хургада — Красное море, рифы и пирамиды."
+      }
+    }
+  }
+}

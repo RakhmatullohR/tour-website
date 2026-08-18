@@ -1,0 +1,27 @@
+{
+  "country": "AE",
+  "slug": "dubay",
+  "order": 20,
+  "featured": true,
+  "image": "dest-dubay-01-800x1000.webp",
+  "i18n": {
+    "uz": {
+      "name": "BAA (Dubay)",
+      "summary": "Zamonaviy shahar, cheksiz shopping va sahro safari. Yil davomida ochiq yoʻnalish.",
+      "body": "Dubay — bir necha kunda koʻp narsani koʻrish mumkin boʻlgan shahar: Burj Khalifa, sahro safari, akvarium va yirik savdo markazlari. Oilaviy sayohat uchun ham, qisqa dam olish uchun ham mos keladi.",
+      "seo": {
+        "title": "BAA (Dubay) turlari — Getcar Travel",
+        "description": "Zamonaviy shahar, cheksiz shopping va sahro safari. Yil davomida ochiq yoʻnalish."
+      }
+    },
+    "ru": {
+      "name": "ОАЭ (Дубай)",
+      "summary": "Современный город, бесконечный шоппинг и сафари в пустыне. Направление открыто круглый год.",
+      "body": "Дубай — город, где за несколько дней можно увидеть многое: Бурдж-Халифа, сафари в пустыне, аквариум и крупные торговые центры. Подходит и для семейной поездки, и для короткого отдыха.",
+      "seo": {
+        "title": "Туры в ОАЭ (Дубай) — Getcar Travel",
+        "description": "Современный город, бесконечный шоппинг и сафари в пустыне. Направление открыто круглый год."
+      }
+    }
+  }
+}

@@ -1,0 +1,111 @@
+---
+// Home §6 row 12 — footer.
+//
+// BC12b, and the same discipline applied to every other unanswered question:
+//   · trading name + phone  — ALWAYS rendered (Gate 1 requires them)
+//   · address block         — renders when ADDRESS is supplied, AUTO-HIDES when null (Q22)
+//   · opening hours         — same, on HOURS (Q21)
+//   · INN + licence         — LEGAL is null until the LLC exists (Q23); until then
+//                             the footer carries the TRADING NAME and nothing more
+//   · payment badges        — absent entirely: they ship only if Q7 confirms a
+//                             merchant contract, and there is none (§6 row 12)
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { TFunction } from '../../i18n/t';
+import { PHONE_DISPLAY, telHref, telegramHref, whatsappHref, SOCIAL, ADDRESS, HOURS, LEGAL, BRAND_NAME } from '../../config/site';
+import Icon from '../ui/Icon.astro';
+
+interface Props { locale: string; t: TFunction }
+const { locale, t } = Astro.props;
+
+const links = [
+  { key: 'nav.tours', href: '/tours/' },
+  { key: 'nav.destinations', href: '/destinations/' },
+  { key: 'nav.promotions', href: '/promotions/' },
+  { key: 'nav.about', href: '/about/' },
+  { key: 'nav.contacts', href: '/contacts/' },
+  { key: 'nav.privacy', href: '/privacy/' },
+] as const;
+
+const tg = telegramHref();
+const wa = whatsappHref();
+const socials = [
+  tg && { href: tg, label: 'Telegram', icon: 'telegram' as const, event: 'telegram_click' },
+  wa && { href: wa, label: 'WhatsApp', icon: 'whatsapp' as const, event: 'whatsapp_click' },
+  SOCIAL.instagram && { href: `https://instagram.com/${SOCIAL.instagram}`, label: 'Instagram', icon: 'instagram' as const, event: null },
+  SOCIAL.youtube && { href: `https://youtube.com/${SOCIAL.youtube}`, label: 'YouTube', icon: 'youtube' as const, event: null },
+].filter(Boolean) as { href: string; label: string; icon: 'telegram' | 'whatsapp' | 'instagram' | 'youtube'; event: string | null }[];
+
+const year = new Date().getFullYear();
+---
+<footer class="bg-brand-900 pt-14 pb-8 text-neutral-200">
+  <div class="mx-auto max-w-[var(--container-site)] px-4 sm:px-6">
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <p class="font-[family-name:var(--font-display)] text-xl font-bold text-white">
+          Getcar<span class="text-brand-300">Travel</span>
+        </p>
+        <p class="mt-3 max-w-[40ch] text-sm text-neutral-400">{t('footer.about')}</p>
+      </div>
+
+      <nav aria-labelledby="f-links">
+        <h2 id="f-links" class="font-semibold text-white">{t('footer.links')}</h2>
+        <ul class="mt-3 space-y-2 text-sm">
+          {links.map((l) => (
+            <li>
+              <a href={getRelativeLocaleUrl(locale, l.href)}
+                class="inline-block py-1 hover:text-accent-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                {t(l.key)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div>
+        <h2 class="font-semibold text-white">{t('footer.contacts')}</h2>
+        <ul class="mt-3 space-y-2 text-sm">
+          <li>
+            <a href={telHref()} data-metrica="phone_click"
+              class="inline-flex items-center gap-2 py-1 hover:text-accent-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+              <Icon name="phone" size={16} />{PHONE_DISPLAY}
+            </a>
+          </li>
+          {HOURS && (
+            <li class="flex items-start gap-2 py-1 text-neutral-400">
+              <Icon name="clock" size={16} class="mt-0.5 shrink-0" />
+              <span><span class="block text-neutral-200">{t('footer.hours')}</span>{locale === 'ru' ? HOURS.ru : HOURS.uz}</span>
+            </li>
+          )}
+          {ADDRESS && (
+            <li class="flex items-start gap-2 py-1 text-neutral-400">
+              <Icon name="map" size={16} class="mt-0.5 shrink-0" />
+              <span><span class="block text-neutral-200">{t('footer.address')}</span>{locale === 'ru' ? ADDRESS.ru : ADDRESS.uz}</span>
+            </li>
+          )}
+        </ul>
+      </div>
+
+      {socials.length > 0 && (
+        <div>
+          <h2 class="font-semibold text-white">{t('footer.social')}</h2>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {socials.map((s) => (
+              <li>
+                <a href={s.href} target="_blank" rel="noopener noreferrer" data-metrica={s.event} aria-label={s.label}
+                  class="grid h-11 w-11 place-items-center rounded-full border border-white/20 hover:border-accent-500 hover:text-accent-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                  <Icon name={s.icon} size={20} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+
+    <div class="mt-12 border-t border-white/10 pt-6 text-xs text-neutral-400">
+      <p>© {year} {BRAND_NAME}. {t('footer.rights')}</p>
+      {LEGAL && <p class="mt-1">{LEGAL.name} · INN {LEGAL.inn} · {LEGAL.licence}</p>}
+      <p class="mt-2 max-w-[70ch]">{t('footer.disclaimer')}</p>
+    </div>
+  </div>
+</footer>

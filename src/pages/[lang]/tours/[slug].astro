@@ -1,0 +1,214 @@
+---
+// §5 — tour detail. Price, includes/excludes, gallery, booking form.
+//
+// §7.1 NON-EMISSION, ENFORCED IN getStaticPaths(): a tour with no block for a
+// locale produces NO PAGE in that locale. The same `availableLocales` set is then
+// handed to the layout, so this page's hreflang cluster and its language switcher
+// are literally the set that decided emission — they cannot disagree (BC8).
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { SHIPPED_LOCALES } from '../../../i18n/locales.mjs';
+import { useTranslations } from '../../../i18n/t';
+import { tryResolveImage } from '../../../lib/images';
+import { upcomingDepartures, localesFor, getToursFor } from '../../../lib/tours';
+import { formatDate } from '../../../lib/format';
+import { touristTripSchema, breadcrumbSchema } from '../../../lib/seo';
+import PriceTag from '../../../components/ui/PriceTag.astro';
+import Badge from '../../../components/ui/Badge.astro';
+import Icon from '../../../components/ui/Icon.astro';
+import Accordion from '../../../components/ui/Accordion.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import LeadForm from '../../../components/forms/LeadForm.astro';
+import TourCard from '../../../components/cards/TourCard.astro';
+import Gallery from '../../../components/islands/Gallery.astro';
+
+export async function getStaticPaths() {
+  const tours = (await getCollection('tours')).filter((e) => e.data.status === 'published');
+  return tours.flatMap((tour) =>
+    localesFor(tour, SHIPPED_LOCALES).map((lang) => ({
+      params: { lang, slug: tour.data.slug },
+      props: { tour, availableLocales: localesFor(tour, SHIPPED_LOCALES) },
+    })),
+  );
+}
+
+const { tour, availableLocales } = Astro.props;
+const lang = Astro.params.lang!;
+const t = useTranslations(lang);
+
+const d = tour.data;
+const b = d.i18n[lang]!;
+const cover = tryResolveImage(d.images.cover);
+const gallery = d.images.gallery.map((g) => tryResolveImage(g)).filter((x) => x !== null);
+const upcoming = upcomingDepartures(tour);
+
+const path = `/tours/${d.slug}/`;
+const crumbs = [
+  { name: t('breadcrumb.home'), path: `/${lang}/` },
+  { name: t('catalog.title'), path: `/${lang}/tours/` },
+  { name: b.title, path: `/${lang}${path}` },
+];
+
+// §14 — the tour cover is this page's og:image, so a shared link previews the
+// tour rather than the generic site card.
+const ogImage = cover ? d.images.cover : undefined;
+
+const similar = (await getToursFor(lang))
+  .filter((x) => x.data.slug !== d.slug && x.data.country === d.country)
+  .slice(0, 3);
+
+const facts = [
+  { icon: 'clock' as const, label: t('tour.duration'), value: t('tour.durationValue', { nights: d.duration.nights, days: d.duration.days }) },
+  { icon: 'map' as const, label: t('tour.departureCity'), value: d.departureCity },
+  d.groupSize && { icon: 'users' as const, label: t('tour.groupSize'), value: t('tour.groupSizeValue', { min: d.groupSize.min, max: d.groupSize.max }) },
+].filter(Boolean) as { icon: 'clock' | 'map' | 'users'; label: string; value: string }[];
+---
+<Base
+  locale={lang}
+  title={b.seo?.title ?? `${b.title} — ${t('site.name')}`}
+  description={b.seo?.description ?? b.summary}
+  availableLocales={availableLocales}
+  path={path}
+  ogImage={ogImage}
+  schemas={[
+    touristTripSchema(Astro.site, lang, tour, cover?.src ?? null),
+    breadcrumbSchema(Astro.site, crumbs),
+  ]}
+>
+  <div class="mx-auto max-w-[var(--container-site)] px-4 py-8 sm:px-6 sm:py-12">
+    <Breadcrumbs crumbs={crumbs} />
+
+    <div class="mt-6 grid gap-10 lg:grid-cols-[1fr_380px] lg:gap-12">
+      <article>
+        {d.badges.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {d.badges.map((badge) => (
+              <Badge tone={badge === 'discount' ? 'accent' : badge === 'last-minute' ? 'hot' : 'brand'}>
+                {t(`tour.badge.${badge}`)}
+              </Badge>
+            ))}
+          </div>
+        )}
+
+        <h1 class="mt-3 text-3xl leading-tight font-bold text-brand-900 sm:text-4xl">{b.title}</h1>
+
+        <p class="mt-3 flex flex-wrap items-center gap-x-2 text-sm text-neutral-600">
+          <span>{t(`country.${d.country}`)}</span>
+          {d.cities.length > 0 && <><span aria-hidden="true">·</span><span>{d.cities.join(', ')}</span></>}
+          <span aria-hidden="true">·</span>
+          <span>{t(`category.${d.category}`)}</span>
+        </p>
+
+        {cover && (
+          <Image src={cover} alt={b.title} widths={[640, 1000, 1200]} sizes="(max-width: 1024px) 100vw, 760px"
+            format="webp" loading="eager" fetchpriority="high"
+            class="mt-6 aspect-[3/2] w-full rounded-[var(--radius-lg)] object-cover" />
+        )}
+
+        <p class="mt-6 max-w-[68ch] text-lg text-neutral-800">{b.summary}</p>
+
+        <dl class="mt-8 grid gap-4 sm:grid-cols-3">
+          {facts.map((f) => (
+            <div class="rounded-[var(--radius-md)] border border-neutral-200 p-4">
+              <dt class="flex items-center gap-1.5 text-xs text-neutral-600"><Icon name={f.icon} size={16} />{f.label}</dt>
+              <dd class="mt-1 font-medium text-brand-900">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <section aria-labelledby="dep-h" class="mt-10">
+          <h2 id="dep-h" class="text-xl font-bold text-brand-900">{t('tour.departures')}</h2>
+          <p class="mt-3 text-neutral-800">
+            {upcoming.length === 0 ? (
+              t('tour.datesOnRequest')
+            ) : (
+              <span data-departures-list data-empty-label={t('tour.datesOnRequest')} class="flex flex-wrap gap-2">
+                {upcoming.map((iso) => (
+                  <time datetime={iso} data-departure
+                    class="rounded-[var(--radius-sm)] border border-neutral-200 bg-neutral-50 px-3 py-1.5 text-sm">
+                    {formatDate(iso, lang)}
+                  </time>
+                ))}
+              </span>
+            )}
+          </p>
+        </section>
+
+        <div class="mt-10 grid gap-8 sm:grid-cols-2">
+          <section aria-labelledby="inc-h">
+            <h2 id="inc-h" class="text-xl font-bold text-brand-900">{t('tour.includes')}</h2>
+            <ul class="mt-4 space-y-2">
+              {b.includes.map((item) => (
+                <li class="flex items-start gap-2 text-neutral-800">
+                  <Icon name="check" size={18} class="mt-1 shrink-0 text-brand-700" />{item}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section aria-labelledby="exc-h">
+            <h2 id="exc-h" class="text-xl font-bold text-brand-900">{t('tour.excludes')}</h2>
+            <ul class="mt-4 space-y-2">
+              {b.excludes.map((item) => (
+                <li class="flex items-start gap-2 text-neutral-600">
+                  <Icon name="close" size={18} class="mt-1 shrink-0 text-neutral-600" />{item}
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+
+        {/* §7.1 — an empty or absent itinerary omits the section entirely (A4).
+            An empty "Programme" heading is worse than no heading. */}
+        {b.itinerary.length > 0 && (
+          <section aria-labelledby="itin-h" class="mt-10">
+            <h2 id="itin-h" class="text-xl font-bold text-brand-900">{t('tour.itinerary')}</h2>
+            <div class="mt-4 border-t border-neutral-200">
+              {b.itinerary.map((step, i) => (
+                <Accordion summary={t('tour.day', { n: step.day })} open={i === 0}>{step.text}</Accordion>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {gallery.length > 0 && <Gallery images={gallery} title={t('tour.gallery')} class="mt-10" />}
+      </article>
+
+      {/* The booking panel sticks on desktop so the CTA is always one glance away
+          on a long page, and flows inline on mobile where sticky would eat the
+          viewport. */}
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <div class="rounded-[var(--radius-lg)] border border-neutral-200 bg-white p-6">
+          <PriceTag amount={d.price.amount} currency={d.price.currency} oldAmount={d.price.oldAmount}
+            per={d.price.per} locale={lang} t={t} size="lg" />
+
+          {/* BC6 — from the BOOLEAN through t(), never from priceNote. */}
+          <p class="mt-4 flex items-start gap-2 text-sm text-neutral-800">
+            <Icon name="plane" size={18} class="mt-0.5 shrink-0 text-brand-700" />
+            {d.flightIncluded ? t('tour.flightIncluded') : t('tour.flightNotIncluded')}
+          </p>
+          {/* priceNote is SUPPORTING DETAIL under the fact, never the fact itself. */}
+          {b.priceNote && <p class="mt-2 text-sm text-neutral-600">{b.priceNote}</p>}
+
+          <h2 class="mt-6 text-lg font-bold text-brand-900">{t('tour.bookTitle')}</h2>
+          <LeadForm variant="booking" locale={lang} t={t} tourId={d.id} tourTitle={b.title} class="mt-4" />
+        </div>
+      </aside>
+    </div>
+
+    {similar.length > 0 && (
+      <section aria-labelledby="similar-h" class="mt-16">
+        <h2 id="similar-h" class="text-2xl font-bold text-brand-900">{t('tour.similar')}</h2>
+        <ul class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {similar.map((x) => <li class="relative"><TourCard tour={x} locale={lang} t={t} /></li>)}
+        </ul>
+      </section>
+    )}
+  </div>
+
+  {/* §14 — tour_view is one of the six events wired at Gate 1. */}
+  <script>
+    window.__gtMetrica?.('tour_view');
+  </script>
+</Base>

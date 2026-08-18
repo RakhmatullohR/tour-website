@@ -1,0 +1,19 @@
+{
+  "_comment": "NAMUNA. Q14 javobi kelmaguncha real:false — sayt bunday sharhni CHIQARMAYDI.",
+  "real": false,
+  "order": 10,
+  "author": "Dilnoza R.",
+  "avatar": "avatar-01-200x200.webp",
+  "rating": 5,
+  "tourSlug": "turkiya-antalya-7-kun",
+  "i18n": {
+    "uz": {
+      "text": "Antalyaga oilamiz bilan bordik. Transfer aeroportda kutib turdi, mehmonxona suratlardagidek edi. Menejer sayohat davomida aloqada boʻldi.",
+      "role": "Antalya, 2026"
+    },
+    "ru": {
+      "text": "Ездили в Анталью всей семьёй. Трансфер ждал в аэропорту, отель оказался таким же, как на фото. Менеджер был на связи всю поездку.",
+      "role": "Анталья, 2026"
+    }
+  }
+}

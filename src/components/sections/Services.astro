@@ -1,0 +1,39 @@
+---
+// Home §6 row 4 — six service cards.
+//
+// SIX INLINE SVG ICONS, NO PHOTOGRAPHS. This is why the six Tier-2 "service
+// photos" were dropped from the manifest: they had no consumer, and carrying them
+// would have put six impossible-to-place rows into the client's image document.
+import type { TFunction } from '../../i18n/t';
+import Icon from '../ui/Icon.astro';
+
+interface Props { t: TFunction }
+const { t } = Astro.props;
+
+const services = [
+  { icon: 'tours', title: 'services.tours.title', text: 'services.tours.text' },
+  { icon: 'hotel', title: 'services.hotel.title', text: 'services.hotel.text' },
+  { icon: 'insurance', title: 'services.insurance.title', text: 'services.insurance.text' },
+  { icon: 'transfer', title: 'services.transfer.title', text: 'services.transfer.text' },
+  { icon: 'guide', title: 'services.guide.title', text: 'services.guide.text' },
+  { icon: 'meals', title: 'services.meals.title', text: 'services.meals.text' },
+] as const;
+---
+<section aria-labelledby="services-h" class="bg-white py-16 sm:py-20">
+  <div class="mx-auto max-w-[var(--container-site)] px-4 sm:px-6">
+    <h2 id="services-h" class="text-3xl font-bold text-brand-900 sm:text-4xl">{t('services.title')}</h2>
+    <p class="mt-3 max-w-[68ch] text-neutral-600">{t('services.subtitle')}</p>
+
+    <ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {services.map((s) => (
+        <li class="reveal rounded-[var(--radius-lg)] border border-neutral-200 p-6">
+          <span class="grid h-12 w-12 place-items-center rounded-[var(--radius-md)] bg-brand-300/20 text-brand-700">
+            <Icon name={s.icon} size={26} />
+          </span>
+          <h3 class="mt-4 text-lg font-semibold text-brand-900">{t(s.title)}</h3>
+          <p class="mt-2 text-sm text-neutral-600">{t(s.text)}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

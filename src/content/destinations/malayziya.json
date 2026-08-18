@@ -1,0 +1,27 @@
+{
+  "country": "MY",
+  "slug": "malayziya",
+  "order": 50,
+  "featured": true,
+  "image": "dest-malayziya-01-800x1000.webp",
+  "i18n": {
+    "uz": {
+      "name": "Malayziya",
+      "summary": "Kuala-Lumpur va Langkavi — zamonaviy shahar va tropik orollar.",
+      "body": "Malayziya — Osiyoni birinchi marta koʻrmoqchi boʻlganlar uchun qulay yoʻnalish. Kuala-Lumpurdagi Petronas minoralari, Langkavi orollari va halol ovqatlanish imkoniyati dasturning asosini tashkil qiladi.",
+      "seo": {
+        "title": "Malayziya turlari — Getcar Travel",
+        "description": "Kuala-Lumpur va Langkavi — zamonaviy shahar va tropik orollar."
+      }
+    },
+    "ru": {
+      "name": "Малайзия",
+      "summary": "Куала-Лумпур и Лангкави — современный город и тропические острова.",
+      "body": "Малайзия — удобное направление для тех, кто впервые едет в Азию. Основу программы составляют башни Петронас в Куала-Лумпуре, острова Лангкави и доступное халяльное питание.",
+      "seo": {
+        "title": "Туры в Малайзия — Getcar Travel",
+        "description": "Куала-Лумпур и Лангкави — современный город и тропические острова."
+      }
+    }
+  }
+}
