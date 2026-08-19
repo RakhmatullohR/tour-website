@@ -63,6 +63,22 @@ captured in `docs/DEPLOY.md` §1.1 before anything was changed. None of them fro
 a live service, so there is no mail to destroy, but the checklist's capture step
 did apply and was performed. It is retained for any future repoint of a live zone.
 
+**Contact facts updated 2026-08-19.** Phone → `+998 94 091 40 00`. A public
+contact email was added and now renders in the footer, as a Contacts channel and
+as `email` in the TravelAgency schema, on the same auto-hide-on-null discipline as
+ADDRESS and HOURS.
+
+Two things this pulls forward:
+
+- **`EMAIL` is provisional.** It is currently a personal-name Gmail, set so the
+  client has something to review. `info@getcartravel.uz` is the intended value and
+  the domain is already owned — replacing it is one string in `config/site.ts`.
+- **§14 now has SEVEN Metrica events, not six.** `email_click` joins `form_submit`,
+  `phone_click`, `telegram_click`, `whatsapp_click`, `tour_view` and `lang_switch`.
+  The delegated listener in `Base.astro` has no whitelist so it fires already, but
+  whoever configures the Yandex counter must create seven goals. `docs/PLAN.md`
+  §14 still says six; it is left as the historical record.
+
 **Still open, deliberately:** whether the client wants `info@getcartravel.uz`.
 Deferring is free — MX/SPF/DKIM are additions to a zone we control and do not
 disturb the records that serve the site.

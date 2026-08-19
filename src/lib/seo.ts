@@ -4,7 +4,7 @@
 // Every URL emitted here is ABSOLUTE, because that is what the Rich Results Test
 // and hreflang both require.
 import type { CollectionEntry } from 'astro:content';
-import { PHONE_E164, BRAND_NAME, SOCIAL, ADDRESS } from '../config/site';
+import { PHONE_E164, BRAND_NAME, SOCIAL, ADDRESS, EMAIL } from '../config/site';
 
 export type Json = Record<string, unknown>;
 
@@ -26,6 +26,9 @@ export function travelAgencySchema(site: URL | undefined, locale: string, descri
     telephone: PHONE_E164,
     areaServed: 'UZ',
   };
+  // Same auto-hide discipline as address below: an empty email property is worse
+  // than an absent one for structured data.
+  if (EMAIL) schema.email = EMAIL;
   if (sameAs.length) schema.sameAs = sameAs;
   // Auto-hides when the client has not supplied an address (BC12b) — an
   // incomplete PostalAddress is worse than none for structured data.

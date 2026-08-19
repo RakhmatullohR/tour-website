@@ -11,7 +11,7 @@
 //                             merchant contract, and there is none (§6 row 12)
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { TFunction } from '../../i18n/t';
-import { PHONE_DISPLAY, telHref, telegramHref, whatsappHref, SOCIAL, ADDRESS, HOURS, LEGAL, BRAND_NAME } from '../../config/site';
+import { PHONE_DISPLAY, telHref, telegramHref, whatsappHref, mailtoHref, EMAIL, SOCIAL, ADDRESS, HOURS, LEGAL, BRAND_NAME } from '../../config/site';
 import Icon from '../ui/Icon.astro';
 
 interface Props { locale: string; t: TFunction }
@@ -28,6 +28,7 @@ const links = [
 
 const tg = telegramHref();
 const wa = whatsappHref();
+const mail = mailtoHref();
 const socials = [
   tg && { href: tg, label: 'Telegram', icon: 'telegram' as const, event: 'telegram_click' },
   wa && { href: wa, label: 'WhatsApp', icon: 'whatsapp' as const, event: 'whatsapp_click' },
@@ -70,6 +71,14 @@ const year = new Date().getFullYear();
               <Icon name="phone" size={16} />{PHONE_DISPLAY}
             </a>
           </li>
+          {mail && (
+            <li>
+              <a href={mail} data-metrica="email_click"
+                class="inline-flex items-center gap-2 py-1 break-all hover:text-accent-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                <Icon name="mail" size={16} class="shrink-0" />{EMAIL}
+              </a>
+            </li>
+          )}
           {HOURS && (
             <li class="flex items-start gap-2 py-1 text-neutral-400">
               <Icon name="clock" size={16} class="mt-0.5 shrink-0" />

@@ -35,6 +35,19 @@ export const SOCIAL: SocialLinks = {
   youtube: null,             // TODO(Q18)
 };
 
+/** Q3 — public contact email.
+ *
+ *  PROVISIONAL, set 2026-08-19 so the client has something to look at. This is a
+ *  personal-name Gmail, which reads as an individual rather than an agency on a
+ *  page where someone is deciding whether to wire money for a tour. The intended
+ *  value is `info@getcartravel.uz` — the domain is already owned, and Zoho Mail
+ *  or Yandex 360 will host it free once the Cloudflare zone goes Active
+ *  (docs/DEPLOY.md §5). Replace this one string then; nothing else changes.
+ *
+ *  Null hides the email everywhere — footer row, contacts channel and the
+ *  TravelAgency schema — exactly like ADDRESS and HOURS below. */
+export const EMAIL: string | null = 'xatamovsamandar03@gmail.com';
+
 /** Q22 — office address. Null until supplied; the footer block and the Contacts
  *  map card both auto-hide (BC12b). */
 export const ADDRESS: { uz: string; ru: string; mapUrl: string } | null = null;
@@ -67,6 +80,7 @@ export const LEAD_ENDPOINT = process.env.LEAD_ENDPOINT ?? '';
 export const LEAD_TOKEN = process.env.LEAD_TOKEN ?? '';
 
 export const telHref = () => `tel:${PHONE_E164}`;
+export const mailtoHref = () => (EMAIL ? `mailto:${EMAIL}` : null);
 export const telegramHref = (text?: string) =>
   SOCIAL.telegram ? `https://t.me/${SOCIAL.telegram}${text ? `?text=${encodeURIComponent(text)}` : ''}` : null;
 export const whatsappHref = (text?: string) =>
