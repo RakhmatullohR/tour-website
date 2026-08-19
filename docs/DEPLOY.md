@@ -173,6 +173,13 @@ here — it is the duplicate-content option.
 
 Record which one was chosen.
 
+**Expect HTTPS to fail for a while first.** Observed on this zone: minutes after
+activation the apex answered `http://` with 200 while `https://` returned *"no
+alternative certificate subject name matches"*. That is Cloudflare's Universal SSL
+still being issued, not a misconfiguration — it clears on its own, typically within
+the hour. Do not "fix" it by turning SSL/TLS down to Flexible; that ships a site
+that is encrypted to the visitor and plaintext behind the edge.
+
 Verify before calling the launch done — a green pipeline is not evidence:
 
 ```sh
