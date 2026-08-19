@@ -41,7 +41,31 @@ two-locale list.
 | B9 | **The floating widget has not been checked against a real device.** | manual gate | §18 check 14. It is bottom-right, forms are left-aligned inside a max-width container, and the callback panel is width-capped — but that is an argument, not a measurement. **Only Chrome and Firefox exist on this machine; no iOS Safari, no Samsung Internet.** |
 | B10 | **Two Tier-2 covers were generated to complete the 8-sample catalogue.** | scope hygiene | §16.1 prices Tier-2 (59 files) as a **+0.5 d add-on**. P3 needs 8 sample tours but Tier 1 budgets only the featured six covers, so `gen-placeholders.mjs --only` was added and **exactly two** files generated (`malayziya-kuala-lumpur`, `ozbekiston-xiva`). This is 2 of 59, not the add-on. Flagging it so it is not later mistaken for delivered scope. |
 | B11 | **`METRICA_ID` is unset, so no analytics script and no consent banner ship.** | Gate 1 | Q8 (a **Yandex** account, not a Google one). All six §14 events are wired through one delegated listener and the consent gate is written; with no counter id the whole block is omitted rather than loading a tracker with a fake id. Set `METRICA_ID` and it activates. |
-| B12 | **`SITE_URL` still defaults to `https://getcar-travel.uz`.** | P6/P8 | Q2. Every absolute URL — canonical, hreflang, OG, sitemap, JSON-LD, `robots.txt` — derives from it, so a wrong value ships wrong SEO site-wide. It is a one-variable change, but it must happen **before** the sitemap is submitted. |
+| B12 | ~~**`SITE_URL` still defaults to `https://getcar-travel.uz`.**~~ **CLOSED 2026-08-19** — see below. | — | — |
+
+**Closed 2026-08-19 by the domain purchase.**
+
+**B12 — `SITE_URL`.** `getcartravel.uz` is registered (AIRNET → UZINFOCOM, domain
+id 9988). `astro.config.mjs` now defaults to it. The old placeholder was
+`getcar-travel.uz` **with a hyphen** — a different name nobody owns, so this was
+never merely "unset": it was a wrong value that would have shipped a wrong
+canonical, hreflang, OG url, sitemap, JSON-LD and `robots.txt` on all 46 pages.
+Verified in `dist/`: every absolute URL now carries the registered origin and the
+hyphenated string appears nowhere in the output.
+
+**A6 / Q1 — hosting.** Answered: Cloudflare Pages (Variant C), published from the
+existing Actions pipeline rather than Pages' own Git integration, so `check:images`
+and `check` still gate what ships. `docs/DEPLOY.md` is rewritten around it. The
+BC17a record-and-recreate-MX checklist turned out **not to apply to this launch** —
+the domain was registered the same day. Note the correction: the zone is **not**
+empty — AIRNET auto-provisioned five default records (apex A, three CNAME, one MX),
+captured in `docs/DEPLOY.md` §1.1 before anything was changed. None of them fronts
+a live service, so there is no mail to destroy, but the checklist's capture step
+did apply and was performed. It is retained for any future repoint of a live zone.
+
+**Still open, deliberately:** whether the client wants `info@getcartravel.uz`.
+Deferring is free — MX/SPF/DKIM are additions to a zone we control and do not
+disturb the records that serve the site.
 
 ---
 
