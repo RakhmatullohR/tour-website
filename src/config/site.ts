@@ -9,9 +9,9 @@
 // They are null until the client supplies them, and the chips do not render.
 
 /** E.164, digits only after the +. Used for tel: and wa.me. */
-export const PHONE_E164 = '+998509074000';
+export const PHONE_E164 = '+998940914000';
 /** Human-readable form. */
-export const PHONE_DISPLAY = '+998 50 907 40 00';
+export const PHONE_DISPLAY = '+998 94 091 40 00';
 
 export interface SocialLinks {
   /** Q17 — t.me username, without the @. */
@@ -26,7 +26,11 @@ export interface SocialLinks {
 
 export const SOCIAL: SocialLinks = {
   telegram: 'getcar_travel', // TODO(Q17): confirm the real username with the client
-  whatsapp: '998509074000',  // TODO(Q16): confirm the real WhatsApp number
+  // Q16 is STILL open. This tracks PHONE_E164 because that was always the
+  // standing assumption, not because the client confirmed WhatsApp runs on the
+  // new number. Updated 2026-08-19 with the phone so the two cannot drift into
+  // a state where WhatsApp silently points at a number nobody answers.
+  whatsapp: '998940914000',  // TODO(Q16): confirm the real WhatsApp number
   instagram: null,           // TODO(Q18)
   youtube: null,             // TODO(Q18)
 };

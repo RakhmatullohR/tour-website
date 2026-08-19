@@ -11,6 +11,11 @@
 import '../styles/global.css';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { SHIPPED_LOCALES, DEFAULT_LOCALE, LOCALE_LABELS, LOCALE_TAGS } from '../i18n/locales.mjs';
+// This page bypassed config/site.ts and hardcoded the phone number in both the
+// href and the label. site.ts opens with "Client-supplied facts, in ONE place" —
+// and this was the one place that was not it, so a number change updated every
+// page except the root language picker, which is the first page a visitor sees.
+import { PHONE_DISPLAY, telHref } from '../config/site';
 ---
 <!doctype html>
 <html lang="uz">
@@ -45,7 +50,7 @@ import { SHIPPED_LOCALES, DEFAULT_LOCALE, LOCALE_LABELS, LOCALE_TAGS } from '../
         ))}
       </ul>
       <p class="mt-10 text-sm text-neutral-600">
-        <a href="tel:+998509074000" class="hover:text-brand-600">+998 50 907 40 00</a>
+        <a href={telHref()} class="hover:text-brand-600">{PHONE_DISPLAY}</a>
       </p>
     </main>
   </body>
