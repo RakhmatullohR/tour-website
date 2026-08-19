@@ -46,7 +46,7 @@ export const SOCIAL: SocialLinks = {
  *
  *  Null hides the email everywhere — footer row, contacts channel and the
  *  TravelAgency schema — exactly like ADDRESS and HOURS below. */
-export const EMAIL: string | null = 'xatamovsamandar03@gmail.com';
+export const EMAIL: string | null = 'rrr.engineer.94@gmail.com';
 
 /** Q22 — office address. Null until supplied; the footer block and the Contacts
  *  map card both auto-hide (BC12b). */

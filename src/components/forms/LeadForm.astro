@@ -78,6 +78,13 @@ if (!LEAD_ENDPOINT && !(globalThis as { __gtEndpointWarned?: boolean }).__gtEndp
   {/* §9.5 TIME TRAP — stamped by JS on load. Multi-field forms only; the callback
       widget is exempt, where autofill would false-reject a real person. */}
   <input type="hidden" name="renderedAt" value="" />
+  {/* The no-JS path is a native submit, and a native submit cannot read
+      `data-token` - that attribute exists for the JS reader. Without this field
+      Code.gs sees no token, fails the §9.5 filter, and DISCARDS THE LEAD while
+      returning 200 (silence is deliberate so a bot learns nothing - which means a
+      real visitor learns nothing either). No new exposure: LEAD_TOKEN already
+      ships in data-token and is a bot filter, not authentication. */}
+  <input type="hidden" name="token" value={LEAD_TOKEN} />
   <input type="hidden" name="form" value={variant} />
   <input type="hidden" name="locale" value={locale} />
   {tourId && <input type="hidden" name="tourId" value={tourId} />}

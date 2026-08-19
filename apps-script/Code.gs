@@ -64,6 +64,36 @@ function normalisePhone_(raw) {
   return digits ? '+' + digits : '';
 }
 
+/** TWO ENCODINGS REACH THIS ENDPOINT, AND ONLY ONE OF THEM IS JSON.
+ *
+ *  The JS path posts a JSON body as text/plain, deliberately, so the request stays
+ *  CORS-simple and never triggers a preflight (§9.4).
+ *
+ *  The no-JS path is a NATIVE FORM SUBMIT into the hidden `gt-lead-sink` iframe.
+ *  A browser encodes that as application/x-www-form-urlencoded and there is no
+ *  markup that makes it send JSON instead. So `JSON.parse(e.postData.contents)`
+ *  threw on every no-JS submission, doPost returned error_, and the fallback that
+ *  LeadForm.astro advertises as working LOST THE LEAD - silently, because the
+ *  visitor sees only the iframe.
+ *
+ *  Accept both. Apps Script has already parsed the urlencoded case into
+ *  e.parameter by the time we are called. */
+function parseBody_(e) {
+  var raw = e && e.postData ? e.postData.contents : '';
+  if (raw) {
+    var first = String(raw).replace(/^\s+/, '').charAt(0);
+    if (first === '{' || first === '[') {
+      try {
+        return JSON.parse(raw);
+      } catch (err) {
+        // Malformed JSON - fall through and try the form-encoded fields instead
+        // of throwing away a lead over a body we might still be able to read.
+      }
+    }
+  }
+  return (e && e.parameter) ? e.parameter : {};
+}
+
 /* --------------------------------------------------------------------------
  * doPost - ORDER OF OPERATIONS IS LOAD-BEARING (§9.3).
  *
@@ -83,7 +113,7 @@ function doPost(e) {
   var row;
 
   try {
-    var data = JSON.parse(e.postData.contents); // text/plain body, §9.4
+    var data = parseBody_(e);
 
     // §9.5 shared token - blocks drive-by bots hitting the bare URL. NOT
     // authentication, and this code does not pretend otherwise.
