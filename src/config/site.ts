@@ -50,7 +50,11 @@ export const TRUST: { years: number; tourists: number; destinations: number } | 
 
 /** Q8 — Yandex Metrica counter. Any counter ID satisfies Gate 1; the client's
  *  real counter is a Gate-2 item. Null disables the script entirely. */
-export const METRICA_ID: string | null = process.env.METRICA_ID ?? null;
+// `||`, not `??` — an unset GitHub repo variable reaches the build as '', not
+// undefined, and '' ?? null is ''. Base.astro gates on truthiness so either
+// value omits the tracker, but only `||` makes the declared `string | null`
+// type honest. Same reason as astro.config.mjs's SITE_URL.
+export const METRICA_ID: string | null = process.env.METRICA_ID?.trim() || null;
 
 /** §9 — the Apps Script Web App /exec URL. Placeholder-only in the tracked tree
  *  (BC3); the real value arrives from the environment at build time. */

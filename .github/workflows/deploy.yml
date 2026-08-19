@@ -28,6 +28,13 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # contents: WRITE, not read. The workflow-level default above is read, and
+    # `repos.createCommitComment` — the whole mechanism behind the Uzbek failure
+    # notice below — needs write on Contents. With read it 403s, which means the
+    # client-facing safety net fails silently exactly when it is needed: the build
+    # is already red, so nobody notices a second failure inside the notifier.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -47,19 +54,75 @@ jobs:
       - name: Type check
         run: npm run check
 
+      # C6/C7 were both silent orthography defects: `O'zbekcha` with an ASCII
+      # apostrophe on EVERY page, and `Ko'k masjid` inside a tour itinerary. The
+      # gate that catches them existed in package.json but was never wired into
+      # CI, so it only ever ran when someone remembered to type check:all. That
+      # was survivable while this pipeline merely archived dist/. It is not
+      # survivable now that the next step publishes.
+      - name: i18n and orthography
+        run: npm run check:i18n
+
+      # C3 was `--color-neutral-400` on white at 2.55:1, shipped on the struck
+      # old price and the "(optional)" label. Same argument: hermetic, fast, and
+      # the only thing standing between a palette edit and a WCAG regression
+      # reaching visitors.
+      - name: Colour contrast
+        run: npm run check:contrast
+
       - name: Build
         run: npm run build
+        # LEFT is the name src/config/site.ts actually reads; RIGHT is the name
+        # the secret is stored under. They differ, and that is now deliberate and
+        # documented rather than accidental.
+        #
+        # These were PUBLIC_FORM_ENDPOINT / PUBLIC_FORM_TOKEN / PUBLIC_METRICA_ID
+        # — a namespace NOTHING in the tree reads. `grep -rn PUBLIC_ src/` is
+        # empty. site.ts reads METRICA_ID, LEAD_ENDPOINT and LEAD_TOKEN, and
+        # .env.example agrees. So a CI build was green while LEAD_ENDPOINT fell
+        # back to '' and every lead form shipped with an empty action: the site
+        # looked finished and silently collected nothing. Harmless while the
+        # pipeline only archived dist/; a launch defect the moment it publishes.
         env:
           SITE_URL: ${{ vars.SITE_URL }}
-          PUBLIC_FORM_ENDPOINT: ${{ secrets.FORM_ENDPOINT }}
-          PUBLIC_FORM_TOKEN: ${{ secrets.FORM_TOKEN }}
-          PUBLIC_METRICA_ID: ${{ vars.METRICA_ID }}
+          LEAD_ENDPOINT: ${{ secrets.FORM_ENDPOINT }}
+          LEAD_TOKEN: ${{ secrets.FORM_TOKEN }}
+          METRICA_ID: ${{ vars.METRICA_ID }}
 
       - uses: actions/upload-artifact@v4
         with:
           name: site
           path: dist/
           retention-days: 7
+
+      # PLAN §8.4 / docs/DEPLOY.md — Variant C, Cloudflare Pages. Chosen once the
+      # domain question closed: getcartravel.uz was registered from scratch on
+      # 2026-08-19, so its DNS zone is empty. BC17a's record-and-recreate-MX
+      # checklist guards against destroying mail that already rides on the zone —
+      # there is no such mail here, which is what removed the objection to moving
+      # nameservers. Anything added to that zone later (MX for corporate mail) is
+      # an addition to a zone we own, not a migration.
+      #
+      # Deploying from THIS job, rather than from Cloudflare's own Git
+      # integration, is the point: Pages' builder would run `npm run build` alone
+      # and skip `check:images` and `check` entirely, so a blank placeholder or a
+      # type error would publish. Here the artifact that ships is the same one the
+      # gates above already passed, and the secrets stay in one place.
+      #
+      # `success() &&` is NOT redundant. Naming an `if:` at all discards the
+      # implicit success() guard, so `if: github.ref == ...` on its own would
+      # publish a half-built dist/ after a failed build. The ref test itself
+      # matters because workflow_dispatch can be fired from any branch.
+      - name: Deploy to Cloudflare Pages
+        if: success() && github.ref == 'refs/heads/main'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # --branch=main is what marks this the PRODUCTION deployment; without it
+          # wrangler guesses from git state and can file a run as a preview.
+          # --commit-dirty: dist/ is gitignored, so the tree is "dirty" by design.
+          command: pages deploy dist/ --project-name=getcartravel --branch=main --commit-dirty=true
 
       # PLAN §8.3 — turn a Zod failure into something the CLIENT can act on.
       # This is what makes "the build fails loudly" a client-facing safety net
@@ -90,34 +153,22 @@ jobs:
             });
 
   # ---------------------------------------------------------------------------
-  # DEPLOY — BLOCKED ON CLIENT QUESTION 1 (hosting type). This is the plan's #1
-  # blocking question precisely because it selects which of the three variants
-  # below ships. Until it is answered the pipeline builds, verifies and archives
-  # `dist/`, but does not publish. Uncomment exactly ONE variant.
+  # DEPLOY — Client question 1 is ANSWERED. Variant C (Cloudflare Pages) ships,
+  # wired as the "Deploy to Cloudflare Pages" step inside the build job above
+  # rather than as a separate job, so the failure notifier's `if: failure()`
+  # covers a failed publish too, not just a failed build.
   #
-  # ⚠️ BEFORE ANY DNS/NAMESERVER CHANGE (docs/DEPLOY.md, BC17a):
-  #    export and RECREATE every existing DNS record — especially MX, plus
-  #    SPF/TXT, DKIM and any mail CNAME/A record — at the new provider FIRST.
-  #    The client's corporate email rides on the hosting they already pay for.
-  #    A naive nameserver switch DELETES THEIR EMAIL.
+  # Variants A (cPanel/FTP) and B (VPS/rsync) are recorded in docs/DEPLOY.md and
+  # are not carried here as commented YAML — dead code in a pipeline is a trap.
   #
-  # Variant A — shared cPanel over FTP:
-  #   - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-  #     with:
-  #       server: ${{ secrets.FTP_HOST }}
-  #       username: ${{ secrets.FTP_USER }}
-  #       password: ${{ secrets.FTP_PASSWORD }}
-  #       local-dir: ./dist/
-  #       server-dir: ./public_html/
-  #   Also ship the .htaccess (gzip/brotli, far-future cache on /_astro/*,
-  #   ErrorDocument 404 /404.html, force-HTTPS). NO root 302 — it would shadow
-  #   the language-picker page at / that carries x-default.
-  #
-  # Variant B — VPS over SSH: rsync dist/ + an nginx block with the same
-  #   cache/compression policy and `error_page 404 /404.html`.
-  #
-  # Variant C — Netlify / Cloudflare Pages free tier. Technically the better
-  #   outcome: free auto-TLS, deploy-on-push, instant rollback, and a build hook
-  #   the client can trigger. KEEP THE PAID HOSTING FOR EMAIL. Recommend it with
-  #   reasoning; do not silently override the client's purchase.
+  # Required before the first green run (docs/DEPLOY.md has the walkthrough):
+  #   · Cloudflare Pages project `getcartravel`, created as DIRECT UPLOAD.
+  #     `wrangler pages deploy` cannot create a project non-interactively; the
+  #     first run fails with "project not found" if this was skipped.
+  #   · Repo secrets:   CLOUDFLARE_API_TOKEN  (Cloudflare Pages:Edit, that scope
+  #                     and no other),  CLOUDFLARE_ACCOUNT_ID
+  #   · Repo variable:  SITE_URL = https://getcartravel.uz
+  #     Leave it unset and astro.config.mjs falls back to the same value — the
+  #     `||` there exists because an unset GitHub variable arrives as '', not
+  #     undefined. Set it anyway, so the origin is declared in one obvious place.
   # ---------------------------------------------------------------------------

@@ -1,0 +1,77 @@
+# Cloudflare Pages reads this file from the deployed root (Astro copies public/
+# verbatim into dist/). It is the Variant C equivalent of the .htaccess that
+# docs/DEPLOY.md specifies for Variant A.
+#
+# ── THE RULE THAT DICTATES THIS FILE'S SHAPE ────────────────────────────────
+# Cloudflare does NOT pick the most specific match. A request that matches
+# several patterns inherits ALL of their headers, and a header name repeated
+# across matching rules is JOINED WITH A COMMA — it is not overridden.
+#
+# So a `/*` block carrying Cache-Control would reach /_astro/app.CvT9k2.css too,
+# and that asset would ship:
+#     Cache-Control: public, max-age=31536000, immutable, public, max-age=0, must-revalidate
+# a self-contradicting header that throws away caching for every visitor on
+# every hashed asset. Reordering does not save it — both values still appear.
+#
+# Therefore: Cache-Control is set ONLY on non-overlapping patterns, and the
+# catch-all `/*` block carries security headers alone, which nothing else sets
+# and which are safe to apply everywhere.
+#
+# NOT here, because Cloudflare already does it and a hand-rolled version would
+# only be worse:
+#   · gzip/brotli — automatic on every text/* and application/javascript response
+#   · HTTPS + HTTP→HTTPS redirect — automatic once "Always Use HTTPS" is on
+#   · 404 — Pages serves /404.html for any unmatched path with the right status
+#
+# There is deliberately NO _redirects file. `/` is the real language-picker page
+# that carries x-default for the whole site (PLAN §5). A root redirect to /uz/
+# would mean that page is never served — the exact v1/v2 defect the plan settled.
+
+# Applies to every response. No Cache-Control here, by the rule above.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# Astro fingerprints everything under /_astro/ with a content hash, so a given
+# URL's bytes can never change. A year, immutable, no revalidation.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Icons and the manifest are stable but NOT hashed — the filename is reused when
+# the artwork changes. One day, so a swapped favicon reaches visitors this week
+# instead of next year.
+/favicon.svg
+  Cache-Control: public, max-age=86400
+/favicon.png
+  Cache-Control: public, max-age=86400
+/apple-touch-icon.png
+  Cache-Control: public, max-age=86400
+/icon-512.png
+  Cache-Control: public, max-age=86400
+/site.webmanifest
+  Cache-Control: public, max-age=86400
+
+# HTML must revalidate: the client publishes a tour by committing, and if a page
+# were cached they would refresh, see the old page, and conclude the pipeline is
+# broken. must-revalidate keeps the edge copy but forces a freshness check.
+#
+# Listed per HTML root rather than as `/*` so nothing overlaps /_astro/ or the
+# icons. These four cover all 46 emitted pages: `/` is the language picker
+# (PLAN §5), /uz/ and /ru/ are the two shipped locales, /404.html is the single
+# bilingual root 404 (BC10). Add a line here if a locale is ever added.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/uz/*
+  Cache-Control: public, max-age=0, must-revalidate
+/ru/*
+  Cache-Control: public, max-age=0, must-revalidate
+/404.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Regenerated every build and read by crawlers, not browsers.
+/robots.txt
+  Cache-Control: public, max-age=0, must-revalidate
+/sitemap-index.xml
+  Cache-Control: public, max-age=0, must-revalidate
+/sitemap-0.xml
+  Cache-Control: public, max-age=0, must-revalidate

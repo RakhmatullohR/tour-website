@@ -4,8 +4,17 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { SHIPPED_LOCALES, DEFAULT_LOCALE } from './src/i18n/locales.mjs';
 
-// TODO(Q2): replace with the client's real domain once it is confirmed.
-const SITE = process.env.SITE_URL ?? 'https://getcar-travel.uz';
+// Q2 RESOLVED 2026-08-19 — the domain is registered, not assumed: getcartravel.uz
+// (registrar AIRNET, registry UZINFOCOM, holder Rustamov Raxmatillo Rustam O'g'li).
+// Note the spelling: NO hyphen. The previous placeholder read `getcar-travel.uz`,
+// which is a different name that nobody owns — it would have shipped a wrong
+// canonical, hreflang, OG, sitemap and JSON-LD on every single page.
+// SITE_URL still wins so deploy previews can override the production origin.
+// `||`, NOT `??`. deploy.yml passes SITE_URL: ${{ vars.SITE_URL }} — an UNSET
+// repository variable expands to the EMPTY STRING, not to undefined, and '' is
+// not nullish, so `??` would hand Astro site: '' and silently ship relative
+// canonicals with no origin. `||` falls through on '' as well as on undefined.
+const SITE = process.env.SITE_URL?.trim() || 'https://getcartravel.uz';
 
 export default defineConfig({
   site: SITE,
