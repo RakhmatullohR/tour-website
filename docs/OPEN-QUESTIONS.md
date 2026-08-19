@@ -79,6 +79,16 @@ Two things this pulls forward:
   whoever configures the Yandex counter must create seven goals. `docs/PLAN.md`
   §14 still says six; it is left as the historical record.
 
+**Lead delivery is now documented, not folklore.** `docs/APPS-SCRIPT.md` is the
+runbook: Sheet + Telegram + email, the Script Properties, the Web App deployment
+settings, and — the part that matters — a test step that exercises the JS **and**
+the no-JS path. B1 and B2 close when someone walks it.
+
+Fixed while writing it: the no-JS submission path never worked. `Code.gs` parsed
+the body as JSON only, but a native form submit is always urlencoded; and the
+shared token lived only in `data-token`, which a native submit cannot send. Both
+failures returned 200, so the lead vanished without a trace at either end.
+
 **Still open, deliberately:** whether the client wants `info@getcartravel.uz`.
 Deferring is free — MX/SPF/DKIM are additions to a zone we control and do not
 disturb the records that serve the site.
