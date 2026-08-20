@@ -30,8 +30,8 @@ two-locale list.
 
 | # | Question | Blocks | Why it is open |
 |---|---|---|---|
-| B1 | **The §9.4 CORS spike has still not been run against a real `/exec`.** | P4 sign-off | R8 rates it 50/50. The code is written so the answer **does not change the UX** — `submitLead()` redirects on resolve-or-timeout and never reads the response body — so the site is correct either way. What is still unknown is whether to keep Apps Script primary or promote Web3Forms, and Web3Forms carries a **~250 submissions/month ceiling** Apps Script does not. Needs a throwaway `/exec` and one browser. |
-| B2 | **No form has been submitted end to end.** | Gate 1 | Requires a Google account (Q8). Everything up to the network call is verified — validation, honeypot, time trap, draft persistence, error state, the no-JS iframe target. The Apps Script itself is syntax-checked but has never executed. **Gate 1's "Telegram within 30 s" row cannot be ticked until Q8 lands or a throwaway account is used.** |
+| B1 | ~~**The §9.4 CORS spike has still not been run against a real `/exec`.**~~ **CLOSED 2026-08-20 as moot** — see below. | — | Leads arrive; the response body is not the question any more. |
+| B2 | ~~**No form has been submitted end to end.**~~ **CLOSED 2026-08-20 for the JS path** — see below. The **no-JS path is still untested**. | Gate 1 | Real leads now reach the sheet, Telegram and email from the live site. |
 | B3 | **Hero trust numbers (years / tourists / destinations).** | §6 row 2 | §6 says these "come from the client, never invented". `TRUST` in `src/config/site.ts` is `null`, so **the chip row does not render at all**. The hero is designed to look complete without it. Supply the numbers and the row appears. |
 | B4 | **"Why us" claims need confirming, not inventing.** | Gate 2 | §6 row 7 says "Confirm; do not invent". The four shipped claims (own transfer fleet, native-language guide, official insurance, one manager) are grounded in the trading name and the client's own answers — but **none has been confirmed by the client in writing**. Verify before launch; each is one string in `uz.json`/`ru.json`. |
 | B5 | **Telegram / WhatsApp handles are assumed.** | Gate 1 links | `SOCIAL.telegram` is `'getcar_travel'` and `SOCIAL.whatsapp` is the main phone number — both **guesses** pending Q16/Q17. Instagram and YouTube are `null` and their links auto-hide. A wrong Telegram handle is a broken primary conversion path. |
@@ -42,6 +42,39 @@ two-locale list.
 | B10 | **Two Tier-2 covers were generated to complete the 8-sample catalogue.** | scope hygiene | §16.1 prices Tier-2 (59 files) as a **+0.5 d add-on**. P3 needs 8 sample tours but Tier 1 budgets only the featured six covers, so `gen-placeholders.mjs --only` was added and **exactly two** files generated (`malayziya-kuala-lumpur`, `ozbekiston-xiva`). This is 2 of 59, not the add-on. Flagging it so it is not later mistaken for delivered scope. |
 | B11 | **`METRICA_ID` is unset, so no analytics script and no consent banner ship.** | Gate 1 | Q8 (a **Yandex** account, not a Google one). All six §14 events are wired through one delegated listener and the consent gate is written; with no counter id the whole block is omitted rather than loading a tracker with a fake id. Set `METRICA_ID` and it activates. |
 | B12 | ~~**`SITE_URL` still defaults to `https://getcar-travel.uz`.**~~ **CLOSED 2026-08-19** — see below. | — | — |
+
+**Closed 2026-08-20 by the launch.**
+
+**B2 — end-to-end submission.** The site went live on `getcartravel.uz` and real
+leads now arrive. Evidence, not assertion:
+
+| When | Path | Row | `status` |
+|---|---|---|---|
+| 07:59:34 | browser, JS on, `/uz/contacts/` | appended | `tg_unconfigured` — `TG_CHAT_ID` was not set yet |
+| 08:30:20 | direct POST, correct token | appended | `ok` — Telegram **and** email delivered |
+| 08:30:57 | direct POST, correct token | appended | `ok` |
+| 08:30:20 | direct POST, **no token** | **no row** | — the §9.5 filter is armed, and still answered 200 |
+
+Two things were proved by the same table rather than argued. The `+` on the phone
+survives (`+998900995594` on 08-20 against `998900995594` on 08-19, when Sheets was
+still evaluating the leading `+` as a formula), and a message beginning `=SUM(1;2)`
+was stored as text. So `cell_()` is live in the deployed version.
+
+**What is NOT closed: the no-JS path.** `APPS-SCRIPT.md` §6 asks for both, and only
+the JS path has been walked. That path failed silently once already (JSON-only body
+parsing, and a token that lived only in a DOM attribute), which is exactly why it
+does not get to inherit the JS path's result.
+
+**B1 — the CORS spike.** Settled as **moot**, and the distinction matters. A direct
+POST to `/exec` does return `302 → script.googleusercontent.com/macros/echo?...`,
+and fetching that hop returned `405` with a Drive "page not found" page — so the
+response body is, in practice, not readable. But that probe was `curl` through a
+TLS-intercepting corporate proxy, not a browser, and `curl` cannot answer a CORS
+question at all: it does not enforce the policy. **What the probe did establish is
+the only thing that matters** — the request arrives and the row is appended. Since
+`submitLead()` redirects on resolve-or-timeout and never reads the body, there is
+no decision left to make. Apps Script stays primary; Web3Forms and its ~250
+submissions/month ceiling are not needed.
 
 **Closed 2026-08-19 by the domain purchase.**
 

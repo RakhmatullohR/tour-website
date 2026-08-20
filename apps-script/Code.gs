@@ -310,6 +310,88 @@ function dailyDigest() {
   MailApp.sendEmail(to, 'Getcar Travel - kunlik hisobot', body);
 }
 
+/* --------------------------------------------------------------------------
+ * ONE-OFF SETUP HELPER - not part of the request path, safe to leave in place.
+ *
+ * The usual recipe for finding TG_CHAT_ID is to open /getUpdates in a browser.
+ * That does not work on most Uzbek networks: api.telegram.org is unreachable
+ * from there. Apps Script runs on Google's servers, which can reach it - so ask
+ * from here instead.
+ *
+ * RUN IT:
+ *   1. Add the bot to the group and make it an administrator.
+ *   2. In the group, send  /start@YourBotName  (a bot with privacy mode ON -
+ *      the default - only receives commands addressed to it, so a plain "salom"
+ *      may produce no update at all).
+ *   3. In the editor pick `logTelegramChatIds` from the function dropdown, press
+ *      Run, and read the execution log. No deployment is needed - Run always
+ *      executes the SAVED code, not the deployed version.
+ *
+ * Group ids are NEGATIVE and supergroup ids begin -100. Copy the minus sign.
+ * ------------------------------------------------------------------------ */
+function logTelegramChatIds() {
+  var token = props_().getProperty('TG_TOKEN');
+  if (!token) {
+    Logger.log('TG_TOKEN is not set in Script Properties - nothing to ask with.');
+    return;
+  }
+
+  // Print the bot's own username first. You cannot address a bot in a group
+  // without it, and @BotFather's chat is not always still open when you need it.
+  try {
+    var me = JSON.parse(
+      UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/getMe', { muteHttpExceptions: true }).getContentText()
+    );
+    if (me.ok) {
+      Logger.log('BOT: @%s  (%s)', me.result.username, me.result.first_name);
+      Logger.log('EASIEST: open https://t.me/%s and press Start, then run this again.', me.result.username);
+      Logger.log('GROUP  : add the bot, then send  /start@%s  in the group.', me.result.username);
+    } else {
+      Logger.log('getMe refused - TG_TOKEN is probably wrong: %s', JSON.stringify(me));
+      return;
+    }
+  } catch (err) {
+    Logger.log('getMe failed: %s', err);
+  }
+
+  var res = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/getUpdates', {
+    muteHttpExceptions: true,
+  });
+  var body;
+  try {
+    body = JSON.parse(res.getContentText());
+  } catch (err) {
+    Logger.log('Telegram did not return JSON (HTTP %s): %s', res.getResponseCode(), res.getContentText().slice(0, 300));
+    return;
+  }
+  if (!body.ok) {
+    // The common one is 409: a webhook is set, and getUpdates is refused while
+    // it is. deleteWebhook clears it.
+    Logger.log('Telegram refused the call: %s', res.getContentText());
+    return;
+  }
+  if (!body.result || !body.result.length) {
+    Logger.log('No updates yet. Use one of the two lines above, then run this again.');
+    return;
+  }
+
+  var seen = {};
+  for (var i = 0; i < body.result.length; i++) {
+    var u = body.result[i];
+    // my_chat_member fires when the bot is ADDED to a chat, so the id is often
+    // available even when no message was ever addressed to the bot.
+    var carrier = u.message || u.channel_post || u.my_chat_member || u.chat_member || {};
+    var chat = carrier.chat;
+    if (!chat || seen[chat.id]) continue;
+    seen[chat.id] = true;
+    Logger.log('TG_CHAT_ID = %s    type=%s    title=%s',
+      String(chat.id), chat.type, chat.title || chat.username || chat.first_name || '');
+  }
+  if (!Object.keys(seen).length) {
+    Logger.log('Updates arrived but none carried a chat. Use one of the two lines above.');
+  }
+}
+
 /** doGet exists only so opening the /exec URL in a browser does not look broken.
  *  It returns nothing about stored leads - the endpoint is WRITE-ONLY BY DESIGN,
  *  which is what makes a public URL acceptable (§9.6). */

@@ -1,9 +1,12 @@
 # APPS SCRIPT — where the leads actually go
 
-> **Status: written, not deployed.** `apps-script/Code.gs` is complete. Until it is
-> deployed and `FORM_ENDPOINT` is set, every form on the site renders, validates,
-> shows its success state — and delivers nothing. The site looks finished and
-> collects nothing, which is the single worst failure mode this project has.
+> **Status: DEPLOYED AND CARRYING REAL LEADS since 2026-08-20.** Sheet, Telegram
+> and email all verified from the live site — see `docs/OPEN-QUESTIONS.md`, B2.
+> **The no-JS path is still untested**; §6 below is not optional because of it.
+>
+> The warning this banner used to carry still applies to any redeployment: until
+> `FORM_ENDPOINT` is set *and the site is rebuilt*, every form renders, validates,
+> shows its success state — and delivers nothing.
 
 ## What it does once deployed
 
@@ -73,8 +76,17 @@ do not pretend otherwise (§9.5).
 
 1. Message **@BotFather** → `/newbot` → copy the token → `TG_TOKEN`.
 2. Create a group or channel, add the bot as an administrator.
-3. Get the numeric id: message **@userinfobot** in the group, or open
-   `https://api.telegram.org/bot<TOKEN>/getUpdates` after posting once in the group.
+3. Get the numeric id — and note that **both of the usual recipes fail here**:
+   `api.telegram.org` is unreachable from most Uzbek networks, so opening
+   `/getUpdates` in a browser times out; and a bot in a group has **privacy mode on
+   by default**, so @userinfobot never sees a plain message and answers nothing.
+
+   Use `logTelegramChatIds()` in `Code.gs` instead. Apps Script runs on Google's
+   servers, which *can* reach Telegram. Pick it from the editor's function dropdown
+   and press Run — no deployment needed, Run executes the saved code. It logs the
+   bot's own `@username` first (you need it to address the bot at all), then every
+   chat id it can see. The fastest path to a working id is to open `t.me/<username>`
+   and press Start; a group needs `/start@<username>` sent **in the group**.
    Group ids are negative — keep the minus sign.
 
 ## 3. Deploy as a Web App
@@ -161,10 +173,21 @@ deliberate.
   Spam can fill the sheet; it can never mute the client.
 - Telegram has no Google quota, which is exactly why it is the primary leg.
 
-## Still open
+## Settled on 2026-08-20 — and the one thing that was not
 
-- **B1** — the §9.4 CORS assumption has never been tested against a real `/exec`.
-  The code is written so the answer does not change the UX (`submitLead()`
-  resolves-or-times-out and never reads the response body), but step 6 is the first
-  time it is actually exercised. Watch the browser console on the JS test.
-- **B2** — no lead has ever been submitted end to end. Step 6 closes it.
+- **B2 is closed for the JS path.** A lead submitted from `getcartravel.uz/uz/contacts/`
+  reached the sheet, and once `TG_CHAT_ID` was set the next ones came through with
+  `status = ok` on all three legs. A probe sent **without** the shared token was
+  correctly discarded — no row, still a 200.
+- **B1 is moot.** `POST /exec` redirects to `script.googleusercontent.com/macros/echo`
+  and that hop is not usefully readable. It never mattered: `submitLead()` does not
+  read the body. Apps Script stays primary.
+- **The no-JS path has still never been walked.** It is the one that broke silently
+  before. Do §6's second half.
+
+## Whose Telegram
+
+`TG_CHAT_ID` currently points at a **private chat**, not a group. That works, and
+unlike the Google-account decision above it is cheap to change later — one Script
+Property, no new `/exec` URL, no site rebuild. But a private chat means leads stop
+being visible the day that person is unavailable, so a group is the right end state.

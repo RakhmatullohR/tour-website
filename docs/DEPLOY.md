@@ -1,10 +1,15 @@
 # DEPLOY — Getcar_travel
 
-> **Status: UNBLOCKED.** Client question 1 (hosting type) is answered.
-> **Variant C — Cloudflare Pages**, published from the existing GitHub Actions
-> pipeline. The deploy step is live in `.github/workflows/deploy.yml`; what
-> remains is the one-time provisioning in §2–§4 below. **§3.1 is the step that
-> is easy to miss and fails silently** — read it before declaring launch.
+> **Status: LIVE since 2026-08-20.** `https://getcartravel.uz` serves the site,
+> `www` 301s to it, and the lead pipeline carries real submissions. Variant C —
+> Cloudflare Pages, published from the GitHub Actions pipeline.
+>
+> **What actually blocked the launch was none of the DNS work.** The wrangler step
+> was added on a branch that was never merged, so `on: push: branches: [main]` never
+> fired it; the repo had **zero** Actions secrets; and the account had **zero** Pages
+> projects, which `wrangler pages deploy` cannot create for itself. All three were
+> silent — the DNS looked wrong, and the DNS was the only part that was fine.
+> §2–§4 exist so the next zone does not repeat it.
 
 | Decision | Value | Settled |
 |---|---|---|
@@ -115,6 +120,20 @@ store, and one place a failure is explained in a language the client reads.
    > `wrangler pages deploy` cannot create a project non-interactively. Skip this
    > and the first run fails with *"project not found"*.
 
+   **Done on 2026-08-20 — via the API, not the dashboard**, because the dashboard
+   was not available at the time:
+
+   ```sh
+   curl -X POST -H "Authorization: Bearer $CF_API_TOKEN" -H "Content-Type: application/json" \
+     --data '{"name":"getcartravel","production_branch":"main"}' \
+     "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/pages/projects"
+   ```
+
+   A `Cloudflare Pages → Edit` token is enough for this; it is the same token the
+   workflow already needs. Listing first (`GET .../pages/projects`) is worth the one
+   extra call — it returned an empty array, which is how "the project was never
+   created" was distinguished from "the project exists and auth is wrong".
+
 5. **My Profile → API Tokens → Create Token → Custom.** One permission:
    **Account → Cloudflare Pages → Edit**. Nothing else. Copy the token once — it
    is never shown again.
@@ -171,7 +190,23 @@ here — it is the duplicate-content option.
   stops resolving. Honest, and no duplicate — but anyone typing `www` out of habit
   gets an error page.
 
-Record which one was chosen.
+**CHOSEN 2026-08-20: the Redirect Rule ALONE, with no second custom domain.**
+
+Correct the prediction above while recording it. Once the apex became a CNAME to
+Pages, `www` did not serve a duplicate — it returned **522**, because the inherited
+proxied `CNAME www → getcartravel.uz` sent Cloudflare back to Cloudflare and no
+origin was ever reached. "Doing nothing" was not the duplicate-content option here;
+it was the broken-hostname option.
+
+The rule is Cloudflare's own *Redirect from WWW to root* template. It runs at the
+edge before any origin fetch, so it fixes the 522 without the second custom domain
+the bullet above assumed was necessary. Adding that domain would only have created
+a duplicate for the rule to intercept. The rule-only shape also fails closed: if
+someone disables it, `www` breaks visibly rather than quietly serving a second copy
+of the site under a hostname the canonical does not point at.
+
+Verified: `/uz/tours/` → `301 https://getcartravel.uz/uz/tours/` and `/?a=1` →
+`301 https://getcartravel.uz/?a=1`, so both the path and the query survive.
 
 **Expect HTTPS to fail for a while first.** Observed on this zone: minutes after
 activation the apex answered `http://` with 200 while `https://` returned *"no
@@ -180,18 +215,39 @@ still being issued, not a misconfiguration — it clears on its own, typically w
 the hour. Do not "fix" it by turning SSL/TLS down to Flexible; that ships a site
 that is encrypted to the visitor and plaintext behind the edge.
 
-Verify before calling the launch done — a green pipeline is not evidence:
+> **A TLS-intercepting network makes this check lie.** On the office connection
+> here every `https://` probe failed with *"self-signed certificate in certificate
+> chain"* and an issuer of `CN=asakabank.chek` — a corporate proxy re-signing
+> traffic, not a Cloudflare problem, and indistinguishable from one if you stop at
+> the error string. `curl -k` gets past it for the status-code checks, but it means
+> **the certificate itself cannot be verified from such a machine at all.** Check
+> the padlock from a phone on mobile data instead.
+
+Verify before calling the launch done — a green pipeline is not evidence. Do not
+hardcode the asset hash: it changes every build, and the example that used to sit
+here (`i18n.B_Jk2V-Z.css`) had already gone stale.
 
 ```sh
-dig +short getcartravel.uz                       # must return Cloudflare IPs
+dig +short A getcartravel.uz                     # Cloudflare IPs, not 176.96.243.100
 curl -sI https://getcartravel.uz/    | head -1   # 200
 curl -sI https://getcartravel.uz/nope/ | head -1 # 404, not 200
-# pick any real hashed asset out of dist/_astro/, e.g.
-curl -sI https://getcartravel.uz/_astro/i18n.B_Jk2V-Z.css | grep -i cache-control
+curl -sI https://www.getcartravel.uz/uz/tours/   # 301 to the apex, path preserved
+A=$(basename "$(ls dist/_astro/*.css | head -1)")
+curl -sI "https://getcartravel.uz/_astro/$A" | grep -i cache-control
 # must read exactly: public, max-age=31536000, immutable
 # if it reads "…immutable, public, max-age=0, must-revalidate" then a `_headers`
 # rule overlaps /_astro/* and Cloudflare comma-joined them — see public/_headers
+
+# THE ONE THAT MATTERS MOST — a site that ships without this collects nothing:
+curl -s https://getcartravel.uz/uz/contacts/ | grep -o 'data-endpoint="[^"]*"'
 ```
+
+**Measured 2026-08-20, all passing:** apex `188.114.96.11 / 188.114.97.11` ·
+`/` `/uz/` `/ru/` 200 · `/nope/` 404 · `http://` 301 to `https://` ·
+`www` 301 with path and query preserved · `/_astro/*`
+`public, max-age=31536000, immutable` with no comma-joined second value ·
+`/uz/` `public, max-age=0, must-revalidate` · `nosniff` and
+`strict-origin-when-cross-origin` on every response · `data-endpoint` populated.
 
 ## 4. One-time provisioning — GitHub
 
