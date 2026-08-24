@@ -36,7 +36,12 @@
   ],
   "images": {
     "cover": "tour-turkiya-antalya-cover-1200x800.webp",
-    "gallery": []
+    "gallery": [
+      "tour-turkiya-antalya-01-1600x1067.webp",
+      "tour-turkiya-antalya-02-1600x1067.webp",
+      "tour-turkiya-antalya-03-1600x1067.webp",
+      "tour-turkiya-antalya-04-1600x1067.webp"
+    ]
   },
   "i18n": {
     "uz": {

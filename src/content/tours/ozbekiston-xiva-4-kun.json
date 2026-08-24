@@ -32,7 +32,12 @@
   "badges": [],
   "images": {
     "cover": "tour-ozbekiston-xiva-cover-1200x800.webp",
-    "gallery": []
+    "gallery": [
+      "tour-ozbekiston-xiva-01-1600x1067.webp",
+      "tour-ozbekiston-xiva-02-1600x1067.webp",
+      "tour-ozbekiston-xiva-03-1600x1067.webp",
+      "tour-ozbekiston-xiva-04-1600x1067.webp"
+    ]
   },
   "i18n": {
     "uz": {

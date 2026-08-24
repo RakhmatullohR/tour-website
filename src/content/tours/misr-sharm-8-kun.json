@@ -34,7 +34,12 @@
   ],
   "images": {
     "cover": "tour-misr-sharm-cover-1200x800.webp",
-    "gallery": []
+    "gallery": [
+      "tour-misr-sharm-01-1600x1067.webp",
+      "tour-misr-sharm-02-1600x1067.webp",
+      "tour-misr-sharm-03-1600x1067.webp",
+      "tour-misr-sharm-04-1600x1067.webp"
+    ]
   },
   "i18n": {
     "uz": {

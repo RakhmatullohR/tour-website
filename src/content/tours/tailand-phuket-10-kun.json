@@ -32,7 +32,12 @@
   "badges": [],
   "images": {
     "cover": "tour-tailand-phuket-cover-1200x800.webp",
-    "gallery": []
+    "gallery": [
+      "tour-tailand-phuket-01-1600x1067.webp",
+      "tour-tailand-phuket-02-1600x1067.webp",
+      "tour-tailand-phuket-03-1600x1067.webp",
+      "tour-tailand-phuket-04-1600x1067.webp"
+    ]
   },
   "i18n": {
     "uz": {

@@ -34,7 +34,12 @@
   ],
   "images": {
     "cover": "tour-turkiya-istanbul-cover-1200x800.webp",
-    "gallery": []
+    "gallery": [
+      "tour-turkiya-istanbul-01-1600x1067.webp",
+      "tour-turkiya-istanbul-02-1600x1067.webp",
+      "tour-turkiya-istanbul-03-1600x1067.webp",
+      "tour-turkiya-istanbul-04-1600x1067.webp"
+    ]
   },
   "i18n": {
     "uz": {

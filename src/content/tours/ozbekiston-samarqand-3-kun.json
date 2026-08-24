@@ -35,7 +35,12 @@
   ],
   "images": {
     "cover": "tour-ozbekiston-samarqand-cover-1200x800.webp",
-    "gallery": []
+    "gallery": [
+      "tour-ozbekiston-samarqand-01-1600x1067.webp",
+      "tour-ozbekiston-samarqand-02-1600x1067.webp",
+      "tour-ozbekiston-samarqand-03-1600x1067.webp",
+      "tour-ozbekiston-samarqand-04-1600x1067.webp"
+    ]
   },
   "i18n": {
     "uz": {

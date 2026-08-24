@@ -35,7 +35,12 @@
   ],
   "images": {
     "cover": "tour-dubay-cover-1200x800.webp",
-    "gallery": []
+    "gallery": [
+      "tour-dubay-01-1600x1067.webp",
+      "tour-dubay-02-1600x1067.webp",
+      "tour-dubay-03-1600x1067.webp",
+      "tour-dubay-04-1600x1067.webp"
+    ]
   },
   "i18n": {
     "uz": {
