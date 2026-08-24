@@ -85,9 +85,24 @@ jobs:
         # pipeline only archived dist/; a launch defect the moment it publishes.
         env:
           SITE_URL: ${{ vars.SITE_URL }}
-          LEAD_ENDPOINT: ${{ secrets.FORM_ENDPOINT }}
-          LEAD_TOKEN: ${{ secrets.FORM_TOKEN }}
           METRICA_ID: ${{ vars.METRICA_ID }}
+          # LEAD_ENDPOINT and LEAD_TOKEN are gone (2026-08-24). The endpoint is a
+          # same-origin constant in src/config/site.ts and the bot token lives in
+          # the Pages environment, so there is nothing left to inject — and a build
+          # can no longer ship forms that post to an empty string.
+
+      # The lead endpoint is a Pages Function now, and `pages deploy` bundles it
+      # SILENTLY: a handler that fails to compile would be discovered by leads not
+      # arriving, which is the failure mode this whole migration exists to remove.
+      # Compiling it here fails the build BEFORE anything publishes, and doubles as
+      # the check that wrangler finds ./functions at all.
+      # NOTE the outfile name. `--outfile` writes a Cloudflare WORKER BUNDLE, which
+      # is multipart-encoded and not valid JS, and anything called `_worker.js` is
+      # the Pages advanced-mode convention — writing one where a later build can
+      # find it makes that build try to parse it as source and fail with a
+      # baffling "Expected ; but found :". Give it a name nothing looks for.
+      - name: Compile the lead function
+        run: npx --yes wrangler@3 pages functions build --outfile=/tmp/lead-fn-bundle.js
 
       - uses: actions/upload-artifact@v4
         with:

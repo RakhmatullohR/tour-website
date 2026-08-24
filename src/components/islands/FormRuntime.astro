@@ -16,14 +16,13 @@ const messages = {
   required: t('form.required'),
   invalidPhone: t('form.invalidPhone'),
   invalidEmail: t('form.invalidEmail'),
-  consentRequired: t('form.consentRequired'),
 };
 ---
 <script is:inline set:html={`window.__gtFormMsg=${JSON.stringify(messages)}`} />
 <script>
   import { submitLead, isValidPhone, normalisePhone, loadDraft, type LeadPayload } from '../../lib/submitLead';
 
-  type Msg = { required: string; invalidPhone: string; invalidEmail: string; consentRequired: string };
+  type Msg = { required: string; invalidPhone: string; invalidEmail: string };
   const msg: Msg = (window as unknown as { __gtFormMsg: Msg }).__gtFormMsg;
 
   const setError = (form: HTMLFormElement, name: string, text: string | null) => {
@@ -67,12 +66,6 @@ const messages = {
     if (email?.value.trim()) {
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value.trim())) bad(email, 'email', msg.invalidEmail);
       else setError(form, 'email', null);
-    }
-
-    const consent = form.querySelector<HTMLInputElement>('[name="consent"]');
-    if (consent?.required) {
-      if (!consent.checked) bad(consent, 'consent', msg.consentRequired);
-      else setError(form, 'consent', null);
     }
 
     return firstBad;
@@ -141,10 +134,12 @@ const messages = {
 
       const result = await submitLead(payload, {
         endpoint: form.dataset.endpoint ?? '',
-        token: form.dataset.token ?? '',
       });
 
-      if (result === 'error') {
+      // 'rate-limited' is a REAL person stopped by our own localStorage counter,
+      // so it shows the error box like any other failure. Sending them to /thanks/
+      // would report a lead that was never submitted — the bug this branch fixes.
+      if (result === 'error' || result === 'rate-limited') {
         busy(form, false);
         if (errBox) {
           errBox.hidden = false;
@@ -153,8 +148,9 @@ const messages = {
         return;
       }
 
-      // 'ok' AND 'discarded' both land here. Telling a bot it was detected is how
-      // it learns to evade the check (§9.5), so the two are indistinguishable.
+      // 'ok' AND 'discarded' land here, and ONLY those two. Telling a bot it was
+      // detected is how it learns to evade the check (§9.5), so those two stay
+      // indistinguishable.
       window.__gtMetrica?.('form_submit');
       location.href = form.dataset.thanks ?? '/';
     });

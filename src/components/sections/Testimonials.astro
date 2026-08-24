@@ -7,7 +7,7 @@
 // what §6 row 10 specifies and what Gate 1's "auto-hide when empty" tests.
 import type { CollectionEntry } from 'astro:content';
 import type { TFunction } from '../../i18n/t';
-import { SOCIAL, telegramHref } from '../../config/site';
+import { SOCIAL, telegramChannelHref } from '../../config/site';
 import ReviewCard from '../cards/ReviewCard.astro';
 import Icon from '../ui/Icon.astro';
 
@@ -18,12 +18,21 @@ interface Props { reviews: CollectionEntry<'reviews'>[]; locale: string; t: TFun
 const { reviews, locale, t } = Astro.props as Props;
 
 const enough = reviews.length >= 3;
-const tg = telegramHref();
+
+// This block's own copy is "follow us — we post photos from every group there", so
+// its Telegram button is the CHANNEL, not the manager's DM: a DM has nothing to
+// follow and nothing posted in it. It carries NO `telegram_click` either — that goal
+// measures the LEAD path, and counting a follow as a lead would inflate the one
+// number that says whether the site converts (see SocialLinks in config/site.ts).
+// No channel configured -> no button, the same auto-hide-on-null rule as everywhere
+// else here. The manager account is deliberately NOT a fallback: sending a "follow
+// us" click into a DM is the defect this replaced.
+const tgChannel = telegramChannelHref();
 const socials = [
-  tg && { href: tg, label: 'Telegram', icon: 'telegram' as const, event: 'telegram_click' },
+  tgChannel && { href: tgChannel, label: t('contacts.telegramChannel'), icon: 'telegram-channel' as const, event: null },
   SOCIAL.instagram && { href: `https://instagram.com/${SOCIAL.instagram}`, label: 'Instagram', icon: 'instagram' as const, event: null },
   SOCIAL.youtube && { href: `https://youtube.com/${SOCIAL.youtube}`, label: 'YouTube', icon: 'youtube' as const, event: null },
-].filter(Boolean) as { href: string; label: string; icon: 'telegram' | 'instagram' | 'youtube'; event: string | null }[];
+].filter(Boolean) as { href: string; label: string; icon: 'telegram' | 'telegram-channel' | 'instagram' | 'youtube'; event: string | null }[];
 ---
 {enough ? (
   <section aria-labelledby="reviews-h" class="bg-neutral-50 py-16 sm:py-20">

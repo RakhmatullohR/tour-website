@@ -10,7 +10,7 @@ import { SHIPPED_LOCALES } from '../../i18n/locales.mjs';
 import { useTranslations } from '../../i18n/t';
 import { resolveImage } from '../../lib/images';
 import { travelAgencySchema, breadcrumbSchema } from '../../lib/seo';
-import { PHONE_DISPLAY, telHref, telegramHref, whatsappHref, mailtoHref, EMAIL, SOCIAL, ADDRESS, HOURS } from '../../config/site';
+import { PHONE_DISPLAY, telHref, telegramHref, telegramChannelHref, whatsappHref, whatsappDisplay, mailtoHref, EMAIL, SOCIAL, ADDRESS, HOURS } from '../../config/site';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import Icon from '../../components/ui/Icon.astro';
 import LeadForm from '../../components/forms/LeadForm.astro';
@@ -29,16 +29,25 @@ const crumbs = [
 ];
 
 const tg = telegramHref();
+const tgChannel = telegramChannelHref();
 const wa = whatsappHref();
 const mail = mailtoHref();
+// ORDER IS DELIBERATE, and the grid is 2-up on >=sm, so it reads across the row,
+// not down the column: the four channels that REACH A MANAGER come first (phone,
+// WhatsApp, Telegram, email — the same claim `contacts.subtitle` makes), then the
+// follow-only ones (the Telegram channel, Instagram, YouTube). Inserting a new
+// channel in the middle silently moves everything after it — put lead channels
+// above the divide, follow channels below it.
 const channels = [
   { href: telHref(), label: t('contacts.phone'), value: PHONE_DISPLAY, icon: 'phone' as const, event: 'phone_click', external: false },
+  wa && { href: wa, label: t('contacts.whatsapp'), value: whatsappDisplay()!, icon: 'whatsapp' as const, event: 'whatsapp_click', external: true },
   tg && { href: tg, label: t('contacts.telegram'), value: `@${SOCIAL.telegram}`, icon: 'telegram' as const, event: 'telegram_click', external: true },
-  wa && { href: wa, label: t('contacts.whatsapp'), value: PHONE_DISPLAY, icon: 'whatsapp' as const, event: 'whatsapp_click', external: true },
   mail && { href: mail, label: t('contacts.email'), value: EMAIL!, icon: 'mail' as const, event: 'email_click', external: false },
+  /* --- below here: follow-only, no lead reaches a manager through these --- */
+  tgChannel && { href: tgChannel, label: t('contacts.telegramChannel'), value: `@${SOCIAL.telegramChannel}`, icon: 'telegram-channel' as const, event: null, external: true },
   SOCIAL.instagram && { href: `https://instagram.com/${SOCIAL.instagram}`, label: t('contacts.instagram'), value: `@${SOCIAL.instagram}`, icon: 'instagram' as const, event: null, external: true },
   SOCIAL.youtube && { href: `https://youtube.com/${SOCIAL.youtube}`, label: t('contacts.youtube'), value: SOCIAL.youtube, icon: 'youtube' as const, event: null, external: true },
-].filter(Boolean) as { href: string; label: string; value: string; icon: 'phone' | 'telegram' | 'whatsapp' | 'mail' | 'instagram' | 'youtube'; event: string | null; external: boolean }[];
+].filter(Boolean) as { href: string; label: string; value: string; icon: 'phone' | 'telegram' | 'telegram-channel' | 'whatsapp' | 'mail' | 'instagram' | 'youtube'; event: string | null; external: boolean }[];
 ---
 <Base
   locale={lang}

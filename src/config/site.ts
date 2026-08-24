@@ -8,14 +8,19 @@
 // PLAN §6 row 2: the hero trust numbers "come from the client, NEVER invented".
 // They are null until the client supplies them, and the chips do not render.
 
-/** E.164, digits only after the +. Used for tel: and wa.me. */
-export const PHONE_E164 = '+998940914000';
+/** E.164, digits only after the +. Used for `tel:`.
+ *  NOT for wa.me — WhatsApp runs on its own number, see `SOCIAL.whatsapp`. */
+export const PHONE_E164 = '+998509074000';
 /** Human-readable form. */
-export const PHONE_DISPLAY = '+998 94 091 40 00';
+export const PHONE_DISPLAY = '+998 50 907 40 00';
 
 export interface SocialLinks {
-  /** Q17 — t.me username, without the @. */
+  /** Q17 — the MANAGER's t.me username, without the @. This is the LEAD path: every
+   *  "write to us" CTA and the `?text=` prefill point here. */
   telegram: string | null;
+  /** Q17 — the public CHANNEL's t.me username, without the @. Follow-only. It must
+   *  never become the target of a lead CTA: a channel cannot answer a customer. */
+  telegramChannel: string | null;
   /** Q16 — wa.me number, digits only. */
   whatsapp: string | null;
   /** Q18 */
@@ -25,28 +30,46 @@ export interface SocialLinks {
 }
 
 export const SOCIAL: SocialLinks = {
-  telegram: 'getcar_travel', // TODO(Q17): confirm the real username with the client
-  // Q16 is STILL open. This tracks PHONE_E164 because that was always the
-  // standing assumption, not because the client confirmed WhatsApp runs on the
-  // new number. Updated 2026-08-19 with the phone so the two cannot drift into
-  // a state where WhatsApp silently points at a number nobody answers.
-  whatsapp: '998940914000',  // TODO(Q16): confirm the real WhatsApp number
-  instagram: null,           // TODO(Q18)
-  youtube: null,             // TODO(Q18)
+  // Q17 ANSWERED 2026-08-24 — and it is two accounts, not one. The manager handle
+  // changed from the assumed 'getcar_travel' to 'getcar_admin'; the channel is new.
+  telegram: 'getcar_admin',
+  telegramChannel: 'getcar_channel',
+  // Q16 ANSWERED 2026-08-24, and the answer is a DIVERGENCE: the phone moved to
+  // +998 50 907 40 00 while WhatsApp was told to stay on the 94 number. These
+  // two no longer track each other ON PURPOSE. Do not "resync" them by copying
+  // PHONE_E164 here — that would point WhatsApp at a different account.
+  whatsapp: '998940914000',  // = +998 94 091 40 00, kept by instruction 2026-08-24
+  // Q18 ANSWERED 2026-08-24 for Instagram. Stored as the USERNAME, not the URL the
+  // client sent: their link carried `?igsi=...&utm_source=qr`, which is a share-sheet
+  // artefact from scanning their own QR code. Shipping it would tag every visitor as
+  // arriving from that QR in Instagram's own analytics.
+  instagram: 'getcar_travel',
+  youtube: null,             // TODO(Q18) — still no channel
 };
 
-/** Q3 — public contact email.
+/** Q3 — public contact email. Set 2026-08-24, replacing the provisional
+ *  personal-name Gmail.
  *
- *  PROVISIONAL, set 2026-08-19 so the client has something to look at. This is a
- *  personal-name Gmail, which reads as an individual rather than an agency on a
- *  page where someone is deciding whether to wire money for a tour. The intended
- *  value is `info@getcartravel.uz` — the domain is already owned, and Zoho Mail
- *  or Yandex 360 will host it free once the Cloudflare zone goes Active
- *  (docs/DEPLOY.md §5). Replace this one string then; nothing else changes.
+ *  READ THIS BEFORE THE NEXT DEPLOY. The value given was `info@getcartravel.com`
+ *  — **`.com`, while the site itself runs on `getcartravel.uz`** (astro.config.mjs,
+ *  docs/DEPLOY.md §1). Nothing in this project owns or points at the `.com` domain,
+ *  and `docs/DEPLOY.md` §2 records that the default MX on the `.uz` zone was
+ *  deliberately removed so mail there "bounces honestly". So this address is
+ *  unverified on two counts: the domain may not be the client's, and no mailbox is
+ *  known to exist behind it. It is shipped as instructed, not as confirmed.
+ *
+ *  Measured against the built tree, not estimated: it renders on 44 of the 46
+ *  emitted pages — every page carrying the shared footer, i.e. all but the root
+ *  language picker `/` and `/404.html` — plus the Contacts channel list, and as
+ *  `email` in the TravelAgency JSON-LD on 6 of them (uz+ru home, about, contacts).
+ *  A dead address is therefore a dead conversion path on nearly the whole site,
+ *  worse than the Gmail it replaced. Verify a message actually arrives, or switch
+ *  the one string to `info@getcartravel.uz` (that domain IS owned; Zoho Mail or
+ *  Yandex 360 host it free — DEPLOY.md §5).
  *
  *  Null hides the email everywhere — footer row, contacts channel and the
  *  TravelAgency schema — exactly like ADDRESS and HOURS below. */
-export const EMAIL: string | null = 'rrr.engineer.94@gmail.com';
+export const EMAIL: string | null = 'info@getcartravel.com';
 
 /** Q22 — office address. Null until supplied; the footer block and the Contacts
  *  map card both auto-hide (BC12b). */
@@ -73,15 +96,37 @@ export const TRUST: { years: number; tourists: number; destinations: number } | 
 // type honest. Same reason as astro.config.mjs's SITE_URL.
 export const METRICA_ID: string | null = process.env.METRICA_ID?.trim() || null;
 
-/** §9 — the Apps Script Web App /exec URL. Placeholder-only in the tracked tree
- *  (BC3); the real value arrives from the environment at build time. */
-export const LEAD_ENDPOINT = process.env.LEAD_ENDPOINT ?? '';
-/** §9.5 — a bot filter, NOT authentication. We do not claim otherwise. */
-export const LEAD_TOKEN = process.env.LEAD_TOKEN ?? '';
+/** §9 — where a lead is POSTed. A SAME-ORIGIN PATH since 2026-08-24, served by
+ *  `functions/api/lead.ts` on Cloudflare Pages. It replaced an Apps Script `/exec`
+ *  URL that had to be injected at build time from a secret, which is why this is
+ *  now a constant and not an environment read: there is nothing left to configure,
+ *  and a build can no longer silently ship a form that posts nowhere.
+ *
+ *  The bot token lives in the Pages environment, never here — see the header of
+ *  `functions/api/lead.ts`. `LEAD_TOKEN` is gone with the same change: it was a
+ *  shared string that shipped inside the page to filter drive-by bots hitting a
+ *  bare public Google URL. The endpoint is our own origin now, so the function
+ *  checks the Origin header instead — something the page cannot forge. */
+export const LEAD_ENDPOINT = '/api/lead';
 
 export const telHref = () => `tel:${PHONE_E164}`;
 export const mailtoHref = () => (EMAIL ? `mailto:${EMAIL}` : null);
 export const telegramHref = (text?: string) =>
   SOCIAL.telegram ? `https://t.me/${SOCIAL.telegram}${text ? `?text=${encodeURIComponent(text)}` : ''}` : null;
+/** The public channel. No `?text=` — a prefill is meaningless on a channel, which is
+ *  read-only for the visitor. */
+export const telegramChannelHref = () =>
+  SOCIAL.telegramChannel ? `https://t.me/${SOCIAL.telegramChannel}` : null;
 export const whatsappHref = (text?: string) =>
   SOCIAL.whatsapp ? `https://wa.me/${SOCIAL.whatsapp}${text ? `?text=${encodeURIComponent(text)}` : ''}` : null;
+/** Human-readable form of whatever `SOCIAL.whatsapp` holds — DERIVED, never typed
+ *  a second time, so the number a page SHOWS can never drift from the number its
+ *  link opens. Since 2026-08-24 that is a different number from PHONE_DISPLAY, so
+ *  the Contacts page must not reuse the phone's display string for WhatsApp.
+ *  Null when WhatsApp is unset; anything that is not a 12-digit UZ number falls
+ *  back to a bare `+digits` rather than being mangled into a wrong shape. */
+export const whatsappDisplay = (): string | null => {
+  if (!SOCIAL.whatsapp) return null;
+  const m = /^998(\d{2})(\d{3})(\d{2})(\d{2})$/.exec(SOCIAL.whatsapp);
+  return m ? `+998 ${m[1]} ${m[2]} ${m[3]} ${m[4]}` : `+${SOCIAL.whatsapp}`;
+};

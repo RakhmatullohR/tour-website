@@ -80,7 +80,7 @@ Pages can watch the repo itself and run `npm run build`. It was rejected:
   gates that stop a blank placeholder or a type error from publishing. Pages'
   builder never invokes them, so the pipeline's guarantees would apply to a build
   nobody ships and not to the one visitors see.
-- **It splits the secrets.** `FORM_ENDPOINT`, `FORM_TOKEN`, `SITE_URL` and
+- **It splits the secrets.** `SITE_URL` and
   `METRICA_ID` already live in GitHub. Pages' builder needs its own copy, so every
   rotation becomes two edits and drift becomes possible.
 - **It hides failures from the client.** The Uzbek `failure()` notice
@@ -257,8 +257,6 @@ Repo → Settings → Secrets and variables → Actions:
 |---|---|---|---|
 | Secret | `CLOUDFLARE_API_TOKEN` | — | from §2.5 |
 | Secret | `CLOUDFLARE_ACCOUNT_ID` | — | from §2.6 |
-| Secret | `FORM_ENDPOINT` | **`LEAD_ENDPOINT`** | Apps Script `/exec` URL |
-| Secret | `FORM_TOKEN` | **`LEAD_TOKEN`** | shared form token |
 | Variable | `SITE_URL` | `SITE_URL` | `https://getcartravel.uz` |
 | Variable | `METRICA_ID` | `METRICA_ID` | Yandex Metrica counter (blank ⇒ no tracker, no banner) |
 
@@ -350,6 +348,7 @@ dead code in a pipeline is a trap.
       minutes is about **35 minutes against 2,000 free private-repo minutes**.
 - [ ] Invite the client as a collaborator once question 9 returns their username.
 - [ ] Consider renaming `tour-website` to something client-facing before handover.
-- [ ] **The Telegram bot token is NOT a repo secret and NOT in `apps-script/Code.gs`.**
+- [ ] **The Telegram bot token is NOT a repo secret and NOT in the tracked tree.**
+      It is an encrypted Cloudflare Pages environment variable (`docs/LEAD-ENDPOINT.md` §2).
       It lives in Apps Script → Project Settings → Script Properties as `TG_TOKEN`
       and `TG_CHAT_ID` (BC3).

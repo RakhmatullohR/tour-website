@@ -1,17 +1,20 @@
 // PLAN §9 — THE ONLY PLACE THAT TALKS TO THE LEAD ENDPOINT.
 //
-// Switching provider (Apps Script <-> Web3Forms, §9.4) is a one-file change
-// because every form on the site goes through submitLead() below.
+// REWRITTEN 2026-08-24 with the move from Apps Script to a Cloudflare Pages
+// Function (`functions/api/lead.ts`). The old contract is quoted here because
+// every line of it inverted, and someone will otherwise "restore" a rule that now
+// causes the bug it used to prevent:
 //
-// ❌ NEVER send `Content-Type: application/json`. It triggers a CORS preflight,
-//    Apps Script does not answer OPTIONS, and the request dies. This is the single
-//    most common failure with this integration. We send text/plain, which is a
-//    CORS-safelisted value and therefore never preflighted.
+//   OLD: "NEVER send Content-Type: application/json — it triggers a CORS preflight
+//   and Apps Script does not answer OPTIONS." TRUE THEN. Now the endpoint is a
+//   same-origin path, so there is no CORS at all and no preflight to avoid.
 //
-// The response may or may not be readable across the 302 -> googleusercontent.com
-// hop (§9.4, R8 — rated 50/50 and settled by the P0 spike). The UX contract is
-// therefore written so that IT DOES NOT MATTER: we redirect on resolve-or-timeout,
-// never on "confirmed success".
+//   OLD: "the response may or may not be readable across the 302 to
+//   googleusercontent.com, so the UX contract is written so that IT DOES NOT
+//   MATTER: we redirect on resolve-or-timeout, never on confirmed success."
+//   That was a workaround for an endpoint we could not hear back from. We can hear
+//   back now, and we ACT ON IT: success is confirmed success. This is the whole
+//   reason for the move — a failed send used to show the visitor a thank-you page.
 
 export interface LeadPayload {
   /** Which form produced this. */
@@ -48,7 +51,10 @@ const RATE_MAX = 3;
  *  where autofill would false-reject a real person. */
 const MIN_ELAPSED_MS = 2000;
 
-export type SubmitResult = 'ok' | 'discarded' | 'error';
+/** 'discarded' is BOT-SHAPED input and must be indistinguishable from success to
+ *  the caller. 'rate-limited' must NOT be: it is a real person being stopped by our
+ *  own counter, and showing them a thank-you page loses the lead in silence. */
+export type SubmitResult = 'ok' | 'discarded' | 'error' | 'rate-limited';
 
 /** E.164 with a permissive fallback for foreign numbers (§9.2). */
 export function normalisePhone(raw: string): string {
@@ -63,19 +69,36 @@ export const isValidPhone = (raw: string) => /^\+\d{9,15}$/.test(normalisePhone(
 
 /** §9.5 — a localStorage counter is NOT rate limiting. One click to clear, or
  *  incognito, or curl. It exists to slow an accidental double-submit, nothing
- *  more, and we do not claim otherwise. */
+ *  more, and we do not claim otherwise.
+ *
+ *  SPLIT INTO CHECK AND RECORD on 2026-08-24. It used to do both in one call, made
+ *  from the top of submitLead() — so an attempt that never reached the network
+ *  still burned a slot. Combined with the timeout now surfacing an error whose copy
+ *  says "try again", three failed attempts silently exhausted the cap and the
+ *  fourth was reported to the visitor as SUCCESS. Only a request that actually
+ *  goes out counts. */
 function underClientCap(): boolean {
   try {
     const now = Date.now();
     const hits: number[] = JSON.parse(localStorage.getItem(RATE_KEY) ?? '[]').filter(
       (t: number) => now - t < RATE_WINDOW_MS,
     );
-    if (hits.length >= RATE_MAX) return false;
-    hits.push(now);
-    localStorage.setItem(RATE_KEY, JSON.stringify(hits));
-    return true;
+    return hits.length < RATE_MAX;
   } catch {
     return true; // storage blocked — never block a real submission over it
+  }
+}
+
+function recordAttempt(): void {
+  try {
+    const now = Date.now();
+    const hits: number[] = JSON.parse(localStorage.getItem(RATE_KEY) ?? '[]').filter(
+      (t: number) => now - t < RATE_WINDOW_MS,
+    );
+    hits.push(now);
+    localStorage.setItem(RATE_KEY, JSON.stringify(hits));
+  } catch {
+    /* storage blocked — the cap simply does not apply */
   }
 }
 
@@ -98,14 +121,14 @@ export function clearDraft() {
  */
 export async function submitLead(
   payload: LeadPayload,
-  opts: { endpoint: string; token: string },
+  opts: { endpoint: string },
 ): Promise<SubmitResult> {
   // §9.5 honeypot: a bot that filled the hidden field. Accept and discard.
   if (payload.website) return 'discarded';
   // §9.5 time trap: multi-field forms only.
   if (payload.form !== 'callback' && payload.elapsedMs !== undefined && payload.elapsedMs < MIN_ELAPSED_MS)
     return 'discarded';
-  if (!underClientCap()) return 'discarded';
+  if (!underClientCap()) return 'rate-limited';
 
   // Draft survives a failed submit so the user never retypes (§9.4 UX contract).
   saveDraft(payload);
@@ -116,30 +139,37 @@ export async function submitLead(
     return 'error';
   }
 
-  const body = JSON.stringify({ ...payload, token: opts.token, ts: new Date().toISOString() });
+  const body = JSON.stringify({ ...payload, ts: new Date().toISOString() });
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), SUBMIT_TIMEOUT_MS);
 
+  recordAttempt();
+
   try {
-    await fetch(opts.endpoint, {
+    const res = await fetch(opts.endpoint, {
       method: 'POST',
-      // CORS-safelisted. Do not "fix" this to application/json.
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      // Same-origin now, so application/json is correct and preflight-free. The
+      // old text/plain workaround is documented in this file's header.
+      headers: { 'Content-Type': 'application/json' },
       body,
       signal: controller.signal,
       redirect: 'follow',
     });
+    // The response is READABLE, so it is read. This is the point of the move: the
+    // endpoint answers 502 when Telegram refused the message, and the visitor is
+    // shown the error state with direct contact links instead of a thank-you page
+    // for a lead that does not exist.
+    if (!res.ok) return 'error';
     clearDraft();
     return 'ok';
   } catch (err) {
-    // An AbortError means the 8 s budget expired. The row has very probably been
-    // appended — Apps Script does the cheap append FIRST (§9.3) — so treating a
-    // timeout as failure would produce duplicate submissions. Resolve-or-timeout
-    // is the contract; only a genuine network failure is an error.
-    if (err instanceof DOMException && err.name === 'AbortError') {
-      clearDraft();
-      return 'ok';
-    }
+    // A timeout (AbortError) lands here too, and it is NOT read as success. The
+    // old code did, reasoning that "the row has very probably been appended";
+    // there is no row and no second destination, so a timeout means UNKNOWN. The
+    // two outcomes are not symmetric: a duplicate is one extra message in a group,
+    // a lost lead is unrecoverable and invisible. The error state is not a dead
+    // end — it carries the Telegram and WhatsApp links (§9.4) — and the draft is
+    // kept, not cleared, so nothing is retyped.
     return 'error';
   } finally {
     clearTimeout(timer);

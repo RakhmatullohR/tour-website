@@ -14,7 +14,7 @@
 // path then upgrades it to inline validation + a redirect to /thanks/.
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { TFunction } from '../../i18n/t';
-import { LEAD_ENDPOINT, LEAD_TOKEN, telHref, telegramHref, whatsappHref, PHONE_DISPLAY } from '../../config/site';
+import { LEAD_ENDPOINT, telHref, telegramHref, whatsappHref, PHONE_DISPLAY } from '../../config/site';
 import Field from '../ui/Field.astro';
 import Checkbox from '../ui/Checkbox.astro';
 import Button from '../ui/Button.astro';
@@ -34,7 +34,6 @@ interface Props {
 const { variant, locale, t, tourId, tourTitle, class: cls = '', inline = false } = Astro.props;
 
 const thanksUrl = getRelativeLocaleUrl(locale, '/thanks/');
-const privacyUrl = getRelativeLocaleUrl(locale, '/privacy/');
 const tg = telegramHref(tourTitle ? `${t('tour.bookTitle')}: ${tourTitle}` : undefined);
 const wa = whatsappHref(tourTitle ? `${t('tour.bookTitle')}: ${tourTitle}` : undefined);
 
@@ -42,7 +41,6 @@ const wa = whatsappHref(tourTitle ? `${t('tour.bookTitle')}: ${tourTitle}` : und
 // to catch a half-typed one. Normalisation to E.164 happens in submitLead().
 const PHONE_PATTERN = '[+0-9()\\s-]{9,20}';
 
-const needsConsent = variant !== 'quick' && variant !== 'callback';
 const showName = variant === 'booking' || variant === 'lead';
 const paxOptions = ['1', '2', '3', '4', '5', '6+'].map((v) => ({ value: v, label: v }));
 
@@ -63,10 +61,8 @@ if (!LEAD_ENDPOINT && !(globalThis as { __gtEndpointWarned?: boolean }).__gtEndp
   data-locale={locale}
   data-thanks={thanksUrl}
   data-endpoint={LEAD_ENDPOINT}
-  data-token={LEAD_TOKEN}
   method="POST"
-  action={LEAD_ENDPOINT || undefined}
-  target="gt-lead-sink"
+  action={LEAD_ENDPOINT}
   novalidate
 >
   {/* §9.5 HONEYPOT — CSS-hidden, never display:none (some bots skip those), and
@@ -78,13 +74,12 @@ if (!LEAD_ENDPOINT && !(globalThis as { __gtEndpointWarned?: boolean }).__gtEndp
   {/* §9.5 TIME TRAP — stamped by JS on load. Multi-field forms only; the callback
       widget is exempt, where autofill would false-reject a real person. */}
   <input type="hidden" name="renderedAt" value="" />
-  {/* The no-JS path is a native submit, and a native submit cannot read
-      `data-token` - that attribute exists for the JS reader. Without this field
-      Code.gs sees no token, fails the §9.5 filter, and DISCARDS THE LEAD while
-      returning 200 (silence is deliberate so a bot learns nothing - which means a
-      real visitor learns nothing either). No new exposure: LEAD_TOKEN already
-      ships in data-token and is a bot filter, not authentication. */}
-  <input type="hidden" name="token" value={LEAD_TOKEN} />
+  {/* No `target` and no shared token any more (2026-08-24). The endpoint is
+      same-origin, so a no-JS native submit NAVIGATES to it and the function
+      answers with a 303 to /thanks/ — a real confirmation page instead of a
+      response swallowed by a hidden iframe. The token field is gone with
+      LEAD_TOKEN: the function checks the Origin header, which a page cannot
+      forge, instead of a "secret" that shipped in the page. */}
   <input type="hidden" name="form" value={variant} />
   <input type="hidden" name="locale" value={locale} />
   {tourId && <input type="hidden" name="tourId" value={tourId} />}
@@ -142,12 +137,6 @@ if (!LEAD_ENDPOINT && !(globalThis as { __gtEndpointWarned?: boolean }).__gtEndp
         <Checkbox name="contactPref" type="radio" value="whatsapp">{t('form.pref.whatsapp')}</Checkbox>
       </div>
     </fieldset>
-  )}
-
-  {needsConsent && (
-    <Checkbox name="consent" required class="mt-4">
-      {t('form.consent')} — <a href={privacyUrl} class="underline hover:text-brand-700">{t('form.consentLink')}</a>
-    </Checkbox>
   )}
 
   <div class="mt-5 flex flex-wrap items-center gap-4">

@@ -11,8 +11,12 @@ export type Json = Record<string, unknown>;
 const abs = (site: URL | undefined, path: string) => new URL(path, site).href;
 
 export function travelAgencySchema(site: URL | undefined, locale: string, description: string): Json {
+  // `sameAs` means "other official profiles of this organisation", so the PUBLIC
+  // channel belongs here as much as the manager account does — added 2026-08-24
+  // with Q17's two-account answer.
   const sameAs = [
     SOCIAL.telegram && `https://t.me/${SOCIAL.telegram}`,
+    SOCIAL.telegramChannel && `https://t.me/${SOCIAL.telegramChannel}`,
     SOCIAL.instagram && `https://instagram.com/${SOCIAL.instagram}`,
     SOCIAL.youtube && `https://youtube.com/${SOCIAL.youtube}`,
   ].filter(Boolean);

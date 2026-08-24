@@ -142,17 +142,29 @@ Hal qilolmasangiz — dasturchiga yozing. **Sayt ishlashda davom etadi.**
 ## 8. Arizalar qayerga tushadi
 
 Saytdagi har bir forma (4 ta joyda: bosh sahifa, tur sahifasi, kontaktlar, pastdagi
-tugma) bitta joyga tushadi:
+tugma) **faqat bitta joyga** — kompaniyaning ichki **Telegram chatiga** tushadi.
 
-1. **Telegram** — asosiy kanal, darhol xabar keladi;
-2. **Google Sheets jadvali** — hamma arizalar tarixi;
-3. **Email** — qoʻshimcha nusxa.
+Ilgari ariza yana ikkita joyga borardi: Google Sheets jadvaliga va emailga. **2026-yil
+24-avgustda ular sizning koʻrsatmangiz bilan olib tashlandi.** Endi qaraydigan joyingiz
+bitta — Telegram guruhi.
 
-Har kuni kechqurun **"Bugun N ta ariza"** degan email keladi. Agar Telegram ishlamay
-qolsa, siz buni shu emaildan bilib olasiz.
+> **Buni bilib qoʻying.** Arizaning boshqa nusxasi yoʻq. Telegram xabari kelmasa —
+> masalan bot guruhdan chiqarilsa, tokeni almashtirilsa yoki Telegram vaqtincha
+> ishlamasa — **ariza butunlay yoʻqoladi**. Mijoz esa saytda "yuborildi" degan yozuvni
+> koʻrgan boʻladi, chunki sayt javobni kutmaydi.
+>
+> Bitta yaxshi yangilik ham bor: 24-avgustdan beri xabar yetib bormasa, **mijoz buni
+> koʻradi** — unga xatolik haqida yozuv va Telegram/WhatsApp havolalari chiqadi.
+> Ilgari unday emas edi: mijoz "yuborildi" degan yozuvni koʻrardi.
+>
+> Shuning uchun ikkita oddiy qoida:
+> 1. Botni guruhdan chiqarmang va tokenini almashtirmang. Zarur boʻlsa — avval
+>    dasturchiga ayting.
+> 2. Bir necha kun umuman ariza kelmasa, buni "mijoz yoʻq" deb emas, **"tekshirish
+>    kerak"** deb tushuning: saytdagi formani oʻzingiz toʻldirib, xabar chatga
+>    kelishini sinab koʻring.
 
-> Agar bir kunda Telegram'ga xabar kelmagan boʻlsa-yu, kechki emailda "N ta ariza"
-> deb yozilgan boʻlsa — **jadvalni oching**, arizalar oʻsha yerda turibdi.
+Eski jadval oʻchirilmadi — unda 24-avgustgacha kelgan arizalar saqlanib turibdi.
 
 ---
 
