@@ -5,11 +5,18 @@
 node_modules/
 dist/
 .astro/
+# wrangler's local scratch: miniflare state, bundles and OBSERVABILITY TRACES.
+# The traces record outgoing requests, and a Telegram request URL carries the bot
+# token in the path — this must never be committed.
+.wrangler/
 
 # env & secrets
 .env
 .env.*
 !.env.example
+# wrangler reads .dev.vars for `pages dev` — it holds the REAL bot token locally
+.dev.vars
+.dev.vars.*
 
 # local reports
 reports/

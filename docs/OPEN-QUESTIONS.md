@@ -321,8 +321,18 @@ tidy-up:
    accepting POSTs that nobody will ever read. Its `dailyDigest` trigger, if still
    installed, emails a failure notice daily against a function that no longer exists.
 3. Delete the `FORM_ENDPOINT` and `FORM_TOKEN` GitHub secrets.
-4. Point `TG_CHAT_ID` at the group rather than a private chat. The privacy page now says
-   "internal Telegram chat" precisely because the tree cannot back the word "group".
+4. ~~Point `TG_CHAT_ID` at the group rather than a private chat.~~ **DONE 2026-08-24** —
+   the configured id begins `-100`, which is a supergroup, so the destination is no
+   longer one person's private chat. The privacy page still says "internal Telegram
+   chat" rather than "group"; that is deliberate and stays true either way.
+
+5. **ROTATE THE BOT TOKEN, and store it as a SECRET.** The token was first entered in
+   the Pages dashboard as **type Text**, which renders it in plain sight — and it was
+   then captured in a screenshot and shared. Treat it as burned: @BotFather →
+   `/mybots` → **API Token** → **Revoke current token**, then re-enter the new one with
+   type **Secret**. A leaked bot token means anyone can read every lead in the group,
+   post as the company, and delete messages. `TG_CHAT_ID` is not a credential and may
+   stay Text.
 
 **Lead delivery is now documented, not folklore.** `docs/LEAD-ENDPOINT.md` is the
 runbook: Sheet + Telegram + email, the Script Properties, the Web App deployment

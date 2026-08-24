@@ -64,6 +64,13 @@ variables.** Add both to **Production** (and to Preview if you test there), and 
 No secret is ever written in the repo (BC3). There are no longer any `FORM_ENDPOINT`
 or `FORM_TOKEN` GitHub secrets — delete them, they are read by nothing.
 
+> **`TG_TOKEN` must be type Secret, not Text.** The dashboard defaults a new variable
+> to **Text**, which displays the value in full on the settings page — where it is one
+> screenshot away from being public. It happened once here, on 2026-08-24, and the
+> token had to be revoked through @BotFather. A leaked bot token means anyone can read
+> every lead in the group, post as the company and delete messages. `TG_CHAT_ID` is not
+> a credential; Text is fine for it.
+
 > **Changing a variable does not affect the running deployment.** Pages injects
 > environment variables at deploy time. After editing them, re-run the workflow (or
 > use **Retry deployment**) or the function keeps using the old values.
