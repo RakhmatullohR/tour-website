@@ -101,8 +101,15 @@ jobs:
       # the Pages advanced-mode convention — writing one where a later build can
       # find it makes that build try to parse it as source and fail with a
       # baffling "Expected ; but found :". Give it a name nothing looks for.
+      #
+      # The version is PINNED, and it must match `wranglerVersion` on the deploy
+      # step below. If the checker and the deployer are different majors, this step
+      # can pass while the thing that actually ships is bundled by different code —
+      # which is the one failure this check exists to prevent. Both were verified
+      # against the real handler: compile + `pages dev` behaviour identical on
+      # 3.114.17 and 4.x.
       - name: Compile the lead function
-        run: npx --yes wrangler@3 pages functions build --outfile=/tmp/lead-fn-bundle.js
+        run: npx --yes wrangler@4 pages functions build --outfile=/tmp/lead-fn-bundle.js
 
       - uses: actions/upload-artifact@v4
         with:
@@ -134,6 +141,11 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Pinned to the same major as the compile step above. Left unset, the
+          # action installs whatever is newest on the day it runs, so a wrangler
+          # release could change how functions/ is bundled without a single commit
+          # in this repo.
+          wranglerVersion: '4'
           # --branch=main is what marks this the PRODUCTION deployment; without it
           # wrangler guesses from git state and can file a run as a preview.
           # --commit-dirty: dist/ is gitignored, so the tree is "dirty" by design.
