@@ -80,6 +80,11 @@ const messages = {
   };
 
   for (const form of document.querySelectorAll<HTMLFormElement>('[data-lead-form]')) {
+    // `novalidate` is set HERE, not in the markup. In the markup it also disabled
+    // validation for JS-OFF visitors, whose browser is then the only thing standing
+    // between a half-typed phone number and a submit that cannot succeed. Setting it
+    // from script means native validation is active exactly when this script is not.
+    form.noValidate = true;
     // §9.5 time trap — stamped now, checked in submitLead(). A submission that
     // arrives under 2 s on a multi-field form is a bot.
     const stamp = form.querySelector<HTMLInputElement>('[name="renderedAt"]');

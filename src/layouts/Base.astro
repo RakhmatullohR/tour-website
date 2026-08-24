@@ -110,9 +110,6 @@ const alternates = availableLocales.filter((l) => SHIPPED_LOCALES.includes(l));
     <Footer locale={locale} t={t} />
     <FloatingWidget t={t} locale={locale} />
 
-    {/* §9.4 — the no-JS POST target. Zero CORS involvement: the browser navigates
-        the iframe, the response is never read. */}
-
     <FormRuntime t={t} />
 
     {METRICA_ID && (

@@ -334,6 +334,25 @@ tidy-up:
    post as the company, and delete messages. `TG_CHAT_ID` is not a credential and may
    stay Text.
 
+**A defect the post-deploy review caught, 2026-08-24.** Removing the hidden
+`gt-lead-sink` iframe turned a no-JS submit into a real navigation — and the forms carried
+`novalidate` in the markup, which disabled native validation for exactly the visitors who
+have nothing else. So a JS-off visitor who mistyped a phone number was navigated to a bare
+303 with everything they had typed discarded, the tour context on a booking form included,
+and nothing saying why. Not a lost lead by the accepted B14 route: a lost lead by
+abandonment, and invisible.
+
+Fixed on both sides. `novalidate` is now set by `FormRuntime` at runtime, so it applies
+exactly when the script that replaces it is present; and the function answers that case
+with a bilingual page naming the problem, telling the visitor the browser's Back button
+keeps what they typed, and linking to the page the form was on — validated as a
+same-origin path, because `page` arrives from the form and `//evil.example` is a path a
+browser would follow off-site.
+
+Worth noting how it was missed: every local test posted a VALID phone, and the `400
+invalid_phone` branch that was tested is unreachable on the native path. The tests
+exercised the code, not the visitor.
+
 **Lead delivery is now documented, not folklore.** `docs/LEAD-ENDPOINT.md` is the
 runbook: Sheet + Telegram + email, the Script Properties, the Web App deployment
 settings, and — the part that matters — a test step that exercises the JS **and**

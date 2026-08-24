@@ -44,15 +44,6 @@ const PHONE_PATTERN = '[+0-9()\\s-]{9,20}';
 const showName = variant === 'booking' || variant === 'lead';
 const paxOptions = ['1', '2', '3', '4', '5', '6+'].map((v) => ({ value: v, label: v }));
 
-// Warn ONCE for the whole build, not once per page — a warning repeated 20 times
-// is a warning nobody reads.
-if (!LEAD_ENDPOINT && !(globalThis as { __gtEndpointWarned?: boolean }).__gtEndpointWarned) {
-  (globalThis as { __gtEndpointWarned?: boolean }).__gtEndpointWarned = true;
-  console.warn(
-    '  [forms] WARN  LEAD_ENDPOINT is empty — the tracked tree carries placeholders only (BC3). ' +
-      'Forms render and validate, but no-JS submission has no target until the Apps Script /exec URL is supplied.',
-  );
-}
 ---
 <form
   class={`lead-form ${cls}`}
@@ -63,7 +54,6 @@ if (!LEAD_ENDPOINT && !(globalThis as { __gtEndpointWarned?: boolean }).__gtEndp
   data-endpoint={LEAD_ENDPOINT}
   method="POST"
   action={LEAD_ENDPOINT}
-  novalidate
 >
   {/* §9.5 HONEYPOT — CSS-hidden, never display:none (some bots skip those), and
       aria-hidden + tabindex=-1 so no human or screen reader ever reaches it. */}

@@ -166,15 +166,28 @@ const json = (body: unknown, status: number): Response =>
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
   });
 
-/** What a no-JS visitor's browser renders on failure. They performed a native
- *  submit, so this response is their next page — a bare JSON body would be a dead
- *  end, and §9.4 says a failed form must never be one. */
-function nativeFailure(locale: string): Response {
+/** What a no-JS visitor's browser renders when something goes wrong. They performed
+ *  a native submit, so this response IS their next page — a bare JSON body, or a
+ *  redirect to a page that says nothing, is a dead end, and §9.4 says a failed form
+ *  must never be one.
+ *
+ *  `reason: 'phone'` exists because the bare 303 it replaced was the worst outcome
+ *  in the whole flow: with JS off nothing had validated the field, so the visitor
+ *  was navigated away from a form they had filled in, everything they typed was
+ *  gone — the tour context on a booking form included — and nothing told them why. */
+function nativeFailure(locale: string, reason: 'failed' | 'phone' = 'failed', backPath = ''): Response {
   const ru = locale === 'ru';
-  const title = ru ? 'Заявка не отправлена' : 'Ariza yuborilmadi';
-  const text = ru
-    ? 'Произошла техническая ошибка. Пожалуйста, свяжитесь с нами напрямую — все каналы на странице контактов.'
-    : 'Texnik xatolik yuz berdi. Iltimos, biz bilan bevosita bogʻlaning — barcha kanallar kontaktlar sahifasida.';
+  const phone = reason === 'phone';
+  const title = phone
+    ? (ru ? 'Проверьте номер телефона' : 'Telefon raqamini tekshiring')
+    : (ru ? 'Заявка не отправлена' : 'Ariza yuborilmadi');
+  const text = phone
+    ? (ru
+        ? 'Заявка не отправлена: номер телефона не указан или указан не полностью. Вернитесь назад и введите номер полностью, например +998 90 123 45 67.'
+        : 'Ariza yuborilmadi: telefon raqami kiritilmagan yoki toʻliq emas. Orqaga qayting va raqamni toʻliq kiriting, masalan +998 90 123 45 67.')
+    : (ru
+        ? 'Произошла техническая ошибка. Пожалуйста, свяжитесь с нами напрямую — все каналы на странице контактов.'
+        : 'Texnik xatolik yuz berdi. Iltimos, biz bilan bevosita bogʻlaning — barcha kanallar kontaktlar sahifasida.');
   const back = ru ? 'Открыть контакты' : 'Kontaktlarni ochish';
 
   return new Response(
@@ -183,8 +196,18 @@ function nativeFailure(locale: string): Response {
       `<title>${title}</title>` +
       `<body style="font:16px/1.6 system-ui,sans-serif;max-width:40rem;margin:3rem auto;padding:0 1rem">` +
       `<h1 style="font-size:1.5rem">${title}</h1><p>${text}</p>` +
+      // NOT a `javascript:` back link. This page exists FOR the visitor whose JS is
+      // off, where such a link is inert — it would render as a link that does
+      // nothing. Their browser's own Back button works and restores what they typed,
+      // so say that, and offer a real href to the page the form was on.
+      (phone
+        ? `<p>${ru
+              ? 'Нажмите «Назад» в браузере — введённые данные сохранятся.'
+              : 'Brauzerdagi «Orqaga» tugmasini bosing — yozganlaringiz saqlanib qoladi.'}</p>` +
+          (backPath ? `<p><a href="${backPath}">${ru ? 'Вернуться к форме' : 'Formaga qaytish'}</a></p>` : '')
+        : '') +
       `<p><a href="/${ru ? 'ru' : 'uz'}/contacts/">${back}</a></p>`,
-    { status: 502, headers: { 'Content-Type': 'text/html; charset=utf-8' } },
+    { status: phone ? 400 : 502, headers: { 'Content-Type': 'text/html; charset=utf-8' } },
   );
 }
 
@@ -225,8 +248,16 @@ export async function onRequestPost(context: PagesContext): Promise<Response> {
 
   // §9.1 — the one universally required field.
   const phone = normalisePhone(data.phone);
-  if (!/^\+\d{9,15}$/.test(phone))
-    return native ? redirectTo(`/${locale}/contacts/`) : json({ ok: false, error: 'invalid_phone' }, 400);
+  if (!/^\+\d{9,15}$/.test(phone)) {
+    // `page` comes from the form, so it is attacker-controllable: accept it only as
+    // a same-origin path. A leading `//` is protocol-relative and would send the
+    // visitor to another site from a page on our domain.
+    const raw = clean(data.page, 300);
+    const backPath = /^\/(?!\/)[\w\-./]*$/.test(raw) ? raw : '';
+    return native
+      ? nativeFailure(locale, 'phone', backPath)
+      : json({ ok: false, error: 'invalid_phone' }, 400);
+  }
 
   const text = buildText(data, phone);
 

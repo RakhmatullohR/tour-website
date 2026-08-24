@@ -238,8 +238,14 @@ curl -sI "https://getcartravel.uz/_astro/$A" | grep -i cache-control
 # if it reads "…immutable, public, max-age=0, must-revalidate" then a `_headers`
 # rule overlaps /_astro/* and Cloudflare comma-joined them — see public/_headers
 
-# THE ONE THAT MATTERS MOST — a site that ships without this collects nothing:
+# THE ONE THAT MATTERS MOST — a site that ships without this collects nothing.
+# Since 2026-08-24 that is the FUNCTION, not the attribute: `data-endpoint` is a
+# constant now, so it is populated even in a build where the function never shipped.
+curl -s -o /dev/null -w '%{http_code}\n' https://getcartravel.uz/api/lead
+# must read 405 — the function is live and write-only. 404 means functions/ did not
+# ship at all, and every lead form on the site is posting into nothing.
 curl -s https://getcartravel.uz/uz/contacts/ | grep -o 'data-endpoint="[^"]*"'
+# must read data-endpoint="/api/lead"
 ```
 
 **Measured 2026-08-20, all passing:** apex `188.114.96.11 / 188.114.97.11` ·
@@ -260,14 +266,20 @@ Repo → Settings → Secrets and variables → Actions:
 | Variable | `SITE_URL` | `SITE_URL` | `https://getcartravel.uz` |
 | Variable | `METRICA_ID` | `METRICA_ID` | Yandex Metrica counter (blank ⇒ no tracker, no banner) |
 
-The middle column is not decoration. `src/config/site.ts` reads `LEAD_ENDPOINT`,
-`LEAD_TOKEN` and `METRICA_ID`; the workflow's Build step maps the differently
-named secrets onto them. It previously exported `PUBLIC_FORM_ENDPOINT` and
-friends — names **nothing in the tree reads** — so the build was green while
-`LEAD_ENDPOINT` fell back to `''` and every lead form rendered with a bare
-`data-endpoint` attribute. The site looked finished and collected nothing.
-Verified fixed: a build with `LEAD_ENDPOINT` set now emits
-`data-endpoint="https://script.google.com/…/exec"` into the contact page.
+The middle column is not decoration: `src/config/site.ts` reads `METRICA_ID` from the
+environment, and the workflow's Build step maps the differently named variable onto it.
+
+**`LEAD_ENDPOINT` and `LEAD_TOKEN` are gone (2026-08-24).** The lead endpoint is now the
+same-origin constant `/api/lead` in `config/site.ts`, served by `functions/api/lead.ts`,
+and the bot token lives in the Pages environment — so no secret is needed at build time
+and the `FORM_ENDPOINT` / `FORM_TOKEN` GitHub secrets can be deleted.
+
+That removed a whole class of failure worth remembering. The workflow used to export
+`PUBLIC_FORM_ENDPOINT` and friends — names **nothing in the tree read** — so the build
+was green while `LEAD_ENDPOINT` fell back to `''` and every lead form shipped with a bare
+`data-endpoint`. The site looked finished and collected nothing. A constant cannot fall
+back to an empty string. Expected markup in a correct build, and the check in §3:
+`data-endpoint="/api/lead"`.
 
 `SITE_URL` is belt-and-braces: `astro.config.mjs` falls back to the same origin.
 The fallback uses `||`, not `??`, because an **unset GitHub variable expands to
@@ -349,6 +361,10 @@ dead code in a pipeline is a trap.
 - [ ] Invite the client as a collaborator once question 9 returns their username.
 - [ ] Consider renaming `tour-website` to something client-facing before handover.
 - [ ] **The Telegram bot token is NOT a repo secret and NOT in the tracked tree.**
-      It is an encrypted Cloudflare Pages environment variable (`docs/LEAD-ENDPOINT.md` §2).
-      It lives in Apps Script → Project Settings → Script Properties as `TG_TOKEN`
-      and `TG_CHAT_ID` (BC3).
+      It is an encrypted **Cloudflare Pages environment variable** — Workers & Pages →
+      `getcartravel` → Settings → Environment variables → Production, `TG_TOKEN` and
+      `TG_CHAT_ID`, both type **Secret** (BC3). Full procedure: `docs/LEAD-ENDPOINT.md` §2.
+      **Without these two the deployed function answers 503 and every lead is lost**, so
+      set them BEFORE the deploy — Pages injects environment variables at deploy time,
+      which means adding them afterwards does nothing until the next deployment.
+      *(Apps Script Script Properties held these until 2026-08-24. That project is gone.)*
