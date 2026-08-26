@@ -9,13 +9,17 @@
 // redirectToDefaultLocale is left unset in astro.config.mjs (defaults false), which
 // is exactly what keeps `/` reachable as this page.
 import '../styles/global.css';
+import { Image } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { resolveImage } from '../lib/images';
 import { SHIPPED_LOCALES, DEFAULT_LOCALE, LOCALE_LABELS, LOCALE_TAGS } from '../i18n/locales.mjs';
 // This page bypassed config/site.ts and hardcoded the phone number in both the
 // href and the label. site.ts opens with "Client-supplied facts, in ONE place" —
 // and this was the one place that was not it, so a number change updated every
 // page except the root language picker, which is the first page a visitor sees.
 import { PHONE_DISPLAY, telHref } from '../config/site';
+
+const logo = resolveImage('logo-getcar-512x512.png');
 ---
 <!doctype html>
 <html lang="uz">
@@ -23,17 +27,23 @@ import { PHONE_DISPLAY, telHref } from '../config/site';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Getcar Travel — tilni tanlang / выберите язык</title>
-    <meta name="description" content="Getcar Travel — O'zbekiston va chet el bo'ylab tur paketlari." />
+    {/* Modifier letters oʻ / boʻ (U+02BB), not ASCII apostrophes — the same §13.2
+        orthography rule check-i18n enforces on uz.json. It cannot see hardcoded
+        strings on this page, which is exactly how the wrong glyphs got here. */}
+    <meta name="description" content="Getcar Travel — Oʻzbekiston va chet el boʻylab tur paketlari." />
     <link rel="canonical" href={new URL('/', Astro.site).href} />
     {SHIPPED_LOCALES.map((l) => (
       <link rel="alternate" hreflang={LOCALE_TAGS[l] ?? l} href={new URL(getRelativeLocaleUrl(l, '/'), Astro.site).href} />
     ))}
     <link rel="alternate" hreflang="x-default" href={new URL(getRelativeLocaleUrl(DEFAULT_LOCALE, '/'), Astro.site).href} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   </head>
   <body class="grid min-h-screen place-items-center bg-neutral-50">
     <main class="px-4 text-center">
-      <p class="font-[family-name:var(--font-display)] text-3xl font-bold text-brand-900">
+      <Image src={logo} alt="" width={96} height={96} densities={[1, 2]} loading="eager" class="mx-auto h-24 w-24 rounded-full" />
+      <p class="mt-4 font-[family-name:var(--font-display)] text-3xl font-bold text-brand-900">
         Getcar<span class="text-brand-600">Travel</span>
       </p>
       <h1 class="mt-8 text-lg font-medium text-neutral-600">Tilni tanlang / Выберите язык</h1>

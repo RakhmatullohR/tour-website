@@ -5,8 +5,8 @@
 import { Image } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { tryResolveImage } from '../../lib/images';
-import { upcomingDepartures, durationBucket, priceBucket, type Tour } from '../../lib/tours';
-import { formatDateShort } from '../../lib/format';
+import { upcomingDepartures, durationBucket, priceUZS, type Tour } from '../../lib/tours';
+import { formatDateShort, pluralUnit } from '../../lib/format';
 import type { TFunction } from '../../i18n/t';
 import PriceTag from '../ui/PriceTag.astro';
 import Badge from '../ui/Badge.astro';
@@ -23,21 +23,31 @@ const upcoming = upcomingDepartures(tour);
 
 const badgeTone = (badge: string) => (badge === 'discount' ? 'accent' : badge === 'last-minute' ? 'hot' : 'brand');
 ---
+{/* `data-price-uzs` carries the NUMBER, not a bucket name: the price filter
+    compares `<=` against the ceiling the customer picked, so the card has to
+    hold a comparable value. USD tours are normalised by the same helper the
+    filter uses, so the two can never disagree about which band a tour is in.
+
+    The cover's `sizes` describes the box this card actually gets. Every grid that
+    renders a TourCard — home, catalogue, a destination page, "similar tours" — is
+    1-up / 2-up / 3-up at the same breakpoints inside the same 1240 px container,
+    so one accurate string covers all four. */}
 <article
   class="reveal group flex h-full flex-col overflow-hidden rounded-[var(--radius-lg)] border border-neutral-200 bg-white"
   data-tour
   data-country={d.country}
   data-category={d.category}
   data-duration={durationBucket(d.duration.days)}
-  data-price={priceBucket(d.price.amount, d.price.currency)}
+  data-price-uzs={priceUZS(d.price.amount, d.price.currency)}
 >
   <a href={href} class="relative block overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" tabindex="-1" aria-hidden="true">
     {cover ? (
       <Image
         src={cover}
         alt=""
+        width={800}
         widths={[400, 800]}
-        sizes="(max-width: 640px) 100vw, 400px"
+        sizes="(min-width: 1280px) 390px, (min-width: 1024px) 31vw, (min-width: 640px) 47vw, 92vw"
         format="webp"
         loading={eager ? 'eager' : 'lazy'}
         class="aspect-[3/2] w-full object-cover transition-transform duration-400 group-hover:scale-[1.03] motion-reduce:transform-none"
@@ -60,7 +70,7 @@ const badgeTone = (badge: string) => (badge === 'discount' ? 'accent' : badge ==
     <p class="flex flex-wrap items-center gap-x-2 text-xs text-neutral-600">
       <span>{t(`country.${d.country}`)}</span>
       <span aria-hidden="true">·</span>
-      <span>{t('tour.durationValue', { nights: d.duration.nights, days: d.duration.days })}</span>
+      <span>{t('tour.durationValue', { nights: d.duration.nights, nightsUnit: pluralUnit('night', d.duration.nights, locale), days: d.duration.days, daysUnit: pluralUnit('day', d.duration.days, locale) })}</span>
       <span aria-hidden="true">·</span>
       <span>{t(`category.${d.category}`)}</span>
     </p>

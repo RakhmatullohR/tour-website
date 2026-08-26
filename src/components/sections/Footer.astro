@@ -9,13 +9,16 @@
 //                             the footer carries the TRADING NAME and nothing more
 //   · payment badges        — absent entirely: they ship only if Q7 confirms a
 //                             merchant contract, and there is none (§6 row 12)
+import { Image } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { TFunction } from '../../i18n/t';
-import { PHONE_DISPLAY, telHref, telegramHref, telegramChannelHref, whatsappHref, mailtoHref, EMAIL, SOCIAL, ADDRESS, HOURS, LEGAL, BRAND_NAME } from '../../config/site';
+import { PHONE_DISPLAY, telHref, telegramHref, telegramChannelHref, whatsappHref, instagramHref, youtubeHref, mailtoHref, EMAIL, ADDRESS, HOURS, LEGAL, BRAND_NAME } from '../../config/site';
+import { resolveImage } from '../../lib/images';
 import Icon from '../ui/Icon.astro';
 
 interface Props { locale: string; t: TFunction }
 const { locale, t } = Astro.props;
+const logo = resolveImage('logo-getcar-512x512.png');
 
 const links = [
   { key: 'nav.tours', href: '/tours/' },
@@ -29,13 +32,22 @@ const links = [
 const tg = telegramHref();
 const tgChannel = telegramChannelHref();
 const wa = whatsappHref();
+const ig = instagramHref();
+const yt = youtubeHref();
 const mail = mailtoHref();
+// ORDER MATCHES THE CONTACTS PAGE, and it is not alphabetical: the two channels
+// that REACH A MANAGER lead (Telegram DM, WhatsApp), then the follow-only feeds
+// in descending reach (Telegram channel, Instagram, YouTube). YouTube is last
+// because it is the newest and the least likely to be checked, not because it
+// matters least. Every href comes from a helper in config/site.ts — no template
+// string builds a social URL here, which is what let the YouTube handle ship as
+// a 404-shaped `youtube.com/@GetCarTravel`-without-the-@ URL elsewhere.
 const socials = [
   tg && { href: tg, label: 'Telegram', icon: 'telegram' as const, event: 'telegram_click' },
-  tgChannel && { href: tgChannel, label: t('contacts.telegramChannel'), icon: 'telegram-channel' as const, event: null },
   wa && { href: wa, label: 'WhatsApp', icon: 'whatsapp' as const, event: 'whatsapp_click' },
-  SOCIAL.instagram && { href: `https://instagram.com/${SOCIAL.instagram}`, label: 'Instagram', icon: 'instagram' as const, event: null },
-  SOCIAL.youtube && { href: `https://youtube.com/${SOCIAL.youtube}`, label: 'YouTube', icon: 'youtube' as const, event: null },
+  tgChannel && { href: tgChannel, label: t('contacts.telegramChannel'), icon: 'telegram-channel' as const, event: null },
+  ig && { href: ig, label: 'Instagram', icon: 'instagram' as const, event: null },
+  yt && { href: yt, label: 'YouTube', icon: 'youtube' as const, event: null },
 ].filter(Boolean) as { href: string; label: string; icon: 'telegram' | 'telegram-channel' | 'whatsapp' | 'instagram' | 'youtube'; event: string | null }[];
 
 const year = new Date().getFullYear();
@@ -44,8 +56,11 @@ const year = new Date().getFullYear();
   <div class="mx-auto max-w-[var(--container-site)] px-4 sm:px-6">
     <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
       <div>
-        <p class="font-[family-name:var(--font-display)] text-xl font-bold text-white">
-          Getcar<span class="text-brand-300">Travel</span>
+        <p class="flex items-center gap-2.5">
+          <Image src={logo} alt="" width={44} height={44} densities={[1, 2]} loading="lazy" class="h-11 w-11 shrink-0 rounded-full" />
+          <span class="font-[family-name:var(--font-display)] text-xl font-bold text-white">
+            Getcar<span class="text-brand-300">Travel</span>
+          </span>
         </p>
         <p class="mt-3 max-w-[40ch] text-sm text-neutral-400">{t('footer.about')}</p>
       </div>

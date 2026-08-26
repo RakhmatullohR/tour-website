@@ -4,6 +4,7 @@
   "order": 60,
   "featured": true,
   "image": "dest-ozbekiston-01-800x1000.webp",
+  "heroImage": "dest-ozbekiston-hero-1600x600.webp",
   "i18n": {
     "uz": {
       "name": "Oʻzbekiston",

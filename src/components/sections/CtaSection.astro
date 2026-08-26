@@ -10,7 +10,7 @@ const { locale, t } = Astro.props;
 const bg = resolveImage('cta-bg-1600x900.webp');
 ---
 <section aria-labelledby="cta-h" class="relative isolate overflow-hidden bg-brand-900 py-16 sm:py-20">
-  <Image src={bg} alt="" widths={[800, 1600]} sizes="100vw" format="webp" loading="lazy"
+  <Image src={bg} alt="" width={1600} widths={[800, 1600]} sizes="100vw" format="webp" loading="lazy"
     class="absolute inset-0 -z-10 h-full w-full object-cover opacity-25" />
 
   <div class="mx-auto grid max-w-[var(--container-site)] gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">

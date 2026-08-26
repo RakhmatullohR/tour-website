@@ -13,6 +13,8 @@
     "check": "astro check",
     "gen:placeholders": "node scripts/gen-placeholders.mjs",
     "gen:image-requirements": "node scripts/gen-image-requirements.mjs",
+    "brand:build": "node scripts/build-brand-assets.mjs",
+    "images:fix": "node scripts/fetch-correct-images.mjs",
     "check:images": "node scripts/check-images.mjs",
     "check:i18n": "node scripts/check-i18n.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",

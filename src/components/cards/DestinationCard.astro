@@ -3,7 +3,7 @@
 import { Image } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { tryResolveImage } from '../../lib/images';
-import { formatPrice } from '../../lib/format';
+import { formatPrice, pluralUnit } from '../../lib/format';
 import type { TFunction } from '../../i18n/t';
 import type { Destination } from '../../lib/tours';
 import Icon from '../ui/Icon.astro';
@@ -20,9 +20,17 @@ const b = d.i18n[locale]!;
 const img = tryResolveImage(d.image);
 const href = getRelativeLocaleUrl(locale, `/destinations/${d.slug}/`);
 ---
+{/* `sizes` below MUST describe the box this card actually gets, because that is
+    the only number the browser has when it picks a resource — long before any CSS
+    box exists. The grid is 2-up below `lg` and 3-up above it inside a 1240 px
+    container, so the real width is ~390 px on a wide screen, not the 300 px this
+    used to claim. Under-declaring makes the browser choose the 400 w file for a
+    390 px box: adequate at 1x, one step too small the moment a phone or a retina
+    laptop asks for 2x. */}
 <article class="reveal group relative overflow-hidden rounded-[var(--radius-lg)] bg-neutral-900">
   {img ? (
-    <Image src={img} alt="" widths={[400, 800]} sizes="(max-width: 640px) 50vw, 300px" format="webp"
+    <Image src={img} alt="" width={800} widths={[400, 800]}
+      sizes="(min-width: 1280px) 390px, (min-width: 1024px) 31vw, 47vw" format="webp"
       loading="lazy"
       class="aspect-[4/5] w-full object-cover opacity-80 transition-transform duration-400 group-hover:scale-[1.03] motion-reduce:transform-none" />
   ) : (
@@ -41,7 +49,7 @@ const href = getRelativeLocaleUrl(locale, `/destinations/${d.slug}/`);
     </h3>
     {from ? (
       <p class="mt-1 text-sm text-neutral-200">
-        {t('destinations.tourCount', { n: from.count })}
+        {t('destinations.tourCount', { n: from.count, unit: pluralUnit('tour', from.count, locale) })}
         <span aria-hidden="true"> · </span>
         {t('destinations.from')} {formatPrice(from.amount, from.currency, locale)}
       </p>

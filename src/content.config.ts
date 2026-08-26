@@ -37,7 +37,7 @@ const tours = defineCollection({
       featured: z.boolean().default(false),
       order: z.number().int().default(100),
 
-      country: z.enum(['UZ', 'MY', 'TR', 'AE', 'TH', 'EG']),
+      country: z.enum(['UZ', 'MY', 'TR', 'AE', 'TH', 'EG', 'ID']),
       cities: z.array(z.string()).default([]),
       category: z.enum(['beach', 'excursion', 'family', 'pilgrimage', 'shopping', 'domestic']),
       departureCity: z.string().default('Toshkent'),
@@ -121,12 +121,24 @@ const destinations = defineCollection({
   loader: glob({ pattern: '**/[^_]*.json', base: './src/content/destinations' }),
   schema: z
     .object({
-      country: z.enum(['UZ', 'MY', 'TR', 'AE', 'TH', 'EG']),
+      country: z.enum(['UZ', 'MY', 'TR', 'AE', 'TH', 'EG', 'ID']),
       /** ASCII Uzbek-Latin slug — §12.1. It is the URL segment AND the filename stem. */
       slug: z.string().regex(/^[a-z0-9-]+$/),
       order: z.number().int().default(100),
       featured: z.boolean().default(true),
+      /** The 4:5 PORTRAIT card image, used on the home grid and the index. */
       image: z.string(),
+      /** The 16:6 LANDSCAPE banner behind the country page's <h1>.
+       *
+       *  This field exists because the country page used to stretch `image` — an
+       *  800x1000 portrait — across a full-bleed 1600x600 band. Astro cannot
+       *  upscale past a source's own width, so the srcset topped out at 800w and
+       *  every desktop visitor got a visibly soft, wrongly-cropped banner. The
+       *  panoramic files were already in the repo; nothing referenced them.
+       *
+       *  Optional: a country with no banner falls back to the portrait rather
+       *  than rendering a bare colour block. */
+      heroImage: z.string().optional(),
       i18n: z.record(
         z.string(),
         z.object({
@@ -141,6 +153,8 @@ const destinations = defineCollection({
     .superRefine((d, ctx) => {
       if (!imageKeys.has(d.image))
         warn(`destination ${d.slug}: image "${d.image}" is not in src/assets/images — a placeholder will be used.`);
+      if (d.heroImage && !imageKeys.has(d.heroImage))
+        warn(`destination ${d.slug}: heroImage "${d.heroImage}" is not in src/assets/images — the portrait card image will be used instead.`);
       void ctx;
     }),
 });

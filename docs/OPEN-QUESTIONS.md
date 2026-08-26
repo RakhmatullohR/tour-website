@@ -397,3 +397,63 @@ from this machine.
 §15's performance numbers are **provisional against placeholders**, exactly as §15
 requires. They are re-measured in P7 against real photography, and **those are the
 numbers that count**.
+
+---
+
+## E. Client instructions of 2026-08-26
+
+Eight instructions, plus "make everything closer to reality" and "optimise fully".
+Recorded here because three of them **reverse or supersede a decision above**, and
+section B's tables would otherwise still read as current.
+
+| # | Instruction | What changed | Supersedes |
+|---|---|---|---|
+| E1 | Use the logo I sent | `src/assets/brand/logo-source.jpg` is now the single brand source. `scripts/build-brand-assets.mjs` derives the header/footer mark, all favicons, the iOS icon and the maskable PWA icon from it. The four placeholder `logo-*` files and `public/favicon.svg` (a generic paper plane) are deleted. | The Tier-1 "send us your logo" manifest rows |
+| E2 | Add Indonesia | `ID` added to both country enums; `destinations/indoneziya.json` and `tours/indoneziya-bali-8-kun.json` added with images verified against the subject. 46 → 50 pages. | — |
+| E3 | Price filter 1…15 mln | `priceBucket` (3 coarse bands) replaced by a **ceiling ladder**, `PRICE_STEPS_MLN` in `lib/tours.ts`. Cards now carry `data-price-uzs` (a number) and the filter compares `<=`. | §5's three-bucket price filter |
+| E4 | Nav labels must not wrap | `whitespace-nowrap` on every header link **and** the room for them to fit: tighter padding below `xl`, and the phone number moves out of the row until `2xl`. Verified at 390 / 768 / 1280 / 1440 — one line each, no overflow. | — |
+| E5 | Remove email from Contacts | `EMAIL = null`. The footer row, the Contacts channel card and `email` in the TravelAgency JSON-LD all auto-hide (BC12b). **This closes Q3.** | §B `EMAIL = info@getcartravel.com`, and the "verify a message arrives" warning that went with it |
+| E6 | Add YouTube | `SOCIAL.youtube = '@GetCarTravel'`. A handle is a whole path segment, so `youtubeHref()` now owns the URL shape — the old `` `youtube.com/${x}` `` interpolation at four call sites would have 404'd. **This closes the YouTube half of Q18.** | §B `youtube: null` |
+| E7 | Make the data realistic | See below. | — |
+| E8 | Optimise fully | See below. | — |
+
+### E7 — what "closer to reality" actually meant
+
+A visual audit of all 85 images found the first image pass had matched filenames to
+Unsplash IDs **without checking the subject**. This was not a matter of taste:
+
+- the **Samarkand** tour cover was **St Basil's Cathedral, Moscow**
+- the **Sharm el-Sheikh** cover was a **neon street in Tokyo**
+- the **Uzbekistan** page banner was the **Taj Mahal**; **Egypt's** was the **Parthenon**; **Malaysia's** was the **Burj Al Arab**
+- the **Khiva** cover was an **airliner on a runway** — for a tour that travels by train
+- Dubai's gallery held **Scotland** and a **Norwegian fjord**; Malaysia's held **Singapore**
+- eight pairs of gallery files were **byte-identical duplicates** of each other
+
+44 images were re-sourced by `scripts/fetch-correct-images.mjs`, each ID read back
+with its photographer's alt text and each result re-checked on a contact sheet. A
+second pass was needed for Khiva: an "Khiva" search returns mostly Samarkand and
+Bukhara, so the first replacement set was still the wrong city.
+
+Also corrected: `Туры в Турция` → `Туры в Турцию` and `в Малайзия` → `в Малайзию`
+(nominative where Russian needs the accusative, in the `<title>`); `{nights} ночей
+{days} дней`, which renders "2 ночей 3 дней" on every card, now agrees via
+`pluralUnit()`; the hero's unqualified "manager calls in 15 minutes" now says
+"during working hours", matching what `form.sla` and `how.step2` already said; and
+`why.imageAlt` no longer calls a stock coworking photograph "the Getcar Travel team".
+
+### E8 — optimisations found while doing the above
+
+- **Country page banners.** The page stretched the 800×1000 *portrait* card image across a full-bleed 1600×600 band. Astro cannot upscale past a source's width, so the srcset topped out at 800w. The panoramic files were already in the repo and nothing referenced them; `heroImage` now wires them up.
+- **Every `<Image widths={…}>` shipped a full-size fallback `src`.** With no explicit `width`, Astro sets the fallback to the source's own width — so each 240 px gallery thumbnail carried a **1600×1067, ~190 KB** `src`. Fixed on all nine call sites.
+- **`sizes` under-declared the real box** on both card components (300 px claimed, ~390 px actual), which picks a too-small resource at 2x. Both now describe the actual grid.
+- **`og:image` was `og-default` on every page**, so a Russian page previewed with an Uzbek card — while `og-ru` sat unused in the repo. Now per-locale, falling back to default.
+- **`processAndSaveImage` broke out of its quality loop at q42 whether or not the budget was met**, shipping over-budget files that `check-images` then failed on. Floor lowered to q28 with `smartSubsample`, and it warns if it still cannot fit.
+- **`/404.html` linked the deleted `favicon.svg`**; the root language picker used ASCII apostrophes in its meta description, which the §13.2 gate cannot see because it only reads `uz.json`.
+
+Verified after the change: `npm run check:all` clean; 50 pages build; no-JS renders
+every card with filters hidden; `prefers-reduced-motion` leaves nothing invisible;
+the price ladder filters correctly at every rung and survives a URL round-trip.
+
+**Still open:** the logo reads **GET CAR MARS**, while the site brand — and `BRAND_NAME`,
+every `<title>` and the JSON-LD — reads **Getcar Travel**. The logo is used as
+instructed; whether the two names should be reconciled is the client's call.

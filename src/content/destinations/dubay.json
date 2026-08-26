@@ -4,6 +4,7 @@
   "order": 20,
   "featured": true,
   "image": "dest-dubay-01-800x1000.webp",
+  "heroImage": "dest-dubay-hero-1600x600.webp",
   "i18n": {
     "uz": {
       "name": "BAA (Dubay)",

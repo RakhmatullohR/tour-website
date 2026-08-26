@@ -27,7 +27,7 @@ const img = promo ? tryResolveImage(promo.data.image) : null;
     class="relative isolate overflow-hidden bg-brand-900"
   >
     {img && (
-      <Image src={img} alt="" widths={[800, 1600]} sizes="100vw" format="webp" loading="lazy"
+      <Image src={img} alt="" width={1600} widths={[800, 1600]} sizes="100vw" format="webp" loading="lazy"
         class="absolute inset-0 -z-10 h-full w-full object-cover opacity-30" />
     )}
     <div class="mx-auto flex max-w-[var(--container-site)] flex-wrap items-center justify-between gap-6 px-4 py-14 sm:px-6">

@@ -77,11 +77,27 @@ export function fromPrice(tours: Tour[], country: string) {
  *  filters on, so the two can never disagree. */
 export const durationBucket = (days: number) => (days <= 4 ? 'short' : days <= 8 ? 'medium' : 'long');
 
-/** Price buckets are expressed in UZS. A USD-priced tour is normalised at a
- *  deliberately coarse, DISPLAY-ONLY rate purely so it lands in a sensible
- *  filter bucket — the price shown to the customer is never converted (§7). */
-const USD_TO_UZS_BUCKETING_ONLY = 12_500;
-export const priceBucket = (amount: number, currency: string) => {
-  const uzs = currency === 'USD' ? amount * USD_TO_UZS_BUCKETING_ONLY : amount;
-  return uzs <= 5_000_000 ? 'low' : uzs <= 10_000_000 ? 'mid' : 'high';
-};
+/** A USD-priced tour is normalised at a deliberately coarse, FILTERING-ONLY rate
+ *  purely so it sorts into a sensible price band. The price SHOWN to the customer
+ *  is never converted (§7) — `formatPrice` renders the amount exactly as entered. */
+const USD_TO_UZS_FILTERING_ONLY = 12_500;
+export const priceUZS = (amount: number, currency: string) =>
+  Math.round(currency === 'USD' ? amount * USD_TO_UZS_FILTERING_ONLY : amount);
+
+/** The price ladder, in millions of soʻm — a client instruction, 2026-08-26:
+ *  "1, 2, 3 va hokazo 15 milliongacha".
+ *
+ *  Read as "UP TO n million" (…gacha), so the filter is a CEILING, not a band:
+ *  picking 6 shows everything at or under 6 000 000, which is how a customer with
+ *  a budget actually shops. A band ("5–6 mln") would hide the cheaper tours they
+ *  would happily buy.
+ *
+ *  This ladder is FIXED, not derived from the tours on the page, and that is a
+ *  deliberate exception to the rule the country/category/duration filters follow.
+ *  Those derive their options so they can never offer a value with zero results —
+ *  offering a country you do not sell is a dead end. A price ceiling is different:
+ *  "nothing under 2 mln" is a true answer to a real question, the empty state already
+ *  says so and offers a lead form, and a ladder that shifted every time the client
+ *  added or removed one tour would be unpredictable to a returning customer. */
+export const PRICE_STEPS_MLN = Array.from({ length: 15 }, (_, i) => i + 1);
+export const PRICE_STEP_UNIT = 1_000_000;

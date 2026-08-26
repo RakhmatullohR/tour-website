@@ -19,7 +19,7 @@ const { images, title, class: cls = '' } = Astro.props;
       <li>
         <a href={img.src} data-gallery-item={i}
           class="block overflow-hidden rounded-[var(--radius-md)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          <Image src={img} alt="" widths={[300, 600]} sizes="(max-width: 640px) 50vw, 240px" format="webp"
+          <Image src={img} alt="" width={600} widths={[300, 600]} sizes="(max-width: 640px) 50vw, 240px" format="webp"
             loading="lazy" class="aspect-[3/2] w-full object-cover transition-transform duration-400 hover:scale-[1.03] motion-reduce:transform-none" />
         </a>
       </li>

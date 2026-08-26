@@ -37,7 +37,11 @@ const t = useTranslations(lang);
 
 const d = dest.data;
 const b = d.i18n[lang]!;
-const img = tryResolveImage(d.image);
+// The panoramic banner when the country has one, the portrait card image only as
+// a fallback. The old code always used the portrait, which Astro could not scale
+// past its own 800 px width — so `sizes="100vw"` asked for ~1440 px and got 800,
+// upscaled 1.8x by the browser. See `heroImage` in content.config.ts.
+const img = tryResolveImage(d.heroImage) ?? tryResolveImage(d.image);
 const tours = (await getToursFor(lang)).filter((x) => x.data.country === d.country);
 
 const path = `/destinations/${d.slug}/`;
@@ -57,7 +61,7 @@ const crumbs = [
 >
   <section class="relative isolate overflow-hidden bg-brand-900">
     {img && (
-      <Image src={img} alt="" widths={[800, 1600]} sizes="100vw" format="webp" loading="eager"
+      <Image src={img} alt="" width={1600} widths={[640, 1024, 1600]} sizes="100vw" format="webp" loading="eager" fetchpriority="high"
         class="absolute inset-0 -z-10 h-full w-full object-cover opacity-35" />
     )}
     <div class="mx-auto max-w-[var(--container-site)] px-4 py-14 sm:px-6 sm:py-20">

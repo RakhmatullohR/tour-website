@@ -12,7 +12,7 @@ import { SHIPPED_LOCALES } from '../../../i18n/locales.mjs';
 import { useTranslations } from '../../../i18n/t';
 import { tryResolveImage } from '../../../lib/images';
 import { upcomingDepartures, localesFor, getToursFor } from '../../../lib/tours';
-import { formatDate } from '../../../lib/format';
+import { formatDate, pluralUnit } from '../../../lib/format';
 import { touristTripSchema, breadcrumbSchema } from '../../../lib/seo';
 import PriceTag from '../../../components/ui/PriceTag.astro';
 import Badge from '../../../components/ui/Badge.astro';
@@ -59,7 +59,7 @@ const similar = (await getToursFor(lang))
   .slice(0, 3);
 
 const facts = [
-  { icon: 'clock' as const, label: t('tour.duration'), value: t('tour.durationValue', { nights: d.duration.nights, days: d.duration.days }) },
+  { icon: 'clock' as const, label: t('tour.duration'), value: t('tour.durationValue', { nights: d.duration.nights, nightsUnit: pluralUnit('night', d.duration.nights, lang), days: d.duration.days, daysUnit: pluralUnit('day', d.duration.days, lang) }) },
   { icon: 'map' as const, label: t('tour.departureCity'), value: d.departureCity },
   d.groupSize && { icon: 'users' as const, label: t('tour.groupSize'), value: t('tour.groupSizeValue', { min: d.groupSize.min, max: d.groupSize.max }) },
 ].filter(Boolean) as { icon: 'clock' | 'map' | 'users'; label: string; value: string }[];

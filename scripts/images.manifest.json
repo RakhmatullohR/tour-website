@@ -30,62 +30,6 @@
       "uz": "Yuqoridagi kadrning vertikal varianti — telefon ekrani uchun. Asosiy obyekt markazda boʻlsin."
     },
     {
-      "filename": "logo-primary.svg",
-      "width": 1000,
-      "height": 300,
-      "aspect": "—",
-      "tier": 1,
-      "group": "logo",
-      "usedIn": [
-        "Sayt sarlavhasi va pastki qismi"
-      ],
-      "clientPhotoRequired": true,
-      "orientation": "gorizontal",
-      "uz": "Kompaniya logotipi .svg formatda. .svg boʻlmasa — shaffof fonli katta .png (kamida 1000 px kenglikda)."
-    },
-    {
-      "filename": "logo-favicon-32x32.png",
-      "width": 32,
-      "height": 32,
-      "aspect": "1:1",
-      "tier": 1,
-      "group": "logo",
-      "usedIn": [
-        "Brauzer yorligʻidagi kichik belgi"
-      ],
-      "clientPhotoRequired": true,
-      "orientation": "kvadrat",
-      "uz": "Logotipdan yasaladi — alohida yubormaysiz, faqat aniq logotip fayli kerak."
-    },
-    {
-      "filename": "logo-apple-touch-180x180.png",
-      "width": 180,
-      "height": 180,
-      "aspect": "1:1",
-      "tier": 1,
-      "group": "logo",
-      "usedIn": [
-        "iPhone bosh ekranidagi belgi"
-      ],
-      "clientPhotoRequired": true,
-      "orientation": "kvadrat",
-      "uz": "Xuddi shu logotipdan yasaladi."
-    },
-    {
-      "filename": "logo-maskable-512x512.png",
-      "width": 512,
-      "height": 512,
-      "aspect": "1:1",
-      "tier": 1,
-      "group": "logo",
-      "usedIn": [
-        "Android bosh ekranidagi belgi"
-      ],
-      "clientPhotoRequired": true,
-      "orientation": "kvadrat",
-      "uz": "Xuddi shu logotipdan yasaladi."
-    },
-    {
       "filename": "dest-turkiya-01-800x1000.webp",
       "width": 800,
       "height": 1000,
@@ -461,6 +405,35 @@
       "clientPhotoRequired": true,
       "orientation": "gorizontal",
       "uz": "Oʻzbekiston uchun keng gorizontal manzara. Ustiga matn tushadi — oʻrtasi tinch boʻlsin."
+    },
+    {
+      "filename": "dest-indoneziya-01-800x1000.webp",
+      "width": 800,
+      "height": 1000,
+      "aspect": "4:5",
+      "tier": 1,
+      "group": "dest",
+      "usedIn": [
+        "Bosh sahifadagi yoʻnalishlar toʻri",
+        "Davlatlar sahifasi"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "vertikal",
+      "uz": "Indoneziya (Bali) uchun vertikal kartochka surati. Ibodatxona yoki okean."
+    },
+    {
+      "filename": "dest-indoneziya-hero-1600x600.webp",
+      "width": 1600,
+      "height": 600,
+      "aspect": "8:3",
+      "tier": 1,
+      "group": "dest",
+      "usedIn": [
+        "Indoneziya sahifasining sarlavhasi"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "gorizontal",
+      "uz": "Indoneziya uchun keng gorizontal manzara. Ustiga matn tushadi — oʻrtasi tinch boʻlsin."
     },
     {
       "filename": "tour-turkiya-antalya-01-1600x1067.webp",
@@ -911,6 +884,62 @@
       "uz": "Shu tur uchun galereya surati: guruh yoki sayyohlar suratlari. Gorizontal."
     },
     {
+      "filename": "tour-indoneziya-bali-01-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 1,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "gorizontal",
+      "uz": "Bali turi galereyasi, 1-surat. Dastur boʻyicha: sholi terrasalari, ibodatxona, qoyalar, sohil."
+    },
+    {
+      "filename": "tour-indoneziya-bali-02-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 1,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "gorizontal",
+      "uz": "Bali turi galereyasi, 2-surat. Dastur boʻyicha: sholi terrasalari, ibodatxona, qoyalar, sohil."
+    },
+    {
+      "filename": "tour-indoneziya-bali-03-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 1,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "gorizontal",
+      "uz": "Bali turi galereyasi, 3-surat. Dastur boʻyicha: sholi terrasalari, ibodatxona, qoyalar, sohil."
+    },
+    {
+      "filename": "tour-indoneziya-bali-04-1600x1067.webp",
+      "width": 1600,
+      "height": 1067,
+      "aspect": "3:2",
+      "tier": 1,
+      "group": "tour-gallery",
+      "usedIn": [
+        "Tur sahifasidagi galereya"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "gorizontal",
+      "uz": "Bali turi galereyasi, 4-surat. Dastur boʻyicha: sholi terrasalari, ibodatxona, qoyalar, sohil."
+    },
+    {
       "filename": "team-01-600x800.webp",
       "width": 600,
       "height": 800,
@@ -1213,6 +1242,37 @@
       "orientation": "gorizontal",
       "reserve": true,
       "uz": "Qolgan yoki keyingi turlar uchun asosiy surat. Gorizontal."
+    },
+    {
+      "filename": "tour-indoneziya-bali-cover-1200x800.webp",
+      "width": 1200,
+      "height": 800,
+      "aspect": "3:2",
+      "tier": 1,
+      "group": "tour-cover",
+      "usedIn": [
+        "Tur kartochkasi",
+        "Tur sahifasi"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "gorizontal",
+      "uz": "Bali turi uchun asosiy surat. Tanah Lot yoki okean sohili."
+    },
+    {
+      "filename": "logo-getcar-512x512.png",
+      "width": 512,
+      "height": 512,
+      "aspect": "1:1",
+      "tier": 1,
+      "group": "logo",
+      "usedIn": [
+        "Sayt sarlavhasi",
+        "Pastki qism",
+        "Favicon va ilova belgisi"
+      ],
+      "clientPhotoRequired": false,
+      "orientation": "kvadrat",
+      "uz": "Mijoz yuborgan logotip. MANBA: src/assets/brand/logo-source.jpg. Bu fayl va public/ ichidagi barcha belgilar `node scripts/build-brand-assets.mjs` orqali avtomatik yasaladi — qoʻlda tahrirlamang."
     }
   ]
 }

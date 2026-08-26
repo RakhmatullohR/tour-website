@@ -1,0 +1,28 @@
+{
+  "country": "ID",
+  "slug": "indoneziya",
+  "order": 45,
+  "featured": true,
+  "image": "dest-indoneziya-01-800x1000.webp",
+  "heroImage": "dest-indoneziya-hero-1600x600.webp",
+  "i18n": {
+    "uz": {
+      "name": "Indoneziya",
+      "summary": "Bali va Nusa Penida — okean, sholi terrasalari va ibodatxonalar. Uzoq dam olish uchun.",
+      "body": "Indoneziya oʻzbek sayyohlari uchun ochilib borayotgan yoʻnalish: Bali orolida okean boʻyidagi dam olish, Ubuddagi sholi terrasalari, Tanah Lot va Ulun Danu ibodatxonalari hamda Nusa Penida qoyalari bir dasturga jamlanadi. Indoneziya aholisining koʻpchiligi musulmon, shuning uchun halol ovqatlanish bilan bogʻliq muammo boʻlmaydi. Parvoz Toshkentdan bitta almashuv bilan amalga oshiriladi.",
+      "seo": {
+        "title": "Indoneziya (Bali) turlari — Getcar Travel",
+        "description": "Bali va Nusa Penida — okean, sholi terrasalari va ibodatxonalar. Toshkentdan tur paketlari."
+      }
+    },
+    "ru": {
+      "name": "Индонезия",
+      "summary": "Бали и Нуса-Пенида — океан, рисовые террасы и храмы. Для длительного отдыха.",
+      "body": "Индонезия — направление, которое только открывается для туристов из Узбекистана: отдых у океана на Бали, рисовые террасы Убуда, храмы Танах Лот и Улун Дану, скалы Нуса-Пениды. Большинство населения Индонезии — мусульмане, поэтому с халяльным питанием проблем не возникает. Перелёт из Ташкента выполняется с одной пересадкой.",
+      "seo": {
+        "title": "Туры в Индонезию (Бали) — Getcar Travel",
+        "description": "Бали и Нуса-Пенида — океан, рисовые террасы и храмы. Туры из Ташкента."
+      }
+    }
+  }
+}

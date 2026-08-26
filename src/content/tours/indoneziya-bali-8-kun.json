@@ -1,0 +1,146 @@
+{
+  "id": "id-bali-7n",
+  "slug": "indoneziya-bali-8-kun",
+  "status": "published",
+  "featured": true,
+  "order": 45,
+  "country": "ID",
+  "cities": [
+    "Denpasar",
+    "Ubud",
+    "Nusa Penida"
+  ],
+  "category": "beach",
+  "departureCity": "Toshkent",
+  "duration": {
+    "days": 8,
+    "nights": 7
+  },
+  "price": {
+    "amount": 13900000,
+    "currency": "UZS",
+    "per": "person"
+  },
+  "flightIncluded": false,
+  "groupSize": {
+    "min": 2,
+    "max": 12
+  },
+  "departures": [
+    "2026-11-14",
+    "2026-12-19",
+    "2027-01-23"
+  ],
+  "badges": [
+    "new"
+  ],
+  "images": {
+    "cover": "tour-indoneziya-bali-cover-1200x800.webp",
+    "gallery": [
+      "tour-indoneziya-bali-01-1600x1067.webp",
+      "tour-indoneziya-bali-02-1600x1067.webp",
+      "tour-indoneziya-bali-03-1600x1067.webp",
+      "tour-indoneziya-bali-04-1600x1067.webp"
+    ]
+  },
+  "i18n": {
+    "uz": {
+      "title": "Bali — 7 kecha 8 kun, okean va Ubud",
+      "summary": "Okean boʻyida dam olish, Ubuddagi sholi terrasalari va Nusa Penida qoyalariga qayiq sayohati. Parvoz bitta almashuv bilan.",
+      "priceNote": "Narxga aviabilet kirmaydi. Viza Toshkentdagi ofisda rasmiylashtiriladi.",
+      "includes": [
+        "Mehmonxona 4* (7 kecha)",
+        "Nonushta",
+        "Aeroport transferi",
+        "Ubud ekskursiyasi: sholi terrasalari va Tanah Lot",
+        "Nusa Penidaga qayiqli sayohat",
+        "Ona tilingizdagi gid"
+      ],
+      "excludes": [
+        "Xalqaro aviabilet",
+        "Indoneziya vizasi (taxminan 35 USD, chegarada)",
+        "Tushlik va kechki ovqat",
+        "Qoʻshimcha ekskursiyalar"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Denpasar aeroportiga kelish, mehmonxonaga joylashish va dam olish."
+        },
+        {
+          "day": 2,
+          "text": "Okean boʻyida erkin kun. Sohil va mehmonxona infratuzilmasi bilan tanishuv."
+        },
+        {
+          "day": 3,
+          "text": "Ubud ekskursiyasi: Tegallalang sholi terrasalari, maymunlar oʻrmoni va hunarmandlar bozori."
+        },
+        {
+          "day": 5,
+          "text": "Nusa Penidaga qayiqli sayohat: Kelingking va Diamond Beach qoyalari, snorkling."
+        },
+        {
+          "day": 6,
+          "text": "Ulun Danu Bratan va Tanah Lot ibodatxonalari, quyosh botishini kutib olish."
+        },
+        {
+          "day": 8,
+          "text": "Aeroportga transfer va qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Bali turi — 7 kecha 8 kun, Toshkentdan",
+        "description": "Okean boʻyida dam olish, Ubuddagi sholi terrasalari va Nusa Penida qoyalari. Mehmonxona, transfer va gid bir paketda."
+      }
+    },
+    "ru": {
+      "title": "Бали — 7 ночей 8 дней, океан и Убуд",
+      "summary": "Отдых у океана, рисовые террасы Убуда и морская прогулка к скалам Нуса-Пениды. Перелёт с одной пересадкой.",
+      "priceNote": "Авиабилет не включён в стоимость. Виза оформляется в офисе в Ташкенте.",
+      "includes": [
+        "Отель 4* (7 ночей)",
+        "Завтрак",
+        "Трансфер из аэропорта",
+        "Экскурсия в Убуд: рисовые террасы и Танах Лот",
+        "Морская прогулка на Нуса-Пениду",
+        "Гид на вашем языке"
+      ],
+      "excludes": [
+        "Международный авиабилет",
+        "Виза Индонезии (около 35 USD, на границе)",
+        "Обед и ужин",
+        "Дополнительные экскурсии"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Прилёт в аэропорт Денпасара, заселение в отель и отдых."
+        },
+        {
+          "day": 2,
+          "text": "Свободный день у океана. Знакомство с пляжем и инфраструктурой отеля."
+        },
+        {
+          "day": 3,
+          "text": "Экскурсия в Убуд: рисовые террасы Тегаллаланг, лес обезьян и рынок ремесленников."
+        },
+        {
+          "day": 5,
+          "text": "Морская прогулка на Нуса-Пениду: скалы Келингкинг и Diamond Beach, снорклинг."
+        },
+        {
+          "day": 6,
+          "text": "Храмы Улун Дану Братан и Танах Лот, встреча заката."
+        },
+        {
+          "day": 8,
+          "text": "Трансфер в аэропорт и возвращение."
+        }
+      ],
+      "seo": {
+        "title": "Тур на Бали — 7 ночей 8 дней, из Ташкента",
+        "description": "Отдых у океана, рисовые террасы Убуда и скалы Нуса-Пениды. Отель, трансфер и гид в одном пакете."
+      }
+    }
+  }
+}

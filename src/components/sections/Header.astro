@@ -4,12 +4,16 @@
 // THE DRAWER IS BUILT ON <details>, NOT ON JS (BC11 discipline). A JS-only drawer
 // leaves a phone visitor with JavaScript off unable to reach any page but this one.
 // JS then upgrades it: Esc closes, and it closes on navigation.
+import { Image } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { TFunction } from '../../i18n/t';
 import { PHONE_DISPLAY, telHref, BRAND_NAME } from '../../config/site';
+import { resolveImage } from '../../lib/images';
 import LanguageSwitcher from '../LanguageSwitcher.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
+
+const logo = resolveImage('logo-getcar-512x512.png');
 
 interface Props { locale: string; t: TFunction; availableLocales: string[]; path: string }
 const { locale, t, availableLocales, path } = Astro.props;
@@ -24,27 +28,58 @@ const nav = [
 
 const isCurrent = (href: string) => path === href;
 ---
+{/* NO `backdrop-blur` on this element, deliberately. `backdrop-filter` makes an
+    element a CONTAINING BLOCK for its `position: fixed` descendants — so the
+    drawer panel below, which asks for `top: var(--header-h); bottom: 0`, resolved
+    those against the 64 px-tall header instead of the viewport and collapsed to
+    zero height. The mobile menu opened onto a sliver showing one and a half
+    links. At `bg-white/95` the blur was doing almost nothing visually anyway,
+    while costing a compositing pass on every scroll frame on exactly the low-end
+    Android hardware this site is built for. */}
 <header
   data-header
-  class="sticky top-0 z-40 border-b border-neutral-200 bg-white/95 backdrop-blur-sm transition-shadow duration-250 data-[scrolled]:shadow-sm"
+  class="sticky top-0 z-40 border-b border-neutral-200 bg-white/95 transition-shadow duration-250 data-[scrolled]:shadow-sm"
 >
-  <div class="mx-auto flex max-w-[var(--container-site)] min-w-0 items-center gap-3 px-4 py-3 sm:gap-4 transition-[padding] duration-250 data-[scrolled]:py-2 sm:px-6">
+  <div class="mx-auto flex max-w-[var(--container-site)] min-w-0 items-center gap-2 px-4 py-3 sm:gap-3 transition-[padding] duration-250 data-[scrolled]:py-2 sm:px-6">
     <a
       href={getRelativeLocaleUrl(locale, '/')}
-      class="font-[family-name:var(--font-display)] text-lg font-bold whitespace-nowrap text-brand-900 sm:text-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-700"
+      class="flex shrink-0 items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-700"
     >
-      Getcar<span class="text-brand-600">Travel</span>
+      {/* The client's mark. `width`/`height` are set so the row reserves the box
+          before the PNG decodes — a logo that pops in is a CLS on every page. */}
+      <Image
+        src={logo}
+        alt=""
+        width={40}
+        height={40}
+        densities={[1, 2]}
+        loading="eager"
+        class="h-9 w-9 shrink-0 rounded-full sm:h-10 sm:w-10"
+      />
+      <span class="font-[family-name:var(--font-display)] text-base font-bold whitespace-nowrap text-brand-900 sm:text-lg xl:text-xl">
+        Getcar<span class="text-brand-600">Travel</span>
+      </span>
       <span class="sr-only"> — {BRAND_NAME}</span>
     </a>
 
+    {/* THE ROW MUST NEVER WRAP A LABEL (client report, 2026-08-26).
+        Two things were needed, not one:
+          1. `whitespace-nowrap` on the link — without it "Tur paketlari" and
+             "Biz haqimizda" broke across two lines and pushed the header to 80 px.
+          2. Room for the un-wrapped labels to fit. Uzbek is the widest locale, and
+             at 1280 px the five nowrap labels + logo + switcher + CTA + phone
+             overflow, which is worse than wrapping. So the horizontal padding and
+             font-size step up only at `xl`, and the phone number — the one item
+             that is duplicated in the drawer and the footer — stays out of the row
+             until `2xl`, where there is measurably space for it. */}
     <nav aria-label={t('nav.menu')} class="ml-auto hidden lg:block">
-      <ul class="flex items-center gap-1">
+      <ul class="flex flex-nowrap items-center gap-0.5 xl:gap-1">
         {nav.map((item) => (
-          <li>
+          <li class="shrink-0">
             <a
               href={getRelativeLocaleUrl(locale, item.href)}
               aria-current={isCurrent(item.href) ? 'page' : undefined}
-              class="inline-flex min-h-11 items-center rounded-[var(--radius-sm)] px-3 text-neutral-800 hover:bg-neutral-100 aria-[current=page]:font-semibold aria-[current=page]:text-brand-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+              class="inline-flex min-h-11 items-center rounded-[var(--radius-sm)] px-2 text-sm whitespace-nowrap text-neutral-800 hover:bg-neutral-100 aria-[current=page]:font-semibold aria-[current=page]:text-brand-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 xl:px-3 xl:text-base"
             >
               {t(item.key)}
             </a>
@@ -53,11 +88,11 @@ const isCurrent = (href: string) => path === href;
       </ul>
     </nav>
 
-    <div class="ml-auto flex items-center gap-2 lg:ml-0">
+    <div class="ml-auto flex shrink-0 items-center gap-2 lg:ml-0">
       <a
         href={telHref()}
         data-metrica="phone_click"
-        class="hidden min-h-11 items-center gap-1.5 rounded-[var(--radius-sm)] px-2 font-medium whitespace-nowrap text-brand-700 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 md:inline-flex lg:hidden xl:inline-flex"
+        class="hidden min-h-11 items-center gap-1.5 rounded-[var(--radius-sm)] px-2 font-medium whitespace-nowrap text-brand-700 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 md:inline-flex lg:hidden 2xl:inline-flex"
       >
         <Icon name="phone" size={18} />{PHONE_DISPLAY}
       </a>

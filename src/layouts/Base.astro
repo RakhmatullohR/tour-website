@@ -4,7 +4,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getImage } from 'astro:assets';
 import { SHIPPED_LOCALES, DEFAULT_LOCALE, LOCALE_TAGS } from '../i18n/locales.mjs';
 import { useTranslations } from '../i18n/t';
-import { resolveImage } from '../lib/images';
+import { resolveImage, imageKeys } from '../lib/images';
 import { METRICA_ID, BRAND_NAME } from '../config/site';
 import Header from '../components/sections/Header.astro';
 import Footer from '../components/sections/Footer.astro';
@@ -21,7 +21,8 @@ interface Props {
   availableLocales?: string[];
   /** Path AFTER the locale prefix, e.g. '/tours/'. Must start and end with '/'. */
   path?: string;
-  /** Filename in src/assets/images used for og:image. Defaults to the site OG image. */
+  /** Filename in src/assets/images used for og:image. Defaults to the OG card
+   *  for THIS locale — see `ogImage` below. */
   ogImage?: string;
   /** §14 — JSON-LD blocks. Three types at launch: TravelAgency, TouristTrip,
    *  BreadcrumbList. Passed as objects, serialised once here. */
@@ -35,7 +36,7 @@ const {
   description = '',
   availableLocales = SHIPPED_LOCALES,
   path = '/',
-  ogImage = 'og-default-1200x630.webp',
+  ogImage,
   schemas = [],
   noindex = false,
 } = Astro.props;
@@ -43,9 +44,19 @@ const {
 const t = useTranslations(locale);
 const canonical = new URL(getRelativeLocaleUrl(locale, path), Astro.site).href;
 
+// PER-LOCALE OG CARD. The repo already carried og-ru (and og-en / og-ms for the
+// staged locales) with the tagline set in each language, but every page shipped
+// og-default regardless — so a Russian page shared to Telegram previewed with
+// Uzbek text on the card. The `og-<locale>` file wins when it exists; anything
+// missing falls back to og-default rather than throwing, which is what keeps
+// adding a locale a one-line change in locales.mjs.
+const OG_DEFAULT = 'og-default-1200x630.webp';
+const localeCard = `og-${locale}-1200x630.webp`;
+const ogFile = ogImage ?? (imageKeys.has(localeCard) ? localeCard : OG_DEFAULT);
+
 // og:image must be an ABSOLUTE URL to an image that actually exists in the built
 // output, so it goes through the same optimisation pipeline as everything else.
-const og = await getImage({ src: resolveImage(ogImage), width: 1200, height: 630, format: 'webp' });
+const og = await getImage({ src: resolveImage(ogFile), width: 1200, height: 630, format: 'webp' });
 const ogUrl = new URL(og.src, Astro.site).href;
 
 const alternates = availableLocales.filter((l) => SHIPPED_LOCALES.includes(l));
@@ -85,8 +96,11 @@ const alternates = availableLocales.filter((l) => SHIPPED_LOCALES.includes(l));
     ))}
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/favicon.png" sizes="32x32" />
+    {/* All PNG, and no SVG entry: the client's mark is a photographic flag badge,
+        so there is no honest vector of it. The old favicon.svg drew a generic
+        paper plane and — being SVG — WON over these in every modern browser. */}
+    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#0c4a5a" />

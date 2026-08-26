@@ -4,7 +4,7 @@
 // Every URL emitted here is ABSOLUTE, because that is what the Rich Results Test
 // and hreflang both require.
 import type { CollectionEntry } from 'astro:content';
-import { PHONE_E164, BRAND_NAME, SOCIAL, ADDRESS, EMAIL } from '../config/site';
+import { PHONE_E164, BRAND_NAME, SOCIAL, ADDRESS, EMAIL, instagramHref, youtubeHref } from '../config/site';
 
 export type Json = Record<string, unknown>;
 
@@ -14,11 +14,14 @@ export function travelAgencySchema(site: URL | undefined, locale: string, descri
   // `sameAs` means "other official profiles of this organisation", so the PUBLIC
   // channel belongs here as much as the manager account does — added 2026-08-24
   // with Q17's two-account answer.
+  // `sameAs` is the one place a WRONG url is invisible in review — nothing on the
+  // page renders it — so both platform-shaped URLs come from the same helpers the
+  // visible links use, rather than being re-templated here.
   const sameAs = [
     SOCIAL.telegram && `https://t.me/${SOCIAL.telegram}`,
     SOCIAL.telegramChannel && `https://t.me/${SOCIAL.telegramChannel}`,
-    SOCIAL.instagram && `https://instagram.com/${SOCIAL.instagram}`,
-    SOCIAL.youtube && `https://youtube.com/${SOCIAL.youtube}`,
+    instagramHref(),
+    youtubeHref(),
   ].filter(Boolean);
 
   const schema: Json = {

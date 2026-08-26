@@ -8,7 +8,7 @@
 // The option sets are DERIVED FROM THE TOURS ACTUALLY ON THE PAGE, so a filter can
 // never offer a country with zero results.
 import type { TFunction } from '../../i18n/t';
-import { durationBucket, priceBucket, type Tour } from '../../lib/tours';
+import { durationBucket, priceUZS, PRICE_STEPS_MLN, PRICE_STEP_UNIT, type Tour } from '../../lib/tours';
 
 interface Props { tours: Tour[]; locale: string; t: TFunction; class?: string }
 const { tours, t, class: cls = '' } = Astro.props;
@@ -17,16 +17,25 @@ const uniq = <T,>(xs: T[]) => [...new Set(xs)];
 const countries = uniq(tours.map((x) => x.data.country)).sort();
 const categories = uniq(tours.map((x) => x.data.category)).sort();
 const durations = uniq(tours.map((x) => durationBucket(x.data.duration.days)));
-const prices = uniq(tours.map((x) => priceBucket(x.data.price.amount, x.data.price.currency)));
 
 const DURATION_ORDER = ['short', 'medium', 'long'] as const;
-const PRICE_ORDER = ['low', 'mid', 'high'] as const;
+
+// The price ceiling ladder (see PRICE_STEPS_MLN). The last rung is only offered
+// when something on the page actually costs more than it — without that check the
+// list would end on an option that can never narrow anything.
+const dearest = tours.length ? Math.max(...tours.map((x) => priceUZS(x.data.price.amount, x.data.price.currency))) : 0;
+const priceOptions = PRICE_STEPS_MLN.map((n) => ({
+  value: String(n * PRICE_STEP_UNIT),
+  label: t('catalog.price.upTo', { n }),
+}));
+if (dearest > PRICE_STEPS_MLN[PRICE_STEPS_MLN.length - 1] * PRICE_STEP_UNIT)
+  priceOptions.push({ value: String(Number.MAX_SAFE_INTEGER), label: t('catalog.price.above', { n: PRICE_STEPS_MLN[PRICE_STEPS_MLN.length - 1] }) });
 
 const groups = [
   { key: 'country', label: t('catalog.filter.country'), options: countries.map((c) => ({ value: c, label: t(`country.${c}`) })) },
   { key: 'category', label: t('catalog.filter.category'), options: categories.map((c) => ({ value: c, label: t(`category.${c}`) })) },
   { key: 'duration', label: t('catalog.filter.duration'), options: DURATION_ORDER.filter((d) => durations.includes(d)).map((d) => ({ value: d, label: t(`catalog.duration.${d}`) })) },
-  { key: 'price', label: t('catalog.filter.price'), options: PRICE_ORDER.filter((p) => prices.includes(p)).map((p) => ({ value: p, label: t(`catalog.price.${p}`) })) },
+  { key: 'price', label: t('catalog.filter.price'), options: priceOptions },
 ];
 ---
 {/* Hidden by the `html:not(.js)` rule in global.css, NOT by a JS toggle.
@@ -93,7 +102,12 @@ const groups = [
 
       var shown = 0;
       cards.forEach(function (card) {
-        var ok = Object.keys(active).every(function (k) { return card.dataset[k] === active[k]; });
+        var ok = Object.keys(active).every(function (k) {
+          // Price is a CEILING, not an equality: the option value is the maximum
+          // soʻm the customer wants to pay. Every other facet is an exact match.
+          if (k === 'price') return Number(card.dataset.priceUzs) <= Number(active[k]);
+          return card.dataset[k] === active[k];
+        });
         var li = card.closest('li') || card;
         li.hidden = !ok;
         if (ok) shown++;

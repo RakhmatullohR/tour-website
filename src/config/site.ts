@@ -44,32 +44,34 @@ export const SOCIAL: SocialLinks = {
   // artefact from scanning their own QR code. Shipping it would tag every visitor as
   // arriving from that QR in Instagram's own analytics.
   instagram: 'getcar_travel',
-  youtube: null,             // TODO(Q18) — still no channel
+  // Q18 ANSWERED 2026-08-26. Stored as the @handle EXACTLY as YouTube spells it,
+  // because a handle is the whole path segment: youtube.com/@GetCarTravel. The
+  // old `https://youtube.com/${SOCIAL.youtube}` interpolation assumed a bare
+  // channel name and would have produced youtube.com/GetCarTravel — a 404. Use
+  // `youtubeHref()` below; nothing should interpolate this field by hand.
+  youtube: '@GetCarTravel',
 };
 
-/** Q3 — public contact email. Set 2026-08-24, replacing the provisional
- *  personal-name Gmail.
+/** Q3 — public contact email. WITHDRAWN 2026-08-26 at the client's instruction:
+ *  "Bogʻlanish boʻlimidan Emailni olib tashla."
  *
- *  READ THIS BEFORE THE NEXT DEPLOY. The value given was `info@getcartravel.com`
- *  — **`.com`, while the site itself runs on `getcartravel.uz`** (astro.config.mjs,
- *  docs/DEPLOY.md §1). Nothing in this project owns or points at the `.com` domain,
- *  and `docs/DEPLOY.md` §2 records that the default MX on the `.uz` zone was
- *  deliberately removed so mail there "bounces honestly". So this address is
- *  unverified on two counts: the domain may not be the client's, and no mailbox is
- *  known to exist behind it. It is shipped as instructed, not as confirmed.
+ *  Null is the switch, not a deletion of the plumbing. Every consumer already
+ *  auto-hides on null (BC12b), so this one line removes the address from all
+ *  three places it used to render — the footer contact row, the Contacts channel
+ *  grid, and `email` in the TravelAgency JSON-LD — with no dead markup left
+ *  behind and no branch to re-add if a mailbox is ever set up.
  *
- *  Measured against the built tree, not estimated: it renders on 44 of the 46
- *  emitted pages — every page carrying the shared footer, i.e. all but the root
- *  language picker `/` and `/404.html` — plus the Contacts channel list, and as
- *  `email` in the TravelAgency JSON-LD on 6 of them (uz+ru home, about, contacts).
- *  A dead address is therefore a dead conversion path on nearly the whole site,
- *  worse than the Gmail it replaced. Verify a message actually arrives, or switch
- *  the one string to `info@getcartravel.uz` (that domain IS owned; Zoho Mail or
- *  Yandex 360 host it free — DEPLOY.md §5).
+ *  For the record of WHY this was the right call rather than a loss: the value
+ *  removed was `info@getcartravel.com` — **`.com`, while the site runs on
+ *  `getcartravel.uz`** (astro.config.mjs, docs/DEPLOY.md §1). Nothing in this
+ *  project owns the `.com` domain, and DEPLOY.md §2 records that the default MX
+ *  on the `.uz` zone was deliberately removed so mail there bounces honestly. The
+ *  address was therefore unverified on two counts and was very likely a dead
+ *  conversion path on 44 of 46 pages. The channels that remain — phone, Telegram,
+ *  WhatsApp — all reach a human.
  *
- *  Null hides the email everywhere — footer row, contacts channel and the
- *  TravelAgency schema — exactly like ADDRESS and HOURS below. */
-export const EMAIL: string | null = 'info@getcartravel.com';
+ *  To restore: set a real, tested address here. Nothing else needs to change. */
+export const EMAIL: string | null = null;
 
 /** Q22 — office address. Null until supplied; the footer block and the Contacts
  *  map card both auto-hide (BC12b). */
@@ -119,6 +121,23 @@ export const telegramChannelHref = () =>
   SOCIAL.telegramChannel ? `https://t.me/${SOCIAL.telegramChannel}` : null;
 export const whatsappHref = (text?: string) =>
   SOCIAL.whatsapp ? `https://wa.me/${SOCIAL.whatsapp}${text ? `?text=${encodeURIComponent(text)}` : ''}` : null;
+export const instagramHref = () =>
+  SOCIAL.instagram ? `https://www.instagram.com/${SOCIAL.instagram}/` : null;
+/** YouTube is the one platform here with TWO incompatible URL shapes: a modern
+ *  `@handle` is a path segment of its own, while a legacy channel needs
+ *  `/channel/UC…`. Interpolating the raw field into `youtube.com/${x}` — which is
+ *  what four call sites used to do — produces a 404 for the handle form. This is
+ *  the single place that knows the difference. */
+export const youtubeHref = () => {
+  const y = SOCIAL.youtube;
+  if (!y) return null;
+  if (y.startsWith('http')) return y;
+  if (y.startsWith('UC')) return `https://www.youtube.com/channel/${y}`;
+  return `https://www.youtube.com/${y.startsWith('@') ? y : `@${y}`}`;
+};
+/** What the Contacts page SHOWS for YouTube — the handle, never the bare URL. */
+export const youtubeDisplay = () =>
+  SOCIAL.youtube ? (SOCIAL.youtube.startsWith('@') ? SOCIAL.youtube : `@${SOCIAL.youtube}`) : null;
 /** Human-readable form of whatever `SOCIAL.whatsapp` holds — DERIVED, never typed
  *  a second time, so the number a page SHOWS can never drift from the number its
  *  link opens. Since 2026-08-24 that is a different number from PHONE_DISPLAY, so

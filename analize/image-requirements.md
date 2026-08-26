@@ -2,7 +2,7 @@
 
 ## Qisqacha
 
-Birinchi bosqich uchun 20 ta rasm kerak.
+Birinchi bosqich uchun 16 ta rasm kerak.
 
 Har bir rasm uchun quyida yozilgan: nima aks etishi kerak, qanday oʻlcham, gorizontalmi yoki vertikal.
 Fayl nomini oʻzgartirmang — biz saytga aynan shu nom bilan qoʻyamiz. Nomini oʻzgartirsangiz ham boʻladi,
@@ -39,32 +39,28 @@ Rasm topilmasa nima qilamiz: biz sizga vaqtinchalik oʻrindosh rasm bilan saytni
 sayt ochiq boʻlaveradi. Haqiqiy rasmlar kelgach almashtiramiz. Xohlasangiz, litsenziyali stok rasm
 tanlab berishimiz mumkin — bu alohida hisoblanadi va litsenziya narxi ustiga qoʻshiladi.
 
-## 1-BOSQICH — hozir kerak (20 ta rasm)
+## 1-BOSQICH — hozir kerak (16 ta rasm)
 
-Sayt ishga tushishi uchun shu 20 ta rasm yetarli.
+Sayt ishga tushishi uchun shu 16 ta rasm yetarli.
 
 | # | Nima aks etishi kerak | Eng kichik oʻlcham | Yoʻnalishi | Qayerda koʻrinadi | Fayl nomi |
 |---:|---|---|---|---|---|
 | 1 | Sayohatning eng chiroyli kadri — dengiz, tarixiy joy yoki mamnun sayyohlar guruhi. Gorizontal, yorugʻ, oʻrtasi boʻsh boʻlsin (ustiga matn tushadi). | 1920 × 1080 px | gorizontal | Bosh sahifada eng tepada (kompyuter) | `hero-main-1920x1080.webp` |
 | 2 | Yuqoridagi kadrning vertikal varianti — telefon ekrani uchun. Asosiy obyekt markazda boʻlsin. | 1080 × 1350 px | vertikal | Bosh sahifada eng tepada (telefon) | `hero-main-mobile-1080x1350.webp` |
-| 3 | Kompaniya logotipi .svg formatda. .svg boʻlmasa — shaffof fonli katta .png (kamida 1000 px kenglikda). | 1000 × 300 px | gorizontal | Sayt sarlavhasi va pastki qismi | `logo-primary.svg` |
-| 4 | Logotipdan yasaladi — alohida yubormaysiz, faqat aniq logotip fayli kerak. | 32 × 32 px | kvadrat | Brauzer yorligʻidagi kichik belgi | `logo-favicon-32x32.png` |
-| 5 | Xuddi shu logotipdan yasaladi. | 180 × 180 px | kvadrat | iPhone bosh ekranidagi belgi | `logo-apple-touch-180x180.png` |
-| 6 | Xuddi shu logotipdan yasaladi. | 512 × 512 px | kvadrat | Android bosh ekranidagi belgi | `logo-maskable-512x512.png` |
-| 7 | Turkiya — Antalya sohili yoki Istanbul manzarasi. Vertikal kadr. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-turkiya-01-800x1000.webp` |
-| 8 | Dubay — zamonaviy osmonoʻpar binolar yoki Burj Khalifa. Vertikal. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-dubay-01-800x1000.webp` |
-| 9 | Tailand — oq qumli plyaj, palmalar, feruza suv. Vertikal. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-tailand-01-800x1000.webp` |
-| 10 | Misr — Sharm-el-Shayx dengizi yoki qadimiy yodgorlik. Vertikal. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-misr-01-800x1000.webp` |
-| 11 | Malayziya — Kuala-Lumpur (Petronas minoralari) yoki orol manzarasi. Vertikal. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-malayziya-01-800x1000.webp` |
-| 12 | Oʻzbekiston — Samarqand Registoni, Buxoro yoki Xiva. Vertikal. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-ozbekiston-01-800x1000.webp` |
-| 13 | Antalya turining oʻz surati — mehmonxona, plyaj yoki guruh surati. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-turkiya-antalya-cover-1200x800.webp` |
-| 14 | Istanbul turi uchun asosiy surat — masjid, Bosfor yoki bozor. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-turkiya-istanbul-cover-1200x800.webp` |
-| 15 | Dubay turi uchun asosiy surat — mehmonxona yoki shahar manzarasi. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-dubay-cover-1200x800.webp` |
-| 16 | Phuket turi uchun asosiy surat — plyaj yoki mehmonxona hovuzi. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-tailand-phuket-cover-1200x800.webp` |
-| 17 | Sharm-el-Shayx turi uchun asosiy surat — dengiz yoki mehmonxona. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-misr-sharm-cover-1200x800.webp` |
-| 18 | Samarqand–Buxoro turi uchun asosiy surat — Registon yoki guruh surati. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-ozbekiston-samarqand-cover-1200x800.webp` |
-| 19 | Jamoa surati yoki ofisdagi ish jarayoni. Haqiqiy odamlar — stock surat emas. Gorizontal. | 1600 × 900 px | gorizontal | Bosh sahifadagi "Nega biz" bloki, Biz haqimizda sahifasi | `about-team-1600x900.webp` |
-| 20 | Kompaniyani eng yaxshi koʻrsatadigan gorizontal kadr — sayt havolasi ulashilganda shu chiqadi. | 1200 × 630 px | gorizontal | Telegram/Facebook havola koʻrinishi | `og-default-1200x630.webp` |
+| 3 | Turkiya — Antalya sohili yoki Istanbul manzarasi. Vertikal kadr. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-turkiya-01-800x1000.webp` |
+| 4 | Dubay — zamonaviy osmonoʻpar binolar yoki Burj Khalifa. Vertikal. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-dubay-01-800x1000.webp` |
+| 5 | Tailand — oq qumli plyaj, palmalar, feruza suv. Vertikal. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-tailand-01-800x1000.webp` |
+| 6 | Misr — Sharm-el-Shayx dengizi yoki qadimiy yodgorlik. Vertikal. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-misr-01-800x1000.webp` |
+| 7 | Malayziya — Kuala-Lumpur (Petronas minoralari) yoki orol manzarasi. Vertikal. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-malayziya-01-800x1000.webp` |
+| 8 | Oʻzbekiston — Samarqand Registoni, Buxoro yoki Xiva. Vertikal. | 800 × 1000 px | vertikal | Bosh sahifadagi davlatlar bloki, Davlatlar sahifasi | `dest-ozbekiston-01-800x1000.webp` |
+| 9 | Antalya turining oʻz surati — mehmonxona, plyaj yoki guruh surati. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-turkiya-antalya-cover-1200x800.webp` |
+| 10 | Istanbul turi uchun asosiy surat — masjid, Bosfor yoki bozor. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-turkiya-istanbul-cover-1200x800.webp` |
+| 11 | Dubay turi uchun asosiy surat — mehmonxona yoki shahar manzarasi. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-dubay-cover-1200x800.webp` |
+| 12 | Phuket turi uchun asosiy surat — plyaj yoki mehmonxona hovuzi. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-tailand-phuket-cover-1200x800.webp` |
+| 13 | Sharm-el-Shayx turi uchun asosiy surat — dengiz yoki mehmonxona. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-misr-sharm-cover-1200x800.webp` |
+| 14 | Samarqand–Buxoro turi uchun asosiy surat — Registon yoki guruh surati. Gorizontal. | 1200 × 800 px | gorizontal | Tur kartochkasi, Tur sahifasining sarlavhasi | `tour-ozbekiston-samarqand-cover-1200x800.webp` |
+| 15 | Jamoa surati yoki ofisdagi ish jarayoni. Haqiqiy odamlar — stock surat emas. Gorizontal. | 1600 × 900 px | gorizontal | Bosh sahifadagi "Nega biz" bloki, Biz haqimizda sahifasi | `about-team-1600x900.webp` |
+| 16 | Kompaniyani eng yaxshi koʻrsatadigan gorizontal kadr — sayt havolasi ulashilganda shu chiqadi. | 1200 × 630 px | gorizontal | Telegram/Facebook havola koʻrinishi | `og-default-1200x630.webp` |
 
 ## 2-BOSQICH — keyin (59 ta rasm, shoshilinch emas)
 
@@ -146,7 +142,7 @@ Toʻliq rasm chiqishi uchun qanday rasmlar kerak boʻlishini oldindan bilib qoʻ
 
 ## Qachongacha kerak
 
-Bu 20 ta rasmni qachongacha yubora olasiz? Aniq sana yozib yuboring.
+Bu 16 ta rasmni qachongacha yubora olasiz? Aniq sana yozib yuboring.
 
 Sana kerak, chunki ish rejasi shunga qarab tuziladi. Rasmlar kechiksa sayt oʻrindosh rasmlar bilan
 ishga tushadi va keyin almashtiriladi — bu ham normal, faqat oldindan kelishib olganimiz yaxshi.
