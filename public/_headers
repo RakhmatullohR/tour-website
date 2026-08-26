@@ -39,10 +39,17 @@
 
 # Icons and the manifest are stable but NOT hashed — the filename is reused when
 # the artwork changes. One day, so a swapped favicon reaches visitors this week
-# instead of next year.
-/favicon.svg
-  Cache-Control: public, max-age=86400
+# instead of next year. That day matters: the 2026-08-26 logo swap reuses every
+# one of these filenames, so a longer max-age would leave the old mark on screen.
+#
+# `/favicon.svg` is deliberately absent — the file was deleted with that swap.
+# A Cache-Control rule for a path that 404s is harmless but misleading; the list
+# below is the real icon set, and every entry must exist in public/.
 /favicon.png
+  Cache-Control: public, max-age=86400
+/icon-48.png
+  Cache-Control: public, max-age=86400
+/icon-192.png
   Cache-Control: public, max-age=86400
 /apple-touch-icon.png
   Cache-Control: public, max-age=86400
