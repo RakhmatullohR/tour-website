@@ -3,10 +3,12 @@
 // the hreflang builder, the page-aware language switcher and the sitemap.
 // Adding a locale is a one-line change here.
 //
-// 'en' is AGREED SCOPE (BC14) — the client ticked Ingliz. It is staged, not
-// descoped: add 'en' here the day the English copy lands.
+// 'en' SHIPPED 2026-08-26. It was AGREED SCOPE all along (BC14 — the client ticked
+// Ingliz) and was staged on the English copy, not descoped; the copy has landed, so
+// this list is what turns it on. en.json carries full key parity with uz.json and
+// every content file has an `en` block.
 // 'ms' only if Q4 answers AND the native-review gate passes.
-export const SHIPPED_LOCALES = ['uz', 'ru'];
+export const SHIPPED_LOCALES = ['uz', 'ru', 'en'];
 export const DEFAULT_LOCALE = 'uz';
 
 /** Human labels for the language switcher and the root picker.

@@ -41,6 +41,27 @@ export default defineConfig({
   },
 
   integrations: [
+    // MAKES `locales.mjs` A WATCHED CONFIG DEPENDENCY.
+    //
+    // Astro restarts the dev server when astro.config.mjs itself changes, but NOT
+    // when a module the config IMPORTS changes — and locales.mjs is exactly that.
+    // Editing SHIPPED_LOCALES therefore used to leave a running dev server in a
+    // split state: every page module hot-reloaded and started rendering the new
+    // locale, while `i18n.locales` below still held the old list. The first
+    // getRelativeLocaleUrl() call for the new locale then threw MissingLocaleError,
+    // pointing at 404.astro — the page that maps over every locale — rather than at
+    // the config that was actually stale. Observed 2026-08-26 when 'en' shipped.
+    //
+    // `addWatchFile` pushes into settings.watchFiles, which core/dev/restart.js
+    // checks on every file change, so the server now restarts on its own. This
+    // is what makes locales.mjs's own promise — "adding a locale is a one-line
+    // change" — true in dev as well as in a clean build.
+    {
+      name: 'getcar:watch-locales',
+      hooks: {
+        'astro:config:setup': ({ addWatchFile }) => addWatchFile(new URL('./src/i18n/locales.mjs', import.meta.url)),
+      },
+    },
     sitemap({
       i18n: { defaultLocale: DEFAULT_LOCALE, locales: Object.fromEntries(SHIPPED_LOCALES.map((l) => [l, l])) },
       // The bare root `/` is the language-picker page (PLAN §5). @astrojs/sitemap

@@ -1,0 +1,125 @@
+{
+  "id": "uz-samarqand-1n",
+  "slug": "ozbekiston-samarqand-2-kun",
+  "status": "published",
+  "featured": false,
+  "order": 15,
+  "country": "UZ",
+  "cities": [
+    "Samarqand"
+  ],
+  "category": "domestic",
+  "departureCity": "Toshkent",
+  "duration": {
+    "days": 2,
+    "nights": 1
+  },
+  "price": {
+    "amount": 1200000,
+    "currency": "UZS",
+    "per": "person"
+  },
+  "flightIncluded": true,
+  "groupSize": {
+    "min": 2,
+    "max": 20
+  },
+  "departures": [
+    "2026-09-05",
+    "2026-09-19",
+    "2026-10-03"
+  ],
+  "badges": [
+    "new"
+  ],
+  "images": {
+    "cover": "tour-reserve-01-cover-1200x800.webp",
+    "gallery": []
+  },
+  "i18n": {
+    "uz": {
+      "title": "Samarqand — 1 kecha 2 kun, hafta oxiri",
+      "summary": "Toshkentdan tezyurar poyezdda ikki soatda Samarqandga: Registon, Goʻri Amir va Shohizinda gid hamrohligida.",
+      "includes": [
+        "Mehmonxona 3* (1 kecha)",
+        "Nonushta",
+        "Poyezd chiptasi",
+        "Gid xizmati"
+      ],
+      "excludes": [
+        "Tushlik va kechki ovqat",
+        "Shaxsiy xarajatlar"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Ertalab Toshkentdan tezyurar poyezdda Samarqandga, yoʻlda ikki soat; mehmonxonaga joylashish, Registon va Goʻri Amir. Kechqurun yoritilgan Registon maydoni."
+        },
+        {
+          "day": 2,
+          "text": "Shohizinda, Bibixonim masjidi va Siyob bozori; kechki poyezd bilan Toshkentga qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Samarqand — 1 kecha 2 kun, hafta oxiri",
+        "description": "Toshkentdan tezyurar poyezdda ikki soatda Samarqandga: Registon, Goʻri Amir va Shohizinda gid hamrohligida."
+      }
+    },
+    "ru": {
+      "title": "Самарканд — 1 ночь 2 дня, на выходные",
+      "summary": "Скоростным поездом из Ташкента в Самарканд за два часа: Регистан, Гур-Эмир и Шахи-Зинда с гидом.",
+      "includes": [
+        "Отель 3* (1 ночь)",
+        "Завтрак",
+        "Железнодорожные билеты",
+        "Услуги гида"
+      ],
+      "excludes": [
+        "Обед и ужин",
+        "Личные расходы"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Утром скоростным поездом из Ташкента в Самарканд, два часа в пути; заселение в отель, Регистан и Гур-Эмир. Вечером подсвеченная площадь Регистан."
+        },
+        {
+          "day": 2,
+          "text": "Шахи-Зинда, мечеть Биби-Ханым и Сиабский базар; вечерним поездом возвращение в Ташкент."
+        }
+      ],
+      "seo": {
+        "title": "Самарканд — 1 ночь 2 дня, на выходные",
+        "description": "Скоростным поездом из Ташкента в Самарканд за два часа: Регистан, Гур-Эмир и Шахи-Зинда с гидом."
+      }
+    },
+    "en": {
+      "title": "Samarkand — 1 night, 2 days on a weekend",
+      "summary": "A two-hour high-speed train from Tashkent to Samarkand: the Registan, Gur-e-Amir and Shah-i-Zinda with a guide.",
+      "includes": [
+        "3* hotel (1 night)",
+        "Breakfast",
+        "Train tickets",
+        "Guide service"
+      ],
+      "excludes": [
+        "Lunch and dinner",
+        "Personal expenses"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Morning high-speed train from Tashkent to Samarkand, two hours on the way; hotel check-in, the Registan and Gur-e-Amir. The Registan lit up in the evening."
+        },
+        {
+          "day": 2,
+          "text": "Shah-i-Zinda, the Bibi-Khanym Mosque and the Siab bazaar; evening train back to Tashkent."
+        }
+      ],
+      "seo": {
+        "title": "Samarkand — 1 night, 2 days on a weekend",
+        "description": "A two-hour high-speed train from Tashkent to Samarkand: the Registan, Gur-e-Amir and Shah-i-Zinda with a guide."
+      }
+    }
+  }
+}

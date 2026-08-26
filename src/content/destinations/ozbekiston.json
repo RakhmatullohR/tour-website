@@ -23,6 +23,15 @@
         "title": "Туры в Узбекистан — Getcar Travel",
         "description": "Самарканд, Бухара и Хива — история, ради которой не нужно далеко лететь."
       }
+    },
+    "en": {
+      "name": "Uzbekistan",
+      "summary": "Samarkand, Bukhara and Khiva: history you can see without a long flight.",
+      "body": "Domestic tourism is the easiest option for a short weekend. Trips with a guide through Samarkand, Bukhara and Khiva are arranged together with train tickets and a hotel.",
+      "seo": {
+        "title": "Uzbekistan tours — Getcar Travel",
+        "description": "Samarkand, Bukhara and Khiva: history you can see without a long flight."
+      }
     }
   }
 }

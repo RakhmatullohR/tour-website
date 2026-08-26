@@ -23,6 +23,15 @@
         "title": "Туры в Египет — Getcar Travel",
         "description": "Шарм-эль-Шейх и Хургада — Красное море, рифы и пирамиды."
       }
+    },
+    "en": {
+      "name": "Egypt",
+      "summary": "Sharm El Sheikh and Hurghada: the Red Sea, the reefs and the pyramids.",
+      "body": "Egypt lets you combine a holiday on the Red Sea with sightseeing. We arrange snorkelling and diving in Sharm El Sheikh, and a trip to the pyramids in Cairo.",
+      "seo": {
+        "title": "Egypt tours — Getcar Travel",
+        "description": "Sharm El Sheikh and Hurghada: the Red Sea, the reefs and the pyramids."
+      }
     }
   }
 }

@@ -66,8 +66,20 @@
           "text": "Petronas minoralari, Batu gʻorlari va shahar markazi ekskursiyasi."
         },
         {
+          "day": 3,
+          "text": "Kuala-Lumpurda erkin kun: shahar markazi va savdo markazlarida vaqt."
+        },
+        {
           "day": 4,
           "text": "Langkavi oroliga ichki parvoz, sohilda dam olish."
+        },
+        {
+          "day": 5,
+          "text": "Langkavi sohilida dam olish: suzish va quyoshda dam olish."
+        },
+        {
+          "day": 6,
+          "text": "Langkavida erkin kun: sohil boʻylab sayr va qaytishga tayyorgarlik."
         },
         {
           "day": 7,
@@ -105,8 +117,20 @@
           "text": "Экскурсия: башни Петронас, пещеры Бату и центр города."
         },
         {
+          "day": 3,
+          "text": "Свободный день в Куала-Лумпуре: время в центре города и торговых центрах."
+        },
+        {
           "day": 4,
           "text": "Внутренний перелёт на Лангкави, отдых на побережье."
+        },
+        {
+          "day": 5,
+          "text": "Отдых на побережье Лангкави: купание и время на солнце."
+        },
+        {
+          "day": 6,
+          "text": "Свободный день на Лангкави: прогулка вдоль берега и сборы к отъезду."
         },
         {
           "day": 7,
@@ -116,6 +140,57 @@
       "seo": {
         "title": "Куала-Лумпур и Лангкави — 6 ночей 7 дней",
         "description": "Современный город и тропические острова в одной программе. Халяльное питание доступно везде."
+      }
+    },
+    "en": {
+      "title": "Kuala Lumpur and Langkawi — 6 nights, 7 days",
+      "summary": "A modern city and tropical islands in one programme. Halal food is available everywhere.",
+      "priceNote": "Airfare is not included in the price.",
+      "includes": [
+        "4* hotel (6 nights)",
+        "Breakfast",
+        "City sightseeing tour",
+        "Domestic flight to Langkawi",
+        "Airport transfer"
+      ],
+      "excludes": [
+        "International airfare",
+        "Lunch and dinner",
+        "Additional excursions"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Arrival in Kuala Lumpur and hotel check-in."
+        },
+        {
+          "day": 2,
+          "text": "Sightseeing tour: the Petronas Towers, the Batu Caves and the city centre."
+        },
+        {
+          "day": 3,
+          "text": "A free day in Kuala Lumpur: time in the city centre and the shopping malls."
+        },
+        {
+          "day": 4,
+          "text": "Domestic flight to Langkawi, then time on the coast."
+        },
+        {
+          "day": 5,
+          "text": "Time on the Langkawi coast: swimming and time in the sun."
+        },
+        {
+          "day": 6,
+          "text": "A free day on Langkawi: a walk along the shore and packing for the journey home."
+        },
+        {
+          "day": 7,
+          "text": "Transfer to the airport and the return journey."
+        }
+      ],
+      "seo": {
+        "title": "Kuala Lumpur and Langkawi — 6 nights, 7 days",
+        "description": "A modern city and tropical islands in one programme. Halal food is available everywhere."
       }
     }
   }

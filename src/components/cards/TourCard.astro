@@ -5,7 +5,7 @@
 import { Image } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { tryResolveImage } from '../../lib/images';
-import { upcomingDepartures, durationBucket, priceUZS, type Tour } from '../../lib/tours';
+import { upcomingDepartures, durationFacet, priceUZS, type Tour } from '../../lib/tours';
 import { formatDateShort, pluralUnit } from '../../lib/format';
 import type { TFunction } from '../../i18n/t';
 import PriceTag from '../ui/PriceTag.astro';
@@ -37,7 +37,7 @@ const badgeTone = (badge: string) => (badge === 'discount' ? 'accent' : badge ==
   data-tour
   data-country={d.country}
   data-category={d.category}
-  data-duration={durationBucket(d.duration.days)}
+  data-duration={durationFacet(d.country, d.duration.days)}
   data-price-uzs={priceUZS(d.price.amount, d.price.currency)}
 >
   <a href={href} class="relative block overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" tabindex="-1" aria-hidden="true">

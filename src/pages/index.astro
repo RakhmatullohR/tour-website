@@ -13,24 +13,36 @@ import { Image } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { resolveImage } from '../lib/images';
 import { SHIPPED_LOCALES, DEFAULT_LOCALE, LOCALE_LABELS, LOCALE_TAGS } from '../i18n/locales.mjs';
+import { useTranslations } from '../i18n/t';
 // This page bypassed config/site.ts and hardcoded the phone number in both the
 // href and the label. site.ts opens with "Client-supplied facts, in ONE place" —
 // and this was the one place that was not it, so a number change updated every
 // page except the root language picker, which is the first page a visitor sees.
-import { PHONE_DISPLAY, telHref } from '../config/site';
+import { PHONE_DISPLAY, telHref, BRAND_NAME } from '../config/site';
 
 const logo = resolveImage('logo-getcar-512x512.png');
+
+// EVERY SHIPPED LANGUAGE, NOT TWO OF THEM. This page's heading and <title> used
+// to read "Tilni tanlang / Выберите язык", typed out by hand — so the day a third
+// language shipped, the very first page a visitor sees would have offered it a
+// button while still asking the question in only two languages.
+//
+// Both strings are now JOINED OVER SHIPPED_LOCALES, which is the same list that
+// renders the buttons below. locales.mjs promises "adding a locale is a one-line
+// change"; this is what makes that true of the picker as well.
+const invitations = SHIPPED_LOCALES.map((l) => ({ locale: l, text: useTranslations(l)('picker.title') }));
+// The Uzbek description is the source of truth and is now READ FROM THE DICTIONARY
+// rather than retyped here — which also puts it back under check-i18n's Uzbek
+// orthography gate (§13.2), the gate a hand-typed copy on this page had escaped.
+const description = useTranslations(DEFAULT_LOCALE)('site.description');
 ---
 <!doctype html>
-<html lang="uz">
+<html lang={LOCALE_TAGS[DEFAULT_LOCALE] ?? DEFAULT_LOCALE}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Getcar Travel — tilni tanlang / выберите язык</title>
-    {/* Modifier letters oʻ / boʻ (U+02BB), not ASCII apostrophes — the same §13.2
-        orthography rule check-i18n enforces on uz.json. It cannot see hardcoded
-        strings on this page, which is exactly how the wrong glyphs got here. */}
-    <meta name="description" content="Getcar Travel — Oʻzbekiston va chet el boʻylab tur paketlari." />
+    <title>{`${BRAND_NAME} — ${invitations.map((i) => i.text).join(' / ')}`}</title>
+    <meta name="description" content={description} />
     <link rel="canonical" href={new URL('/', Astro.site).href} />
     {SHIPPED_LOCALES.map((l) => (
       <link rel="alternate" hreflang={LOCALE_TAGS[l] ?? l} href={new URL(getRelativeLocaleUrl(l, '/'), Astro.site).href} />
@@ -46,13 +58,26 @@ const logo = resolveImage('logo-getcar-512x512.png');
       <p class="mt-4 font-[family-name:var(--font-display)] text-3xl font-bold text-brand-900">
         Getcar<span class="text-brand-600">Travel</span>
       </p>
-      <h1 class="mt-8 text-lg font-medium text-neutral-600">Tilni tanlang / Выберите язык</h1>
+      {/* Each invitation carries its OWN `lang`, so a screen reader switches voice
+          instead of reading Russian and English with Uzbek phonemes. The document
+          `lang` stays on the default locale — a page has one primary language even
+          when it greets you in three. */}
+      <h1 class="mt-8 text-lg font-medium text-neutral-600">
+        {invitations.map((i, n) => (
+          <>
+            {n > 0 && <span aria-hidden="true"> / </span>}
+            <span lang={LOCALE_TAGS[i.locale] ?? i.locale}>{i.text}</span>
+          </>
+        ))}
+      </h1>
       <ul class="mt-6 flex flex-wrap justify-center gap-3">
         {SHIPPED_LOCALES.map((l) => (
           <li>
             <a
               href={getRelativeLocaleUrl(l, '/')}
-              class="inline-block rounded-[var(--radius-md)] bg-brand-700 px-6 py-3 font-medium text-white hover:bg-brand-900"
+              lang={LOCALE_TAGS[l] ?? l}
+              hreflang={LOCALE_TAGS[l] ?? l}
+              class="inline-block rounded-[var(--radius-md)] bg-brand-700 px-6 py-3 font-medium text-white hover:bg-brand-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
             >
               {LOCALE_LABELS[l] ?? l}
             </a>

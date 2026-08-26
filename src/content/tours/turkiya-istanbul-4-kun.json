@@ -1,0 +1,163 @@
+{
+  "id": "tr-istanbul-3n",
+  "slug": "turkiya-istanbul-4-kun",
+  "status": "published",
+  "featured": true,
+  "order": 20,
+  "country": "TR",
+  "cities": [
+    "Istanbul"
+  ],
+  "category": "excursion",
+  "departureCity": "Toshkent",
+  "duration": {
+    "days": 4,
+    "nights": 3
+  },
+  "price": {
+    "amount": 4300000,
+    "currency": "UZS",
+    "per": "person"
+  },
+  "flightIncluded": false,
+  "groupSize": {
+    "min": 2,
+    "max": 16
+  },
+  "departures": [
+    "2026-09-12",
+    "2026-10-10",
+    "2026-11-07"
+  ],
+  "badges": [
+    "hot"
+  ],
+  "images": {
+    "cover": "tour-turkiya-istanbul-cover-1200x800.webp",
+    "gallery": [
+      "tour-turkiya-istanbul-01-1600x1067.webp",
+      "tour-turkiya-istanbul-02-1600x1067.webp",
+      "tour-turkiya-istanbul-03-1600x1067.webp",
+      "tour-turkiya-istanbul-04-1600x1067.webp"
+    ]
+  },
+  "i18n": {
+    "uz": {
+      "title": "Istanbul — 3 kecha 4 kun, ekskursiya va shopping",
+      "summary": "Ayasofya, Sultonahmet va Bosfor sayohati. Xarid uchun Misr bozori kunida vaqt ajratilgan.",
+      "priceNote": "Narxga aviabilet kirmaydi.",
+      "includes": [
+        "Mehmonxona 4* (3 kecha)",
+        "Nonushta",
+        "Shahar ekskursiyasi",
+        "Bosfor boʻylab kema sayohati",
+        "Aeroport transferi"
+      ],
+      "excludes": [
+        "Aviabilet",
+        "Tushlik va kechki ovqat",
+        "Muzey chiptalari"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Kelish, mehmonxonaga joylashish, Sultonahmet maydoni boʻylab kechki sayr."
+        },
+        {
+          "day": 2,
+          "text": "Ayasofya, Koʻk masjid va Topqopi saroyi ekskursiyasi."
+        },
+        {
+          "day": 3,
+          "text": "Bosfor boʻylab kema sayohati, Misr bozori va Grand Bazaarda xarid."
+        },
+        {
+          "day": 4,
+          "text": "Aeroportga transfer va qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Istanbul — 3 kecha 4 kun, ekskursiya va shopping",
+        "description": "Ayasofya, Sultonahmet va Bosfor sayohati. Xarid uchun Misr bozori kunida vaqt ajratilgan."
+      }
+    },
+    "ru": {
+      "title": "Стамбул — 3 ночи 4 дня, экскурсии и шоппинг",
+      "summary": "Айя-София, Султанахмет и прогулка по Босфору. Время на покупки отведено в день Египетского базара.",
+      "priceNote": "Авиабилет не включён в стоимость.",
+      "includes": [
+        "Отель 4* (3 ночи)",
+        "Завтрак",
+        "Обзорная экскурсия",
+        "Прогулка по Босфору",
+        "Трансфер из аэропорта"
+      ],
+      "excludes": [
+        "Авиабилет",
+        "Обед и ужин",
+        "Билеты в музеи"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Прибытие, заселение, вечерняя прогулка по площади Султанахмет."
+        },
+        {
+          "day": 2,
+          "text": "Экскурсия: Айя-София, Голубая мечеть и дворец Топкапы."
+        },
+        {
+          "day": 3,
+          "text": "Прогулка по Босфору, Египетский базар и шоппинг на Гранд-базаре."
+        },
+        {
+          "day": 4,
+          "text": "Трансфер в аэропорт и возвращение."
+        }
+      ],
+      "seo": {
+        "title": "Стамбул — 3 ночи 4 дня, экскурсии и шоппинг",
+        "description": "Айя-София, Султанахмет и прогулка по Босфору. Время на покупки отведено в день Египетского базара."
+      }
+    },
+    "en": {
+      "title": "Istanbul — 3 nights, 4 days of sightseeing and shopping",
+      "summary": "Hagia Sophia, Sultanahmet and a cruise along the Bosphorus. Time for shopping is set aside on the Egyptian Bazaar day.",
+      "priceNote": "Airfare is not included in the price.",
+      "includes": [
+        "4* hotel (3 nights)",
+        "Breakfast",
+        "City sightseeing tour",
+        "Cruise along the Bosphorus",
+        "Airport transfer"
+      ],
+      "excludes": [
+        "Airfare",
+        "Lunch and dinner",
+        "Museum tickets"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Arrival, hotel check-in and an evening walk around Sultanahmet Square."
+        },
+        {
+          "day": 2,
+          "text": "Sightseeing tour: Hagia Sophia, the Blue Mosque and Topkapi Palace."
+        },
+        {
+          "day": 3,
+          "text": "Cruise along the Bosphorus, the Egyptian Bazaar and shopping at the Grand Bazaar."
+        },
+        {
+          "day": 4,
+          "text": "Transfer to the airport and the return journey."
+        }
+      ],
+      "seo": {
+        "title": "Istanbul — 3 nights, 4 days of sightseeing and shopping",
+        "description": "Hagia Sophia, Sultanahmet and a cruise along the Bosphorus. Time for shopping is set aside on the Egyptian Bazaar day."
+      }
+    }
+  }
+}

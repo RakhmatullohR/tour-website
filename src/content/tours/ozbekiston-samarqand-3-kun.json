@@ -68,7 +68,7 @@
         },
         {
           "day": 3,
-          "text": "Buxoro eski shahri: Labi Hovuz, Poi Kalon; kechqurun Toshkentga qaytish."
+          "text": "Buxoro eski shahri: Labi Hovuz, Poyi Kalon; kechqurun Toshkentga qaytish."
         }
       ],
       "seo": {
@@ -107,6 +107,39 @@
       "seo": {
         "title": "Самарканд и Бухара — 2 ночи 3 дня",
         "description": "Поездка с гидом по Регистану, Шахи-Зинда и старому городу Бухары."
+      }
+    },
+    "en": {
+      "title": "Samarkand and Bukhara — 2 nights, 3 days",
+      "summary": "A guided trip through the Registan, Shah-i-Zinda and the old city of Bukhara.",
+      "includes": [
+        "3* hotel (2 nights)",
+        "Breakfast",
+        "Train tickets",
+        "Guide service",
+        "Museum tickets"
+      ],
+      "excludes": [
+        "Lunch and dinner",
+        "Personal expenses"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "High-speed train from Tashkent to Samarkand; the Registan and Gur-e-Amir."
+        },
+        {
+          "day": 2,
+          "text": "Shah-i-Zinda, the Bibi-Khanym Mosque, then on to Bukhara."
+        },
+        {
+          "day": 3,
+          "text": "Old Bukhara: Lyabi Hauz and Poi Kalon; return to Tashkent in the evening."
+        }
+      ],
+      "seo": {
+        "title": "Samarkand and Bukhara — 2 nights, 3 days",
+        "description": "A guided trip through the Registan, Shah-i-Zinda and the old city of Bukhara."
       }
     }
   }

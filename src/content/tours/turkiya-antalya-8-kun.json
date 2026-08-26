@@ -1,6 +1,6 @@
 {
   "id": "tr-antalya-7n",
-  "slug": "turkiya-antalya-7-kun",
+  "slug": "turkiya-antalya-8-kun",
   "status": "published",
   "featured": true,
   "order": 10,
@@ -70,8 +70,24 @@
           "text": "Dengiz boʻyida dam olish, mehmonxona hududi bilan tanishuv."
         },
         {
+          "day": 3,
+          "text": "Sohilda erkin kun: suzish va quyoshda dam olish."
+        },
+        {
           "day": 4,
           "text": "Ixtiyoriy ekskursiya: Kemer yoki Side (alohida toʻlanadi)."
+        },
+        {
+          "day": 5,
+          "text": "Dengiz boʻyida dam olish, kechqurun qirgʻoq boʻylab sayr."
+        },
+        {
+          "day": 6,
+          "text": "Erkin kun: sohil va mehmonxona hududida dam olish."
+        },
+        {
+          "day": 7,
+          "text": "Oxirgi toʻliq kun: suzish va qaytishga tayyorgarlik."
         },
         {
           "day": 8,
@@ -92,7 +108,7 @@
         "Питание ultra all-inclusive",
         "Трансфер из аэропорта",
         "Медицинская страховка",
-        "Гид"
+        "Гид, говорящий по-узбекски"
       ],
       "excludes": [
         "Авиабилет",
@@ -109,8 +125,24 @@
           "text": "Отдых на море, знакомство с территорией отеля."
         },
         {
+          "day": 3,
+          "text": "Свободный день на пляже: купание и отдых на солнце."
+        },
+        {
           "day": 4,
           "text": "Экскурсия по желанию: Кемер или Сиде (оплачивается отдельно)."
+        },
+        {
+          "day": 5,
+          "text": "Отдых у моря, вечером — прогулка вдоль берега."
+        },
+        {
+          "day": 6,
+          "text": "Свободный день: отдых на пляже и на территории отеля."
+        },
+        {
+          "day": 7,
+          "text": "Последний полный день: купание и сборы к отъезду."
         },
         {
           "day": 8,
@@ -120,6 +152,61 @@
       "seo": {
         "title": "Анталья — 7 ночей 8 дней, отель 5*",
         "description": "Отдых по системе ultra all-inclusive. Отель 5* на берегу моря, трансфер и страховка включены."
+      }
+    },
+    "en": {
+      "title": "Antalya — 7 nights, 8 days in a 5* hotel",
+      "summary": "An ultra all-inclusive holiday. A 5* hotel by the sea, with transfers and insurance included in the price.",
+      "priceNote": "Airfare is not included in the price.",
+      "includes": [
+        "5* hotel (7 nights)",
+        "Ultra all-inclusive meals",
+        "Airport transfer",
+        "Medical insurance",
+        "Uzbek-speaking guide"
+      ],
+      "excludes": [
+        "Airfare",
+        "Visa",
+        "Personal expenses"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Flight from Tashkent, met on arrival in Antalya and hotel check-in."
+        },
+        {
+          "day": 2,
+          "text": "Time by the sea and a look around the hotel grounds."
+        },
+        {
+          "day": 3,
+          "text": "A free day on the beach: swimming and time in the sun."
+        },
+        {
+          "day": 4,
+          "text": "Optional excursion: Kemer or Side (paid separately)."
+        },
+        {
+          "day": 5,
+          "text": "Time by the sea, with a walk along the shore in the evening."
+        },
+        {
+          "day": 6,
+          "text": "A free day: time on the beach and at the hotel."
+        },
+        {
+          "day": 7,
+          "text": "The last full day: a swim and packing for the journey home."
+        },
+        {
+          "day": 8,
+          "text": "Check-out, transfer to the airport and the return journey."
+        }
+      ],
+      "seo": {
+        "title": "Antalya — 7 nights, 8 days in a 5* hotel",
+        "description": "An ultra all-inclusive holiday. A 5* hotel by the sea, with transfers and insurance included in the price."
       }
     }
   }

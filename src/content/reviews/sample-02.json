@@ -5,7 +5,7 @@
   "author": "Sardor T.",
   "avatar": "avatar-02-200x200.webp",
   "rating": 5,
-  "tourSlug": "dubay-6-kun",
+  "tourSlug": "dubay-4-kun",
   "i18n": {
     "uz": {
       "text": "Dubayga birinchi marta chiqdim, hamma narsa oldindan tushuntirildi. Sahro safari eng yoqqan qismi boʻldi.",
@@ -14,6 +14,10 @@
     "ru": {
       "text": "В Дубай летел впервые, всё объяснили заранее. Больше всего понравилось сафари в пустыне.",
       "role": "Дубай, 2026"
+    },
+    "en": {
+      "text": "It was my first trip to Dubai and everything was explained in advance. The desert safari was the part I enjoyed most.",
+      "role": "Dubai, 2026"
     }
   }
 }

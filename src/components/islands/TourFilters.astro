@@ -8,17 +8,31 @@
 // The option sets are DERIVED FROM THE TOURS ACTUALLY ON THE PAGE, so a filter can
 // never offer a country with zero results.
 import type { TFunction } from '../../i18n/t';
-import { durationBucket, priceUZS, PRICE_STEPS_MLN, PRICE_STEP_UNIT, type Tour } from '../../lib/tours';
+import { pluralUnit } from '../../lib/format';
+import { durationFacet, durationLadderGroups, priceUZS, PRICE_STEPS_MLN, PRICE_STEP_UNIT, type Tour } from '../../lib/tours';
 
 interface Props { tours: Tour[]; locale: string; t: TFunction; class?: string }
-const { tours, t, class: cls = '' } = Astro.props;
+const { tours, locale, t, class: cls = '' } = Astro.props;
 
 const uniq = <T,>(xs: T[]) => [...new Set(xs)];
 const countries = uniq(tours.map((x) => x.data.country)).sort();
 const categories = uniq(tours.map((x) => x.data.category)).sort();
-const durations = uniq(tours.map((x) => durationBucket(x.data.duration.days)));
-
-const DURATION_ORDER = ['short', 'medium', 'long'] as const;
+// THE DURATION MENU IS GROUPED BY SCOPE (client instruction, 2026-08-26): one
+// <select> whose <optgroup>s are "Oʻzbekistonda" and "Xorijda", each listing the
+// lengths sold there. The ladder itself lives in lib/tours.ts.
+//
+// <optgroup> and not two selects: the client stated it as one list, it is one
+// question ("where and for how long"), it costs one control's worth of header
+// room instead of two, and it needs no JavaScript to group — which matters here
+// because this whole panel is progressive enhancement.
+//
+// Rungs with no tour on the page are dropped, and a group that empties out
+// disappears with them — the same rule the country and category menus follow, so
+// the filter can never offer a length that returns nothing.
+const present = new Set(tours.map((x) => durationFacet(x.data.country, x.data.duration.days)));
+const durationGroups = durationLadderGroups()
+  .map((g) => ({ ...g, rungs: g.rungs.filter((r) => present.has(r.value)) }))
+  .filter((g) => g.rungs.length > 0);
 
 // The price ceiling ladder (see PRICE_STEPS_MLN). The last rung is only offered
 // when something on the page actually costs more than it — without that check the
@@ -31,12 +45,29 @@ const priceOptions = PRICE_STEPS_MLN.map((n) => ({
 if (dearest > PRICE_STEPS_MLN[PRICE_STEPS_MLN.length - 1] * PRICE_STEP_UNIT)
   priceOptions.push({ value: String(Number.MAX_SAFE_INTEGER), label: t('catalog.price.above', { n: PRICE_STEPS_MLN[PRICE_STEPS_MLN.length - 1] }) });
 
-const groups = [
+/** One entry per <select>, IN THE ORDER THEY RENDER. A menu carries either a flat
+ *  `options` list or grouped `optgroups`; the template picks per entry, so adding,
+ *  removing or reordering a filter is a change to this array alone. */
+type Option = { value: string; label: string };
+const groups: { key: string; label: string; options?: Option[]; optgroups?: { label: string; options: Option[] }[] }[] = [
   { key: 'country', label: t('catalog.filter.country'), options: countries.map((c) => ({ value: c, label: t(`country.${c}`) })) },
   { key: 'category', label: t('catalog.filter.category'), options: categories.map((c) => ({ value: c, label: t(`category.${c}`) })) },
-  { key: 'duration', label: t('catalog.filter.duration'), options: DURATION_ORDER.filter((d) => durations.includes(d)).map((d) => ({ value: d, label: t(`catalog.duration.${d}`) })) },
+  {
+    key: 'duration',
+    label: t('catalog.filter.duration'),
+    optgroups: durationGroups.map((g) => ({
+      label: t(`catalog.scope.${g.scope}`),
+      options: g.rungs.map((r) => ({
+        value: r.value,
+        label: t('catalog.duration.days', { n: r.days, unit: pluralUnit('day', r.days, locale) }),
+      })),
+    })),
+  },
   { key: 'price', label: t('catalog.filter.price'), options: priceOptions },
-];
+  // A menu with nothing to offer is not rendered — that is what used to drop the
+  // duration filter when every tour shared a bucket, and it still applies now
+  // that the rungs are the client's ladder.
+].filter((g) => (g.options?.length ?? 0) > 0 || (g.optgroups?.length ?? 0) > 0);
 ---
 {/* Hidden by the `html:not(.js)` rule in global.css, NOT by a JS toggle.
     A control that cannot work should not be on the page at all — but unhiding it
@@ -56,7 +87,12 @@ const groups = [
           class="min-h-12 w-full rounded-[var(--radius-md)] border border-neutral-200 bg-white px-4 text-neutral-900 focus:border-brand-500 focus:outline-2 focus:outline-brand-500"
         >
           <option value="">{t('catalog.filter.all')}</option>
-          {g.options.map((o) => <option value={o.value}>{o.label}</option>)}
+          {g.options?.map((o) => <option value={o.value}>{o.label}</option>)}
+          {g.optgroups?.map((og) => (
+            <optgroup label={og.label}>
+              {og.options.map((o) => <option value={o.value}>{o.label}</option>)}
+            </optgroup>
+          ))}
         </select>
       </div>
     ))}

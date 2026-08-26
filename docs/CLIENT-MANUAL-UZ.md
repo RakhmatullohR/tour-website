@@ -37,7 +37,7 @@ Buning foydasi:
 
 1. `src/content/tours/` papkasini oching.
 2. Oʻzingizga **eng oʻxshash** turni tanlang (masalan yangi Turkiya turi qoʻshsangiz —
-   `turkiya-antalya-7-kun.json`).
+   `turkiya-antalya-8-kun.json`).
 3. Faylni oching → oʻng yuqorida **`...`** tugmasi → **Copy raw file**.
 4. Papkaga qayting → **Add file** → **Create new file**.
 5. Fayl nomini yozing. Qoidalar:
@@ -68,12 +68,17 @@ Buning foydasi:
 | `flightIncluded` | `false` — aviabilet kirmaydi<br>`true` — kiradi | pastdagi ogohlantirishni oʻqing |
 | `departures` | joʻnash sanalari: `"2026-09-05"` | shu tartibda: yil-oy-kun |
 | `images.cover` | rasm fayl nomi | rasm avval yuborilgan boʻlishi kerak |
-| `i18n.uz` / `i18n.ru` | oʻzbekcha va ruscha matnlar | ikkalasi ham toʻldirilsin |
+| `i18n.uz` / `i18n.ru` / `i18n.en` | oʻzbekcha, ruscha va inglizcha matnlar | uchalasi ham toʻldirilsin |
 
-> ⚠️ **`flightIncluded` `false` boʻlsa**, `priceNote` maydonini **ikkala tilda ham**
+> ⚠️ **`flightIncluded` `false` boʻlsa**, `priceNote` maydonini **uchala tilda ham**
 > toʻldirish shart (masalan: `"Narxga aviabilet kirmaydi."`). Boʻsh qoldirsangiz sayt
 > yigʻilmaydi — bu ataylab shunday qilingan: narx koʻrsatilib, aviabilet haqida hech
 > narsa yozilmasa, mijoz bilan janjal chiqadi.
+
+> **Bir tilni tushirib qoldirsangiz nima boʻladi.** Sayt yigʻiladi, lekin oʻsha tur
+> **oʻsha tilda umuman chiqmaydi** — na roʻyxatda, na oʻz sahifasida. Bu ham ataylab:
+> inglizcha sahifada oʻzbekcha matn chiqishidan koʻra, turni koʻrsatmaslik yaxshiroq.
+> Demak `en` blokini toʻldirmaguningizcha, tur faqat oʻzbek va rus tilida sotiladi.
 
 ---
 
@@ -83,7 +88,8 @@ Eng koʻp bajariladigan ish. Faylni oching → **qalam belgisi** (Edit) → `pri
 `amount` raqamini oʻzgartiring → **Commit changes**.
 
 > **Narx faqat bitta joyda** — `price` ichida. Tillar ichiga (`i18n`) narx yozmang.
-> Aks holda oʻzbekcha va ruscha narx bir-biridan farq qilib qolishi mumkin.
+> Aks holda oʻzbekcha, ruscha va inglizcha narx bir-biridan farq qilib qolishi mumkin.
+> Narxni bir marta oʻzgartirasiz — uchala tilda ham oʻzi yangilanadi.
 
 Chegirma qilmoqchi boʻlsangiz:
 ```
@@ -130,7 +136,8 @@ Eng koʻp uchraydigan xatolar:
 | Belgi | Sabab | Yechim |
 |---|---|---|
 | Qizil ✗, "Unexpected token" | vergul yoki qavs tushib qolgan | oxirgi oʻzgartirishni tekshiring |
-| Qizil ✗, `priceNote` haqida | `flightIncluded: false`, lekin izoh yozilmagan | ikkala tilga ham izoh yozing |
+| Qizil ✗, `priceNote` haqida | `flightIncluded: false`, lekin izoh yozilmagan | uchala tilga ham izoh yozing |
+| Tur faqat bitta tilda chiqadi | oʻsha til uchun `i18n` bloki yoʻq | yetishmayotgan til blokini qoʻshing |
 | Qizil ✗, `oldAmount` haqida | eski narx yangisidan kichik | eski narxni kattaroq qiling |
 | Tur saytda chiqmayapti | `status` `draft` boʻlib qolgan | `published` qiling |
 | Rasm chiqmayapti | fayl nomi mos emas | nomni harfma-harf tekshiring |

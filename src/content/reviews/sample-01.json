@@ -5,7 +5,7 @@
   "author": "Dilnoza R.",
   "avatar": "avatar-01-200x200.webp",
   "rating": 5,
-  "tourSlug": "turkiya-antalya-7-kun",
+  "tourSlug": "turkiya-antalya-8-kun",
   "i18n": {
     "uz": {
       "text": "Antalyaga oilamiz bilan bordik. Transfer aeroportda kutib turdi, mehmonxona suratlardagidek edi. Menejer sayohat davomida aloqada boʻldi.",
@@ -14,6 +14,10 @@
     "ru": {
       "text": "Ездили в Анталью всей семьёй. Трансфер ждал в аэропорту, отель оказался таким же, как на фото. Менеджер был на связи всю поездку.",
       "role": "Анталья, 2026"
+    },
+    "en": {
+      "text": "We went to Antalya as a family. The transfer was waiting at the airport and the hotel looked just like the photos. The manager stayed in touch for the whole trip.",
+      "role": "Antalya, 2026"
     }
   }
 }

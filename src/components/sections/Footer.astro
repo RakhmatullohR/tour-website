@@ -12,7 +12,7 @@
 import { Image } from 'astro:assets';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import type { TFunction } from '../../i18n/t';
-import { PHONE_DISPLAY, telHref, telegramHref, telegramChannelHref, whatsappHref, instagramHref, youtubeHref, mailtoHref, EMAIL, ADDRESS, HOURS, LEGAL, BRAND_NAME } from '../../config/site';
+import { PHONE_DISPLAY, telHref, telegramHref, telegramChannelHref, whatsappHref, instagramHref, youtubeHref, mailtoHref, localised, EMAIL, ADDRESS, HOURS, LEGAL, BRAND_NAME } from '../../config/site';
 import { resolveImage } from '../../lib/images';
 import Icon from '../ui/Icon.astro';
 
@@ -99,13 +99,13 @@ const year = new Date().getFullYear();
           {HOURS && (
             <li class="flex items-start gap-2 py-1 text-neutral-400">
               <Icon name="clock" size={16} class="mt-0.5 shrink-0" />
-              <span><span class="block text-neutral-200">{t('footer.hours')}</span>{locale === 'ru' ? HOURS.ru : HOURS.uz}</span>
+              <span><span class="block text-neutral-200">{t('footer.hours')}</span>{localised(HOURS, locale)}</span>
             </li>
           )}
           {ADDRESS && (
             <li class="flex items-start gap-2 py-1 text-neutral-400">
               <Icon name="map" size={16} class="mt-0.5 shrink-0" />
-              <span><span class="block text-neutral-200">{t('footer.address')}</span>{locale === 'ru' ? ADDRESS.ru : ADDRESS.uz}</span>
+              <span><span class="block text-neutral-200">{t('footer.address')}</span>{localised(ADDRESS.text, locale)}</span>
             </li>
           )}
         </ul>

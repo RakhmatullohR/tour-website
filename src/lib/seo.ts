@@ -4,7 +4,7 @@
 // Every URL emitted here is ABSOLUTE, because that is what the Rich Results Test
 // and hreflang both require.
 import type { CollectionEntry } from 'astro:content';
-import { PHONE_E164, BRAND_NAME, SOCIAL, ADDRESS, EMAIL, instagramHref, youtubeHref } from '../config/site';
+import { PHONE_E164, BRAND_NAME, SOCIAL, ADDRESS, EMAIL, localised, instagramHref, youtubeHref } from '../config/site';
 
 export type Json = Record<string, unknown>;
 
@@ -42,7 +42,7 @@ export function travelAgencySchema(site: URL | undefined, locale: string, descri
   if (ADDRESS)
     schema.address = {
       '@type': 'PostalAddress',
-      streetAddress: locale === 'ru' ? ADDRESS.ru : ADDRESS.uz,
+      streetAddress: localised(ADDRESS.text, locale),
       addressCountry: 'UZ',
     };
   return schema;

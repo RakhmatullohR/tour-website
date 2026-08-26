@@ -1,0 +1,209 @@
+{
+  "id": "th-phuket-7n",
+  "slug": "tailand-phuket-8-kun",
+  "status": "published",
+  "featured": true,
+  "order": 40,
+  "country": "TH",
+  "cities": [
+    "Phuket"
+  ],
+  "category": "beach",
+  "departureCity": "Toshkent",
+  "duration": {
+    "days": 8,
+    "nights": 7
+  },
+  "price": {
+    "amount": 13500000,
+    "currency": "UZS",
+    "per": "person"
+  },
+  "flightIncluded": false,
+  "groupSize": {
+    "min": 2,
+    "max": 12
+  },
+  "departures": [
+    "2026-11-14",
+    "2026-12-12",
+    "2027-01-16"
+  ],
+  "badges": [],
+  "images": {
+    "cover": "tour-tailand-phuket-cover-1200x800.webp",
+    "gallery": [
+      "tour-tailand-phuket-01-1600x1067.webp",
+      "tour-tailand-phuket-02-1600x1067.webp",
+      "tour-tailand-phuket-03-1600x1067.webp",
+      "tour-tailand-phuket-04-1600x1067.webp"
+    ]
+  },
+  "i18n": {
+    "uz": {
+      "title": "Phuket — 7 kecha 8 kun, okean boʻyida",
+      "summary": "Tropik iqlim, Phi Phi orollariga qayiq sayohati va Patong sohilida dam olish.",
+      "priceNote": "Narxga aviabilet kirmaydi.",
+      "includes": [
+        "Mehmonxona 4* (7 kecha)",
+        "Nonushta",
+        "Phi Phi orollariga qayiq sayohati",
+        "Aeroport transferi",
+        "Tibbiy sugʻurta"
+      ],
+      "excludes": [
+        "Aviabilet",
+        "Tushlik va kechki ovqat",
+        "Qoʻshimcha ekskursiyalar"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Kelish, aeroportdan transfer va mehmonxonaga joylashish. Kechqurun Patong sohilida dam olish."
+        },
+        {
+          "day": 2,
+          "text": "Patong sohilida erkin kun: suzish va quyoshda dam olish."
+        },
+        {
+          "day": 3,
+          "text": "Phi Phi orollariga kun boʻyi qayiq sayohati."
+        },
+        {
+          "day": 4,
+          "text": "Sohilda dam olish, mehmonxona hududida erkin vaqt."
+        },
+        {
+          "day": 5,
+          "text": "Ixtiyoriy ekskursiya: Jeyms Bond oroli yoki fil qoʻriqxonasi. Xohlasangiz, kun sohilda oʻtadi."
+        },
+        {
+          "day": 6,
+          "text": "Patong sohilida dam olish, kechqurun sohil boʻylab sayr."
+        },
+        {
+          "day": 7,
+          "text": "Erkin kun: oxirgi suzish va Patong bozorlarida xarid."
+        },
+        {
+          "day": 8,
+          "text": "Mehmonxonadan chiqish, aeroportga transfer va qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Phuket — 7 kecha 8 kun, okean boʻyida",
+        "description": "Tropik iqlim, Phi Phi orollariga qayiq sayohati va Patong sohilida dam olish. Narxga aviabilet kirmaydi."
+      }
+    },
+    "ru": {
+      "title": "Пхукет — 7 ночей 8 дней, у океана",
+      "summary": "Тропический климат, морская прогулка на острова Пхи-Пхи и отдых на пляже Патонг.",
+      "priceNote": "Авиабилет не включён в стоимость.",
+      "includes": [
+        "Отель 4* (7 ночей)",
+        "Завтрак",
+        "Морская прогулка на острова Пхи-Пхи",
+        "Трансфер из аэропорта",
+        "Медицинская страховка"
+      ],
+      "excludes": [
+        "Авиабилет",
+        "Обед и ужин",
+        "Дополнительные экскурсии"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Прибытие, трансфер из аэропорта и заселение в отель. Вечером — отдых на пляже Патонг."
+        },
+        {
+          "day": 2,
+          "text": "Свободный день на пляже Патонг: купание и отдых на солнце."
+        },
+        {
+          "day": 3,
+          "text": "Целый день — морская прогулка на острова Пхи-Пхи."
+        },
+        {
+          "day": 4,
+          "text": "Отдых на пляже, свободное время на территории отеля."
+        },
+        {
+          "day": 5,
+          "text": "Экскурсия по желанию: остров Джеймса Бонда или парк слонов. При желании день можно провести на пляже."
+        },
+        {
+          "day": 6,
+          "text": "Отдых на пляже Патонг, вечером — прогулка вдоль берега."
+        },
+        {
+          "day": 7,
+          "text": "Свободный день: последнее купание и покупки на рынках Патонга."
+        },
+        {
+          "day": 8,
+          "text": "Выселение из отеля, трансфер в аэропорт и возвращение."
+        }
+      ],
+      "seo": {
+        "title": "Пхукет — 7 ночей 8 дней, у океана",
+        "description": "Тропический климат, морская прогулка на острова Пхи-Пхи и отдых на пляже Патонг. Авиабилет не включён."
+      }
+    },
+    "en": {
+      "title": "Phuket — 7 nights, 8 days by the ocean",
+      "summary": "A tropical climate, a boat trip to the Phi Phi Islands and time on Patong Beach.",
+      "priceNote": "Airfare is not included in the price.",
+      "includes": [
+        "4* hotel (7 nights)",
+        "Breakfast",
+        "Boat trip to the Phi Phi Islands",
+        "Airport transfer",
+        "Medical insurance"
+      ],
+      "excludes": [
+        "Airfare",
+        "Lunch and dinner",
+        "Additional excursions"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Arrival, airport transfer and hotel check-in. Evening on Patong Beach."
+        },
+        {
+          "day": 2,
+          "text": "A free day on Patong Beach: swimming and time in the sun."
+        },
+        {
+          "day": 3,
+          "text": "A full-day boat trip to the Phi Phi Islands."
+        },
+        {
+          "day": 4,
+          "text": "Time on the beach and free time at the hotel."
+        },
+        {
+          "day": 5,
+          "text": "Optional excursion: James Bond Island or the elephant sanctuary. The day can also be spent on the beach."
+        },
+        {
+          "day": 6,
+          "text": "Time on Patong Beach, a walk along the shore in the evening."
+        },
+        {
+          "day": 7,
+          "text": "A free day: a last swim and shopping at the Patong markets."
+        },
+        {
+          "day": 8,
+          "text": "Hotel check-out, transfer to the airport and the return journey."
+        }
+      ],
+      "seo": {
+        "title": "Phuket — 7 nights, 8 days by the ocean",
+        "description": "A tropical climate, a boat trip to the Phi Phi Islands and time on Patong Beach. Airfare is not included."
+      }
+    }
+  }
+}

@@ -73,9 +73,53 @@ export function fromPrice(tours: Tour[], country: string) {
   return { amount: cheapest.data.price.amount, currency: cheapest.data.price.currency, count: inCountry.length };
 }
 
-/** Coarse duration bucket, shared by the filter UI and the data attributes it
- *  filters on, so the two can never disagree. */
-export const durationBucket = (days: number) => (days <= 4 ? 'short' : days <= 8 ? 'medium' : 'long');
+/* ------------------------------------------------------------------ *
+ * THE DURATION LADDER — a client instruction, 2026-08-26.
+ *
+ *   Oʻzbekistonda: 7 kunlik · 2 kunlik · 3 kunlik
+ *   Xorijda:       8 kunlik · 7 kunlik · 4 kunlik
+ *
+ * This REPLACED a coarse three-bucket filter (1–4 / 5–8 / 9+ days). The buckets
+ * were derived from the tours on the page and therefore said nothing about what
+ * the company sells; the client's answer is that the two questions a customer
+ * actually asks — "am I leaving the country?" and "how long am I away?" — are
+ * ONE question, because the answer to the first changes the menu for the second.
+ * A domestic 8-day tour and a foreign 2-day tour are both things they do not sell.
+ *
+ * ORDER IS THE CLIENT'S, NOT ASCENDING. They wrote 7, 2, 3 and 8, 7, 4, and that
+ * is the order the filter offers. Do not "fix" this into 2, 3, 7 — it is a stated
+ * preference, not an oversight, and a three-item list needs no sorting.
+ * ------------------------------------------------------------------ */
+
+/** Domestic or abroad. The company is Uzbek, so 'UZ' is home and everything else
+ *  is away — the split the client named, expressed against the one field that
+ *  already decides it. */
+export const tourScope = (country: string): 'uz' | 'abroad' => (country === 'UZ' ? 'uz' : 'abroad');
+
+/** The lengths sold, per scope, IN THE CLIENT'S ORDER. */
+export const DURATION_LADDER: Record<'uz' | 'abroad', readonly number[]> = {
+  uz: [7, 2, 3],
+  abroad: [8, 7, 4],
+};
+
+/** The catalogue's duration facet: SCOPE AND EXACT DAYS in one token, e.g.
+ *  'uz-3' or 'abroad-8'.
+ *
+ *  One token rather than two filters because the client's model is one choice.
+ *  It also keeps the client-side filter a plain string equality — the same
+ *  `card.dataset[k] === value` every other facet uses — instead of teaching the
+ *  script to AND two fields together. The card and the <option> both call this,
+ *  so the value they compare can never drift. */
+export const durationFacet = (country: string, days: number) => `${tourScope(country)}-${days}`;
+
+/** Every rung, in menu order, grouped by scope — what the filter renders. The
+ *  caller drops any rung no tour on the page claims, so the menu can never offer
+ *  a length with zero results. */
+export const durationLadderGroups = () =>
+  (['uz', 'abroad'] as const).map((scope) => ({
+    scope,
+    rungs: DURATION_LADDER[scope].map((days) => ({ days, value: `${scope}-${days}` })),
+  }));
 
 /** A USD-priced tour is normalised at a deliberately coarse, FILTERING-ONLY rate
  *  purely so it sorts into a sensible price band. The price SHOWN to the customer

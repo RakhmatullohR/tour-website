@@ -65,12 +65,28 @@
           "text": "Kelish, mehmonxonaga joylashish."
         },
         {
+          "day": 2,
+          "text": "Sohilda erkin kun: suzish va mehmonxona hududi bilan tanishuv."
+        },
+        {
           "day": 3,
           "text": "Ras Muhammad qoʻriqxonasiga qayiqda snorkling sayohati."
         },
         {
+          "day": 4,
+          "text": "Mehmonxona sohilida dam olish, rif yonida snorkling."
+        },
+        {
           "day": 5,
           "text": "Ixtiyoriy ekskursiya: Qohira va piramidalar (alohida toʻlanadi)."
+        },
+        {
+          "day": 6,
+          "text": "Sohilda dam olish, kechqurun qirgʻoq boʻylab sayr."
+        },
+        {
+          "day": 7,
+          "text": "Erkin kun: oxirgi suzish va mehmonxona hududida dam olish."
         },
         {
           "day": 8,
@@ -105,12 +121,28 @@
           "text": "Прибытие и заселение в отель."
         },
         {
+          "day": 2,
+          "text": "Свободный день на пляже: купание и знакомство с территорией отеля."
+        },
+        {
           "day": 3,
           "text": "Морская прогулка со снорклингом в заповедник Рас-Мохаммед."
         },
         {
+          "day": 4,
+          "text": "Отдых на пляже отеля, снорклинг у рифа."
+        },
+        {
           "day": 5,
           "text": "Экскурсия по желанию: Каир и пирамиды (оплачивается отдельно)."
+        },
+        {
+          "day": 6,
+          "text": "Отдых на пляже, вечером — прогулка вдоль берега."
+        },
+        {
+          "day": 7,
+          "text": "Свободный день: последнее купание и отдых на территории отеля."
         },
         {
           "day": 8,
@@ -120,6 +152,62 @@
       "seo": {
         "title": "Шарм-эль-Шейх — 7 ночей 8 дней, Красное море",
         "description": "Отель all-inclusive, снорклинг на рифах и спокойный пляж. Подводный мир доступен круглый год."
+      }
+    },
+    "en": {
+      "title": "Sharm El Sheikh — 7 nights, 8 days on the Red Sea",
+      "summary": "An all-inclusive hotel, snorkelling on the reefs and a quiet beach. The underwater world is open all year round.",
+      "priceNote": "Airfare is not included in the price.",
+      "includes": [
+        "5* hotel (7 nights)",
+        "All-inclusive meals",
+        "Airport transfer",
+        "Snorkelling equipment",
+        "Medical insurance"
+      ],
+      "excludes": [
+        "Airfare",
+        "Visa fee",
+        "Diving course",
+        "Personal expenses"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Arrival and hotel check-in."
+        },
+        {
+          "day": 2,
+          "text": "A free day on the beach: swimming and a look around the hotel grounds."
+        },
+        {
+          "day": 3,
+          "text": "Boat trip with snorkelling to the Ras Muhammad nature reserve."
+        },
+        {
+          "day": 4,
+          "text": "Time on the hotel beach and snorkelling by the reef."
+        },
+        {
+          "day": 5,
+          "text": "Optional excursion: Cairo and the pyramids (paid separately)."
+        },
+        {
+          "day": 6,
+          "text": "Time on the beach, with a walk along the shore in the evening."
+        },
+        {
+          "day": 7,
+          "text": "A free day: a last swim and time at the hotel."
+        },
+        {
+          "day": 8,
+          "text": "Transfer to the airport and the return journey."
+        }
+      ],
+      "seo": {
+        "title": "Sharm El Sheikh — 7 nights, 8 days on the Red Sea",
+        "description": "An all-inclusive hotel, snorkelling on the reefs and a quiet beach. The underwater world is open all year round."
       }
     }
   }

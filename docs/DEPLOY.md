@@ -231,6 +231,9 @@ here (`i18n.B_Jk2V-Z.css`) had already gone stale.
 dig +short A getcartravel.uz                     # Cloudflare IPs, not 176.96.243.100
 curl -sI https://getcartravel.uz/    | head -1   # 200
 curl -sI https://getcartravel.uz/nope/ | head -1 # 404, not 200
+# One line per SHIPPED locale — a locale that builds locally but 404s in
+# production is the failure mode a green pipeline hides best.
+for L in uz ru en; do curl -sI "https://getcartravel.uz/$L/" | head -1; done  # 200 x3
 curl -sI https://www.getcartravel.uz/uz/tours/   # 301 to the apex, path preserved
 A=$(basename "$(ls dist/_astro/*.css | head -1)")
 curl -sI "https://getcartravel.uz/_astro/$A" | grep -i cache-control
@@ -248,8 +251,9 @@ curl -s https://getcartravel.uz/uz/contacts/ | grep -o 'data-endpoint="[^"]*"'
 # must read data-endpoint="/api/lead"
 ```
 
-**Measured 2026-08-20, all passing:** apex `188.114.96.11 / 188.114.97.11` ·
-`/` `/uz/` `/ru/` 200 · `/nope/` 404 · `http://` 301 to `https://` ·
+**Measured 2026-08-20** — before English shipped, so `/en/` is not in this record
+and must be checked on the next deploy. **All passing:** apex
+`188.114.96.11 / 188.114.97.11` · `/` `/uz/` `/ru/` 200 · `/nope/` 404 · `http://` 301 to `https://` ·
 `www` 301 with path and query preserved · `/_astro/*`
 `public, max-age=31536000, immutable` with no comma-joined second value ·
 `/uz/` `public, max-age=0, must-revalidate` · `nosniff` and
@@ -298,8 +302,8 @@ publishes a tour sees it on the next refresh.
 There is deliberately **no `_redirects` file**. `/` is the real language-picker
 page carrying `x-default` for the whole site (PLAN §5); a root redirect to `/uz/`
 would mean it is never served. Compression, HTTP→HTTPS and serving `/404.html`
-with a 404 status are all automatic on Pages — `dist/404.html` is the bilingual
-root 404 from BC10.
+with a 404 status are all automatic on Pages — `dist/404.html` is the root 404
+from BC10, which carries a block per shipped locale (three since English shipped).
 
 ---
 

@@ -6,9 +6,10 @@
   "author": "Ism Familiya",
   "avatar": "avatar-01-200x200.webp",
   "rating": 5,
-  "tourSlug": "turkiya-antalya-7-kun",
+  "tourSlug": "turkiya-antalya-8-kun",
   "i18n": {
     "uz": { "text": "Sharh matni — kamida 10 belgi.", "role": "Antalya, 2026" },
-    "ru": { "text": "Текст отзыва — минимум 10 символов.", "role": "Анталья, 2026" }
+    "ru": { "text": "Текст отзыва — минимум 10 символов.", "role": "Анталья, 2026" },
+    "en": { "text": "Review text — at least 10 characters.", "role": "Antalya, 2026" }
   }
 }

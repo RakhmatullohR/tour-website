@@ -1,0 +1,193 @@
+{
+  "id": "uz-ipak-yoli-6n",
+  "slug": "ozbekiston-ipak-yoli-7-kun",
+  "status": "published",
+  "featured": false,
+  "order": 80,
+  "country": "UZ",
+  "cities": [
+    "Samarqand",
+    "Buxoro",
+    "Xiva",
+    "Urganch"
+  ],
+  "category": "excursion",
+  "departureCity": "Toshkent",
+  "duration": {
+    "days": 7,
+    "nights": 6
+  },
+  "price": {
+    "amount": 2650000,
+    "currency": "UZS",
+    "per": "person"
+  },
+  "flightIncluded": true,
+  "groupSize": {
+    "min": 4,
+    "max": 25
+  },
+  "departures": [
+    "2026-09-19",
+    "2026-10-17"
+  ],
+  "badges": [],
+  "images": {
+    "cover": "tour-ozbekiston-xiva-cover-1200x800.webp",
+    "gallery": [
+      "tour-ozbekiston-xiva-01-1600x1067.webp",
+      "tour-ozbekiston-xiva-02-1600x1067.webp",
+      "tour-ozbekiston-xiva-03-1600x1067.webp",
+      "tour-ozbekiston-xiva-04-1600x1067.webp"
+    ]
+  },
+  "i18n": {
+    "uz": {
+      "title": "Ipak yoʻli: Samarqand, Buxoro, Xiva — 6 kecha 7 kun",
+      "summary": "Toshkentdan tezyurar poyezdda Samarqand va Buxoroga, soʻng Xivaga. Uch shahar boʻylab gid hamrohligida bitta marshrut.",
+      "includes": [
+        "Mehmonxona 3* (6 kecha)",
+        "Nonushta",
+        "Poyezd chiptasi",
+        "Gid xizmati",
+        "Ichan qalʼa chiptasi"
+      ],
+      "excludes": [
+        "Tushlik va kechki ovqat",
+        "Shaxsiy xarajatlar"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Toshkentdan tezyurar poyezdda Samarqandga; eski shahar yonidagi mehmonxonaga joylashish."
+        },
+        {
+          "day": 2,
+          "text": "Samarqand: Registon, Goʻri Amir va Bibixonim masjidi."
+        },
+        {
+          "day": 3,
+          "text": "Shohizinda ziyoratgohi; kunning ikkinchi yarmida poyezdda Buxoroga oʻtish."
+        },
+        {
+          "day": 4,
+          "text": "Buxoro eski shahri: Poyi Kalon, Ark qalʼasi va Labi Hovuz."
+        },
+        {
+          "day": 5,
+          "text": "Buxorodan Xivaga uzoq yoʻl; Ichan qalʼa yonidagi mehmonxonaga joylashish."
+        },
+        {
+          "day": 6,
+          "text": "Ichan qalʼa: Kalta minor, Juma masjidi, Toshhovli saroyi; Nurullaboy saroyi va hunarmandchilik ustaxonalari."
+        },
+        {
+          "day": 7,
+          "text": "Urganch orqali Toshkentga qaytish."
+        }
+      ],
+      "seo": {
+        "title": "Ipak yoʻli: Samarqand, Buxoro, Xiva — 6 kecha 7 kun",
+        "description": "Toshkentdan tezyurar poyezdda Samarqand va Buxoroga, soʻng Xivaga. Uch shahar boʻylab gid hamrohligida bitta marshrut."
+      }
+    },
+    "ru": {
+      "title": "Шёлковый путь: Самарканд, Бухара, Хива — 6 ночей 7 дней",
+      "summary": "Скоростным поездом из Ташкента в Самарканд и Бухару, затем в Хиву. Один маршрут по трём городам с гидом.",
+      "includes": [
+        "Отель 3* (6 ночей)",
+        "Завтрак",
+        "Железнодорожные билеты",
+        "Услуги гида",
+        "Билет в Ичан-Калу"
+      ],
+      "excludes": [
+        "Обед и ужин",
+        "Личные расходы"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Скоростным поездом из Ташкента в Самарканд; заселение в отель рядом со старым городом."
+        },
+        {
+          "day": 2,
+          "text": "Самарканд: Регистан, Гур-Эмир и мечеть Биби-Ханым."
+        },
+        {
+          "day": 3,
+          "text": "Некрополь Шахи-Зинда; во второй половине дня переезд поездом в Бухару."
+        },
+        {
+          "day": 4,
+          "text": "Старая Бухара: Пои-Калян, крепость Арк и Ляби-Хауз."
+        },
+        {
+          "day": 5,
+          "text": "Долгий переезд из Бухары в Хиву; заселение в отель рядом с Ичан-Калой."
+        },
+        {
+          "day": 6,
+          "text": "Ичан-Кала: Кальта-Минор, Джума-мечеть, дворец Таш-Хаули; дворец Нуруллабай и ремесленные мастерские."
+        },
+        {
+          "day": 7,
+          "text": "Возвращение в Ташкент через Ургенч."
+        }
+      ],
+      "seo": {
+        "title": "Шёлковый путь: Самарканд, Бухара, Хива — 6 ночей 7 дней",
+        "description": "Скоростным поездом из Ташкента в Самарканд и Бухару, затем в Хиву. Один маршрут по трём городам с гидом."
+      }
+    },
+    "en": {
+      "title": "Silk Road: Samarkand, Bukhara, Khiva — 6 nights, 7 days",
+      "summary": "High-speed train from Tashkent to Samarkand and Bukhara, then on to Khiva. One route through the three cities with a guide.",
+      "includes": [
+        "3* hotel (6 nights)",
+        "Breakfast",
+        "Train tickets",
+        "Guide service",
+        "Itchan Kala entry ticket"
+      ],
+      "excludes": [
+        "Lunch and dinner",
+        "Personal expenses"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "High-speed train from Tashkent to Samarkand; check-in at a hotel by the old city."
+        },
+        {
+          "day": 2,
+          "text": "Samarkand: the Registan, Gur-e-Amir and the Bibi-Khanym Mosque."
+        },
+        {
+          "day": 3,
+          "text": "The Shah-i-Zinda necropolis; train on to Bukhara in the afternoon."
+        },
+        {
+          "day": 4,
+          "text": "Old Bukhara: Poi Kalon, the Ark fortress and Lyabi Hauz."
+        },
+        {
+          "day": 5,
+          "text": "The long leg from Bukhara to Khiva; check-in at a hotel by Itchan Kala."
+        },
+        {
+          "day": 6,
+          "text": "Itchan Kala: the Kalta Minor, the Juma Mosque and the Tash-Khauli Palace; the Nurullabay Palace and the craft workshops."
+        },
+        {
+          "day": 7,
+          "text": "Return to Tashkent via Urgench."
+        }
+      ],
+      "seo": {
+        "title": "Silk Road: Samarkand, Bukhara, Khiva — 6 nights, 7 days",
+        "description": "High-speed train from Tashkent to Samarkand and Bukhara, then on to Khiva. One route through the three cities with a guide."
+      }
+    }
+  }
+}

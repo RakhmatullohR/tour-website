@@ -42,6 +42,14 @@
       "includes": ["Отель", "Трансфер", "Страховка"],
       "excludes": ["Авиабилет", "Виза", "Личные расходы"],
       "itinerary": []
+    },
+    "en": {
+      "title": "Tour name — 7 nights, 8 days",
+      "summary": "A short description of the tour, 2-3 sentences.",
+      "priceNote": "Airfare is not included in the price.",
+      "includes": ["Hotel", "Transfer", "Insurance"],
+      "excludes": ["Airfare", "Visa", "Personal expenses"],
+      "itinerary": []
     }
   }
 }

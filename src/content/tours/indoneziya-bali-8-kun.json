@@ -76,12 +76,20 @@
           "text": "Ubud ekskursiyasi: Tegallalang sholi terrasalari, maymunlar oʻrmoni va hunarmandlar bozori."
         },
         {
+          "day": 4,
+          "text": "Sohilda dam olish va ertangi qayiq sayohatiga tayyorgarlik."
+        },
+        {
           "day": 5,
           "text": "Nusa Penidaga qayiqli sayohat: Kelingking va Diamond Beach qoyalari, snorkling."
         },
         {
           "day": 6,
           "text": "Ulun Danu Bratan va Tanah Lot ibodatxonalari, quyosh botishini kutib olish."
+        },
+        {
+          "day": 7,
+          "text": "Erkin kun: okean boʻyida oxirgi suzish, mehmonxona hududida dam olish."
         },
         {
           "day": 8,
@@ -125,12 +133,20 @@
           "text": "Экскурсия в Убуд: рисовые террасы Тегаллаланг, лес обезьян и рынок ремесленников."
         },
         {
+          "day": 4,
+          "text": "Отдых на пляже и подготовка к завтрашней морской прогулке."
+        },
+        {
           "day": 5,
           "text": "Морская прогулка на Нуса-Пениду: скалы Келингкинг и Diamond Beach, снорклинг."
         },
         {
           "day": 6,
           "text": "Храмы Улун Дану Братан и Танах Лот, встреча заката."
+        },
+        {
+          "day": 7,
+          "text": "Свободный день: последнее купание в океане, отдых на территории отеля."
         },
         {
           "day": 8,
@@ -140,6 +156,63 @@
       "seo": {
         "title": "Тур на Бали — 7 ночей 8 дней, из Ташкента",
         "description": "Отдых у океана, рисовые террасы Убуда и скалы Нуса-Пениды. Отель, трансфер и гид в одном пакете."
+      }
+    },
+    "en": {
+      "title": "Bali — 7 nights, 8 days of ocean and Ubud",
+      "summary": "A holiday by the ocean, the rice terraces of Ubud and a boat trip to the cliffs of Nusa Penida. The flight has one connection.",
+      "priceNote": "Airfare is not included in the price. The visa is arranged at our office in Tashkent.",
+      "includes": [
+        "4* hotel (7 nights)",
+        "Breakfast",
+        "Airport transfer",
+        "Ubud excursion: the rice terraces and Tanah Lot",
+        "Boat trip to Nusa Penida",
+        "Guide who speaks your language"
+      ],
+      "excludes": [
+        "International airfare",
+        "Indonesian visa (about 35 USD, at the border)",
+        "Lunch and dinner",
+        "Additional excursions"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Arrival at Denpasar airport, hotel check-in and time to rest."
+        },
+        {
+          "day": 2,
+          "text": "A free day by the ocean. A first look at the beach and the hotel facilities."
+        },
+        {
+          "day": 3,
+          "text": "Ubud excursion: the Tegallalang rice terraces, the monkey forest and the craft market."
+        },
+        {
+          "day": 4,
+          "text": "Time on the beach and getting ready for the next day's boat trip."
+        },
+        {
+          "day": 5,
+          "text": "Boat trip to Nusa Penida: the Kelingking and Diamond Beach cliffs, and snorkelling."
+        },
+        {
+          "day": 6,
+          "text": "The Ulun Danu Bratan and Tanah Lot temples, and watching the sunset."
+        },
+        {
+          "day": 7,
+          "text": "A free day: a last swim in the ocean and time at the hotel."
+        },
+        {
+          "day": 8,
+          "text": "Transfer to the airport and the return journey."
+        }
+      ],
+      "seo": {
+        "title": "Bali tour — 7 nights, 8 days from Tashkent",
+        "description": "A holiday by the ocean, the rice terraces of Ubud and the cliffs of Nusa Penida. Hotel, transfers and guide in one package."
       }
     }
   }

@@ -23,6 +23,15 @@
         "title": "Туры в Таиланд — Getcar Travel",
         "description": "Пхукет и Паттайя — океан, острова и тропический климат. Для длительного отдыха."
       }
+    },
+    "en": {
+      "name": "Thailand",
+      "summary": "Phuket and Pattaya: ocean, islands and a tropical climate. For a longer holiday.",
+      "body": "Thailand suits travellers planning a longer stay by the ocean. The programme includes boat trips around the Phuket islands, local cuisine and tropical scenery.",
+      "seo": {
+        "title": "Thailand tours — Getcar Travel",
+        "description": "Phuket and Pattaya: ocean, islands and a tropical climate. For a longer holiday."
+      }
     }
   }
 }

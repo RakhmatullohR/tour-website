@@ -14,6 +14,7 @@
 // the same set that drives this page's hreflang, so the three can never disagree.
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { LOCALE_LABELS, LOCALE_SHORT } from '../i18n/locales.mjs';
+import { useTranslations } from '../i18n/t';
 
 interface Props {
   locale: string;
@@ -25,11 +26,22 @@ interface Props {
   compact?: boolean;
 }
 const { locale, availableLocales, path, compact = false } = Astro.props as Props;
+
+// The landmark's own name was the last hardcoded Uzbek string in a component — so
+// a screen reader on the Russian site announced a navigation landmark called
+// "Til". It is resolved from the dictionary like everything else now.
+const t = useTranslations(locale);
 ---
-<nav aria-label="Til" class="flex items-center gap-1 text-sm">
+{/* The chip padding is one step tighter than the rest of the UI, deliberately. A
+    third locale grows this row by a whole chip, and the header is the tightest
+    row on the site (see Header.astro): at the `lg` breakpoint the five un-wrapped
+    Uzbek nav labels, the logo, this switcher and the CTA sit within ~30 px of the
+    viewport. Four pixels of padding per side buys back most of what the EN chip
+    costs; the tap target keeps its full height. */}
+<nav aria-label={t('nav.language')} class="flex items-center gap-1 text-sm">
   {availableLocales.map((l) =>
     l === locale ? (
-      <span aria-current="true" class="rounded-[var(--radius-sm)] bg-brand-700 px-2.5 py-1 font-medium text-white">
+      <span aria-current="true" class="rounded-[var(--radius-sm)] bg-brand-700 px-2 py-1 font-medium text-white">
         {compact ? (LOCALE_SHORT[l] ?? l) : (LOCALE_LABELS[l] ?? l)}
         {compact && <span class="sr-only"> — {LOCALE_LABELS[l] ?? l}</span>}
       </span>
@@ -37,7 +49,7 @@ const { locale, availableLocales, path, compact = false } = Astro.props as Props
       <a
         href={getRelativeLocaleUrl(l, path)}
         data-metrica="lang_switch"
-        class="rounded-[var(--radius-sm)] px-2.5 py-1 text-neutral-600 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+        class="rounded-[var(--radius-sm)] px-2 py-1 text-neutral-600 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
       >
         {compact ? (LOCALE_SHORT[l] ?? l) : (LOCALE_LABELS[l] ?? l)}
         {compact && <span class="sr-only"> — {LOCALE_LABELS[l] ?? l}</span>}

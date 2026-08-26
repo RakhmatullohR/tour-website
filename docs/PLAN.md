@@ -1,4 +1,7 @@
 > **Status: P0–P6 EXECUTED.** Consensus-approved by the Planner → Architect → Critic loop (2 iterations), with 19 binding pre-execution corrections folded into this document. **P7 (real content swap) and P8 (deploy & handover) are NOT started — both are blocked on client input and hosting access** (Q1, Q2, Q5, Q6, Q9, Q13, Q14).
+>
+> **UPDATE 2026-08-26 — `en` SHIPPED.** BC14's staged English locale is live: `SHIPPED_LOCALES = ['uz','ru','en']`, `en.json` at full 222-key parity, and an `en` block in every one of the 22 content files. **74 pages** (12 route types × 3 locales), `check-i18n` / `check-images` / `check-contrast` / `astro check` all green, 0 broken internal links. Three binary-locale defects were fixed on the way in, each of which would have shown Uzbek to an English reader: `pluralUnit()` and `formatPrice()` read `locale === 'ru' ? … : …`; `ADDRESS`/`HOURS` were typed `{uz, ru}`; and the no-JS lead-failure page in `functions/api/lead.ts` did the same. `ms` remains Q4-gated.
+>
 > Verification at time of writing: `npm run build` green (**46 pages**, all 12 route types × 2 locales) · `npx astro check` 0 errors 0 warnings · `check:images` 26/26 · `check:i18n` 220 keys, full parity · `check:contrast` 20/20 pairings · `linkinator --recurse` **0 broken links** · Lighthouse mobile **Perf ≥ 97 · A11y 100 · BP 100 · SEO 100** on five pages · **zero horizontal scroll from 320 px to 1920 px** in both locales · nothing secret or generated is tracked by git.
 ## Execution log — P0 to P6
 
@@ -498,7 +501,7 @@ Resolved by the ranked workflow in §11, and by making the publishing pipeline a
 ```jsonc
 {
   "id": "tr-antalya-7n",
-  "slug": "turkiya-antalya-7-kun",
+  "slug": "turkiya-antalya-8-kun",   // 7 NIGHTS = 8 days; the slug states days
   "status": "published",              // draft | published | archived
   "featured": true,
   "order": 10,

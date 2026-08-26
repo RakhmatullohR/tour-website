@@ -1,6 +1,6 @@
 {
-  "id": "ae-dubai-5n",
-  "slug": "dubay-6-kun",
+  "id": "ae-dubai-3n",
+  "slug": "dubay-4-kun",
   "status": "published",
   "featured": true,
   "order": 30,
@@ -11,8 +11,8 @@
   "category": "shopping",
   "departureCity": "Toshkent",
   "duration": {
-    "days": 6,
-    "nights": 5
+    "days": 4,
+    "nights": 3
   },
   "price": {
     "amount": 9800000,
@@ -44,11 +44,11 @@
   },
   "i18n": {
     "uz": {
-      "title": "Dubay — 5 kecha 6 kun, shahar va sahro",
-      "summary": "Burj Khalifa, sahro safari va yirik savdo markazlari. Oilaviy sayohat uchun ham mos.",
+      "title": "Dubay — 3 kecha 4 kun, shahar va sahro",
+      "summary": "Qisqa shahar sayohati: Burj Khalifa, sahro safari va yirik savdo markazlari. Oilaviy sayohat uchun ham mos.",
       "priceNote": "Narxga aviabilet kirmaydi.",
       "includes": [
-        "Mehmonxona 4* (5 kecha)",
+        "Mehmonxona 4* (3 kecha)",
         "Nonushta",
         "Sahro safari va kechki ovqat",
         "Shahar ekskursiyasi",
@@ -72,28 +72,24 @@
         },
         {
           "day": 3,
-          "text": "Sahro safari: qumtepalar, tuya sayr, milliy dastur va kechki ovqat."
+          "text": "Sahro safari: qumtepalar, tuyada sayr, milliy dastur va kechki ovqat."
         },
         {
           "day": 4,
-          "text": "Erkin kun — shopping yoki Atlantis akvaparki."
-        },
-        {
-          "day": 6,
-          "text": "Aeroportga transfer va qaytish."
+          "text": "Mehmonxonadan chiqish va aeroportga transfer."
         }
       ],
       "seo": {
-        "title": "Dubay — 5 kecha 6 kun, shahar va sahro",
-        "description": "Burj Khalifa, sahro safari va yirik savdo markazlari. Oilaviy sayohat uchun ham mos."
+        "title": "Dubay — 3 kecha 4 kun, shahar va sahro",
+        "description": "Burj Khalifa, Dubai Mall va sahro safari — 3 kecha 4 kun qisqa shahar sayohati."
       }
     },
     "ru": {
-      "title": "Дубай — 5 ночей 6 дней, город и пустыня",
-      "summary": "Бурдж-Халифа, сафари в пустыне и крупные торговые центры. Подходит и для семейной поездки.",
+      "title": "Дубай — 3 ночи 4 дня, город и пустыня",
+      "summary": "Короткая городская поездка: Бурдж-Халифа, сафари в пустыне и крупные торговые центры. Подходит и для семейной поездки.",
       "priceNote": "Авиабилет не включён в стоимость.",
       "includes": [
-        "Отель 4* (5 ночей)",
+        "Отель 4* (3 ночи)",
         "Завтрак",
         "Сафари в пустыне с ужином",
         "Обзорная экскурсия",
@@ -121,16 +117,53 @@
         },
         {
           "day": 4,
-          "text": "Свободный день — шоппинг или аквапарк Atlantis."
-        },
-        {
-          "day": 6,
-          "text": "Трансфер в аэропорт и возвращение."
+          "text": "Выезд из отеля и трансфер в аэропорт."
         }
       ],
       "seo": {
-        "title": "Дубай — 5 ночей 6 дней, город и пустыня",
-        "description": "Бурдж-Халифа, сафари в пустыне и крупные торговые центры. Подходит и для семейной поездки."
+        "title": "Дубай — 3 ночи 4 дня, город и пустыня",
+        "description": "Бурдж-Халифа, Dubai Mall и сафари в пустыне — короткая поездка на 3 ночи и 4 дня."
+      }
+    },
+    "en": {
+      "title": "Dubai — 3 nights, 4 days of city and desert",
+      "summary": "A short city break: Burj Khalifa, a desert safari and the big shopping malls. A good fit for a family trip too.",
+      "priceNote": "Airfare is not included in the price.",
+      "includes": [
+        "4* hotel (3 nights)",
+        "Breakfast",
+        "Desert safari with dinner",
+        "City sightseeing tour",
+        "Airport transfer",
+        "Medical insurance"
+      ],
+      "excludes": [
+        "Airfare",
+        "Visa fee",
+        "Burj Khalifa ticket",
+        "Personal expenses"
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "text": "Arrival, hotel check-in and an evening walk along Dubai Marina."
+        },
+        {
+          "day": 2,
+          "text": "City sightseeing tour: Burj Khalifa, Dubai Mall and the fountain show."
+        },
+        {
+          "day": 3,
+          "text": "Desert safari: the dunes, a camel ride, a traditional show and dinner."
+        },
+        {
+          "day": 4,
+          "text": "Hotel check-out and transfer to the airport."
+        }
+      ],
+      "seo": {
+        "title": "Dubai — 3 nights, 4 days of city and desert",
+        "description": "Burj Khalifa, Dubai Mall and a desert safari — a short 3-night, 4-day city break."
       }
     }
   }

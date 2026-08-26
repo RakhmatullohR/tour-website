@@ -166,6 +166,79 @@ const json = (body: unknown, status: number): Response =>
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
   });
 
+interface FailureCopy {
+  /** BCP-47, for <html lang>. Mirrors LOCALE_TAGS in src/i18n/locales.mjs. */
+  tag: string;
+  phoneTitle: string;
+  phoneText: string;
+  phoneBack: string;
+  phoneBackLink: string;
+  failedTitle: string;
+  failedText: string;
+  contacts: string;
+}
+
+/** THE ONE PLACE THIS FILE KNOWS ABOUT LANGUAGES, and it is deliberately a plain
+ *  literal rather than an import of src/i18n/locales.mjs.
+ *
+ *  This module is not built by Astro — Cloudflare bundles functions/ separately —
+ *  and lead intake is the one path in the project where a build-time resolution
+ *  surprise costs real leads. So the copy is duplicated here on purpose, and the
+ *  key set doubles as the locale allow-list: an unknown `locale` field from the
+ *  form falls back to Uzbek rather than being interpolated into a URL.
+ *
+ *  ADDING A LOCALE: add a key here at the same time as src/i18n/locales.mjs. If
+ *  you forget, an English visitor whose submit fails sees the Uzbek page — bad,
+ *  but bounded, and never a broken link or a blank screen. */
+const FAILURE_COPY: Record<string, FailureCopy> = {
+  uz: {
+    tag: 'uz-UZ',
+    phoneTitle: 'Telefon raqamini tekshiring',
+    phoneText:
+      'Ariza yuborilmadi: telefon raqami kiritilmagan yoki toʻliq emas. Orqaga qayting va raqamni toʻliq kiriting, masalan +998 90 123 45 67.',
+    phoneBack: 'Brauzerdagi «Orqaga» tugmasini bosing — yozganlaringiz saqlanib qoladi.',
+    phoneBackLink: 'Formaga qaytish',
+    failedTitle: 'Ariza yuborilmadi',
+    failedText:
+      'Texnik xatolik yuz berdi. Iltimos, biz bilan bevosita bogʻlaning — barcha kanallar kontaktlar sahifasida.',
+    contacts: 'Kontaktlarni ochish',
+  },
+  ru: {
+    tag: 'ru-RU',
+    phoneTitle: 'Проверьте номер телефона',
+    phoneText:
+      'Заявка не отправлена: номер телефона не указан или указан не полностью. Вернитесь назад и введите номер полностью, например +998 90 123 45 67.',
+    phoneBack: 'Нажмите «Назад» в браузере — введённые данные сохранятся.',
+    phoneBackLink: 'Вернуться к форме',
+    failedTitle: 'Заявка не отправлена',
+    failedText:
+      'Произошла техническая ошибка. Пожалуйста, свяжитесь с нами напрямую — все каналы на странице контактов.',
+    contacts: 'Открыть контакты',
+  },
+  en: {
+    tag: 'en',
+    phoneTitle: 'Check your phone number',
+    phoneText:
+      'Your enquiry was not sent: the phone number is missing or incomplete. Go back and enter the full number, for example +998 90 123 45 67.',
+    phoneBack: 'Press Back in your browser — everything you typed will still be there.',
+    phoneBackLink: 'Back to the form',
+    failedTitle: 'Enquiry not sent',
+    failedText:
+      'A technical error occurred. Please contact us directly — every channel is on the contacts page.',
+    contacts: 'Open contacts',
+  },
+};
+
+/** Falls back to the default locale for anything not in FAILURE_COPY, which is
+ *  also what keeps the `/${locale}/contacts/` link below pointing at a real page.
+ *
+ *  `hasOwnProperty`, NOT `in`: `locale` is a form field, so it is attacker-chosen,
+ *  and `'constructor' in FAILURE_COPY` is TRUE — `in` walks the prototype chain.
+ *  That would have let a submitted `locale=constructor` through and interpolated
+ *  it straight into the contacts URL. */
+const failureLocale = (locale: string): string =>
+  Object.prototype.hasOwnProperty.call(FAILURE_COPY, locale) ? locale : 'uz';
+
 /** What a no-JS visitor's browser renders when something goes wrong. They performed
  *  a native submit, so this response IS their next page — a bare JSON body, or a
  *  redirect to a page that says nothing, is a dead end, and §9.4 says a failed form
@@ -176,22 +249,14 @@ const json = (body: unknown, status: number): Response =>
  *  was navigated away from a form they had filled in, everything they typed was
  *  gone — the tour context on a booking form included — and nothing told them why. */
 function nativeFailure(locale: string, reason: 'failed' | 'phone' = 'failed', backPath = ''): Response {
-  const ru = locale === 'ru';
+  const lang = failureLocale(locale);
+  const c = FAILURE_COPY[lang];
   const phone = reason === 'phone';
-  const title = phone
-    ? (ru ? 'Проверьте номер телефона' : 'Telefon raqamini tekshiring')
-    : (ru ? 'Заявка не отправлена' : 'Ariza yuborilmadi');
-  const text = phone
-    ? (ru
-        ? 'Заявка не отправлена: номер телефона не указан или указан не полностью. Вернитесь назад и введите номер полностью, например +998 90 123 45 67.'
-        : 'Ariza yuborilmadi: telefon raqami kiritilmagan yoki toʻliq emas. Orqaga qayting va raqamni toʻliq kiriting, masalan +998 90 123 45 67.')
-    : (ru
-        ? 'Произошла техническая ошибка. Пожалуйста, свяжитесь с нами напрямую — все каналы на странице контактов.'
-        : 'Texnik xatolik yuz berdi. Iltimos, biz bilan bevosita bogʻlaning — barcha kanallar kontaktlar sahifasida.');
-  const back = ru ? 'Открыть контакты' : 'Kontaktlarni ochish';
+  const title = phone ? c.phoneTitle : c.failedTitle;
+  const text = phone ? c.phoneText : c.failedText;
 
   return new Response(
-    `<!doctype html><html lang="${ru ? 'ru' : 'uz'}"><meta charset="utf-8">` +
+    `<!doctype html><html lang="${c.tag}"><meta charset="utf-8">` +
       `<meta name="viewport" content="width=device-width,initial-scale=1">` +
       `<title>${title}</title>` +
       `<body style="font:16px/1.6 system-ui,sans-serif;max-width:40rem;margin:3rem auto;padding:0 1rem">` +
@@ -201,12 +266,9 @@ function nativeFailure(locale: string, reason: 'failed' | 'phone' = 'failed', ba
       // nothing. Their browser's own Back button works and restores what they typed,
       // so say that, and offer a real href to the page the form was on.
       (phone
-        ? `<p>${ru
-              ? 'Нажмите «Назад» в браузере — введённые данные сохранятся.'
-              : 'Brauzerdagi «Orqaga» tugmasini bosing — yozganlaringiz saqlanib qoladi.'}</p>` +
-          (backPath ? `<p><a href="${backPath}">${ru ? 'Вернуться к форме' : 'Formaga qaytish'}</a></p>` : '')
+        ? `<p>${c.phoneBack}</p>` + (backPath ? `<p><a href="${backPath}">${c.phoneBackLink}</a></p>` : '')
         : '') +
-      `<p><a href="/${ru ? 'ru' : 'uz'}/contacts/">${back}</a></p>`,
+      `<p><a href="/${lang}/contacts/">${c.contacts}</a></p>`,
     { status: phone ? 400 : 502, headers: { 'Content-Type': 'text/html; charset=utf-8' } },
   );
 }
@@ -239,7 +301,10 @@ export async function onRequestPost(context: PagesContext): Promise<Response> {
     return json({ ok: false, error: `unreadable_body: ${String(err)}` }, 400);
   }
 
-  const locale = data.locale === 'ru' ? 'ru' : 'uz';
+  // The form's own `locale` field, narrowed to a locale this endpoint can answer
+  // in — it is interpolated into `/${locale}/thanks/`, so it must never be raw
+  // visitor input.
+  const locale = failureLocale(clean(data.locale, 8));
   const redirectTo = (path: string) => Response.redirect(new URL(path, request.url).toString(), 303);
 
   // §9.5 honeypot — accept and discard. Silence is deliberate: a bot that learns

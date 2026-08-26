@@ -8,6 +8,8 @@
 // PLAN §6 row 2: the hero trust numbers "come from the client, NEVER invented".
 // They are null until the client supplies them, and the chips do not render.
 
+import { DEFAULT_LOCALE } from '../i18n/locales.mjs';
+
 /** E.164, digits only after the +. Used for `tel:`.
  *  NOT for wa.me — WhatsApp runs on its own number, see `SOCIAL.whatsapp`. */
 export const PHONE_E164 = '+998509074000';
@@ -73,12 +75,29 @@ export const SOCIAL: SocialLinks = {
  *  To restore: set a real, tested address here. Nothing else needs to change. */
 export const EMAIL: string | null = null;
 
+/** A client fact that has to be WRITTEN OUT in each language — an address, a
+ *  set of opening hours. Keyed by locale code, exactly like the i18n blocks in
+ *  src/content, so adding a language is adding a key and nothing else.
+ *
+ *  These used to be typed `{ uz: string; ru: string }` and read with
+ *  `locale === 'ru' ? x.ru : x.uz`, which is not "pick the reader's language" —
+ *  it is "Russian, else Uzbek". An English visitor would have been shown the
+ *  Uzbek office hours on an otherwise English page, and the type would have
+ *  called that correct. */
+export type LocalisedText = Record<string, string>;
+
+/** Pick the reader's variant, falling back to the source-of-truth language
+ *  rather than to nothing: a visitor seeing the address in the wrong language
+ *  can still find the office, a visitor seeing a blank cannot. */
+export const localised = (text: LocalisedText, locale: string): string =>
+  text[locale] ?? text[DEFAULT_LOCALE] ?? '';
+
 /** Q22 — office address. Null until supplied; the footer block and the Contacts
  *  map card both auto-hide (BC12b). */
-export const ADDRESS: { uz: string; ru: string; mapUrl: string } | null = null;
+export const ADDRESS: { text: LocalisedText; mapUrl: string } | null = null;
 
 /** Q21 — opening hours. Null until supplied; the block auto-hides. */
-export const HOURS: { uz: string; ru: string } | null = null;
+export const HOURS: LocalisedText | null = null;
 
 /** Q19 — how the company name is spelled on the site. */
 export const BRAND_NAME = 'Getcar Travel';

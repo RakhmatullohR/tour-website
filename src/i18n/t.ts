@@ -2,9 +2,10 @@
 // COMPONENT BUILT (Principle 5). There is no uz-only phase to retrofit later.
 import uz from './uz.json';
 import ru from './ru.json';
+import en from './en.json';
 import { DEFAULT_LOCALE, SHIPPED_LOCALES } from './locales.mjs';
 
-const dicts: Record<string, Record<string, string>> = { uz, ru };
+const dicts: Record<string, Record<string, string>> = { uz, ru, en };
 export type TranslationKey = keyof typeof uz;
 export type Locale = (typeof SHIPPED_LOCALES)[number];
 

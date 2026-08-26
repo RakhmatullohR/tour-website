@@ -23,6 +23,15 @@
         "title": "Туры в ОАЭ (Дубай) — Getcar Travel",
         "description": "Современный город, бесконечный шоппинг и сафари в пустыне. Направление открыто круглый год."
       }
+    },
+    "en": {
+      "name": "UAE (Dubai)",
+      "summary": "A modern city, endless shopping and desert safaris. Open all year round.",
+      "body": "Dubai is a city where you can see a great deal in a few days: the Burj Khalifa, a desert safari, the aquarium and the large shopping malls. It suits a family holiday just as well as a short break.",
+      "seo": {
+        "title": "UAE (Dubai) tours — Getcar Travel",
+        "description": "A modern city, endless shopping and desert safaris. Open all year round."
+      }
     }
   }
 }

@@ -13,6 +13,10 @@
     "ru": {
       "title": "Осенние скидки",
       "text": "По нескольким направлениям действует скидка от старой цены. Точные условия подтвердите у менеджера."
+    },
+    "en": {
+      "title": "Autumn discounts",
+      "text": "A discount off the old price applies on several destinations. Confirm the exact terms with our manager."
     }
   }
 }
